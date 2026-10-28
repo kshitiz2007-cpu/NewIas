@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Activity, ArrowRight, CalendarDays, CheckCircle2, Clock3, FileText, Filter, PlayCircle, Plus, Search, Settings2, Target, Users, Video, X } from "lucide-react";
 
 type Item = { id:number; title:string; subtitle:string; status:string; date:string; meta:string };
@@ -16,7 +16,7 @@ const sampleClasses:Item[]=[
 function Header({eyebrow,title,description,action}:{eyebrow:string;title:string;description:string;action?:React.ReactNode}) {
  return <div className="p1-heading"><div><span className="eyebrow">{eyebrow}</span><h2>{title}</h2><p>{description}</p></div>{action}</div>;
 }
-function Notice({children}:{children:React.ReactNode}) { return <div className="p1-notice"><CheckCircle2 size={15}/><span>{children}</span></div>; }
+function Notice({children}:{children:ReactNode}) { return <div className="p1-notice"><CheckCircle2 size={15}/><span>{children}</span></div>; }
 function Status({value}:{value:string}) { return <span className={"p1-status "+value.toLowerCase()}>{value}</span>; }
 
 export function TestsPage() {
