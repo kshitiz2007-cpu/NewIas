@@ -18,8 +18,12 @@ Acceptance: clean install, typecheck and production build pass; no credentials i
 Acceptance: users cannot access other users' records; staff access is scoped to authorised institute data.
 
 ## Phase 2 — Content studio and library
-- Taxonomy by exam, subject, topic, language and format.
-- Upload assets, metadata, versions, drafts, review and publishing.
+- [x] Add schema for exam tracks, subjects, hierarchical topics, metadata, content versions, asset records and private storage policies (migrations 0002–0003; not yet applied to Supabase).
+- [ ] Load taxonomy from Supabase; remove hardcoded taxonomy options from the studio.
+- [ ] Build taxonomy management screens so admins can create/edit exam tracks, subjects, topics and subtopics.
+- [ ] Persist resource metadata and drafts to Supabase; implement review and publish workflow.
+- [ ] Upload PDFs/images/attachments to private Supabase Storage with asset records and signed access.
+- [ ] Add first-admin bootstrap and enforce authenticated staff roles.
 - Search, filtering, pagination and stable resource routes.
 - Private file access and download metadata.
 
