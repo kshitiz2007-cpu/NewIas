@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Archive, Bookmark, BookOpen, CheckCircle2, Clock3, Eye, FileText, History, Layers3, Pencil, Plus, Search, Send, Tag, Trash2, X } from "lucide-react";
+import { Bookmark, BookOpen, CheckCircle2, Clock3, Eye, FileText, History, Layers3, Pencil, Plus, Search, Send, Tag, Trash2, X } from "lucide-react";
 
 type Kind = "Daily Drill" | "Editorial" | "Current Affairs" | "Static Books";
 type Status = "Draft" | "In review" | "Published" | "Scheduled" | "Archived";
