@@ -58,6 +58,10 @@ const libraryItems: LibraryItem[] = [
  {id:7,title:"मध्य प्रदेश की नदियाँ",summary:"उद्गम, प्रवाह, सहायक नदियाँ और परीक्षा उपयोगी मानचित्र-आधारित तथ्य।",exam:"MPPSC",paper:"State Specific",subject:"मध्य प्रदेश विशेष",topic:"भौतिक भूगोल",subtopic:"नदी तंत्र",type:"Notes",language:"Hindi",updated:"26 Oct 2026",tags:["State PCS","Map"]},
  {id:8,title:"दैनिक करेंट अफेयर्स क्विज़",summary:"आज की प्रमुख घटनाओं पर आधारित अभ्यास प्रश्न।",exam:"UPSC CSE",paper:"Prelims",subject:"Current Affairs",topic:"दैनिक समाचार",subtopic:"राष्ट्रीय एवं अंतरराष्ट्रीय",type:"Quiz",language:"Hindi",updated:"28 Oct 2026",tags:["Daily","Practice"]}
 ];
+const librarySubjectOptions = [
+ "भारतीय राजव्यवस्था","इतिहास एवं संस्कृति","भूगोल","भारतीय अर्थव्यवस्था","पर्यावरण एवं पारिस्थितिकी","सामान्य विज्ञान एवं प्रौद्योगिकी","Current Affairs","कृषि","सामाजिक न्याय एवं समाज","अंतरराष्ट्रीय संबंध","आंतरिक सुरक्षा","आपदा प्रबंधन","नीतिशास्त्र एवं सत्यनिष्ठा","निबंध","CSAT / तार्किक क्षमता","सामान्य हिंदी","मध्य प्रदेश का इतिहास, संस्कृति एवं साहित्य","मध्य प्रदेश का भूगोल","मध्य प्रदेश की राजनीति एवं प्रशासन","मध्य प्रदेश की अर्थव्यवस्था","मध्य प्रदेश विशेष अध्ययन","राष्ट्रीय एवं अंतरराष्ट्रीय समसामयिकी","सूचना एवं संचार प्रौद्योगिकी","लोक प्रशासन","सामान्य हिंदी एवं निबंध",
+ "Agriculture","Animal Husbandry & Veterinary Science","Anthropology","Botany","Chemistry","Civil Engineering","Commerce & Accountancy","Criminology & Forensic Science","Economics","Electrical Engineering","English Literature","Geography","Geology","Hindi Literature","History","Law","Management","Mathematics","Mechanical Engineering","Medical Science","Military Science","Philosophy","Physics","Political Science & International Relations","Psychology","Public Administration","Sanskrit Literature","Sociology","Statistics","Urdu Literature","Zoology","Bengali Literature","Bodo Literature","Dogri Literature","Gujarati Literature","Kannada Literature","Kashmiri Literature","Konkani Literature","Maithili Literature","Malayalam Literature","Manipuri Literature","Marathi Literature","Nepali Literature","Odia Literature","Punjabi Literature","Santhali Literature","Sindhi Literature","Tamil Literature","Telugu Literature"
+];
 function LibraryPage() {
  const [query,setQuery]=useState("");
  const [exam,setExam]=useState("All exams");
@@ -65,7 +69,7 @@ function LibraryPage() {
  const [kind,setKind]=useState("All formats");
  const [language,setLanguage]=useState("All languages");
  const [expanded,setExpanded]=useState<string>("भारतीय राजव्यवस्था");
- const subjects=Array.from(new Set(libraryItems.map(item=>item.subject)));
+ const subjects=Array.from(new Set([...librarySubjectOptions,...libraryItems.map(item=>item.subject)])).sort((a,b)=>a.localeCompare(b));
  const filtered=libraryItems.filter(item=>{
   const haystack=[item.title,item.summary,item.exam,item.paper,item.subject,item.topic,item.subtopic,...item.tags].join(" ").toLowerCase();
   return haystack.includes(query.toLowerCase())&&(exam==="All exams"||item.exam===exam)&&(subject==="All subjects"||item.subject===subject)&&(kind==="All formats"||item.type===kind)&&(language==="All languages"||item.language===language);
