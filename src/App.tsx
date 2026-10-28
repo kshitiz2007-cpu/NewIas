@@ -2,14 +2,15 @@ import { useState } from "react";
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import { Activity, ArrowRight, Bell, BookOpen, CalendarDays, CheckCircle2, ChevronDown, Clock3, FileText, GraduationCap, LayoutDashboard, LibraryBig, Menu, PlayCircle, Search, Settings2, ShieldCheck, Sparkles, Target, Users, X } from "lucide-react";
 
-const student = [
+type NavItem = { to: string; label: string; icon: typeof Activity };
+const student: NavItem[] = [
  {to:"/",label:"Overview",icon:LayoutDashboard},
  {to:"/classes",label:"Live & recorded classes",icon:PlayCircle},
  {to:"/tests",label:"Mock test centre",icon:Target},
  {to:"/library",label:"Digital library",icon:LibraryBig},
  {to:"/performance",label:"360° performance",icon:Activity}
 ];
-const admin = [
+const admin: NavItem[] = [
  {to:"/admin",label:"Admin overview",icon:ShieldCheck},
  {to:"/admin/content",label:"Content studio",icon:FileText},
  {to:"/admin/students",label:"Students & batches",icon:Users},
@@ -46,7 +47,7 @@ function Placeholder({title,subtitle,admin:staff}:{title:string;subtitle:string;
 }
 export default function App() {
  const [open,setOpen]=useState(false);const loc=useLocation();const page=pages[loc.pathname]??{title:"Page not found",subtitle:"This route is not available."};
- const renderNav=(items:typeof student,label:string)=><div className="nav-group" key={label}><span className="nav-heading">{label}</span>{items.map(({to,label:item,icon:Icon})=><NavLink end={to==="/"} key={to} to={to} onClick={()=>setOpen(false)} className={({isActive})=>"nav-link"+(isActive?" active":"")}><Icon size={17}/><span>{item}</span></NavLink>)}</div>;
+ const renderNav=(items:NavItem[],label:string)=><div className="nav-group" key={label}><span className="nav-heading">{label}</span>{items.map(({to,label:item,icon:Icon})=><NavLink end={to==="/"} key={to} to={to} onClick={()=>setOpen(false)} className={({isActive})=>"nav-link"+(isActive?" active":"")}><Icon size={17}/><span>{item}</span></NavLink>)}</div>;
  return <div className="app-shell">{open&&<button className="backdrop" aria-label="Close navigation" onClick={()=>setOpen(false)}/>}<aside className={"sidebar"+(open?" sidebar-open":"")}><div className="brand"><div className="brand-mark"><GraduationCap size={22}/></div><div className="brand-name">New<span>IAS</span><small>CIVIL SERVICES LEARNING</small></div><button className="close-menu" aria-label="Close menu" onClick={()=>setOpen(false)}><X size={17}/></button></div><div className="workspace"><span>N</span><div><b>NewIAS Academy</b><small>Learning workspace</small></div><ChevronDown size={14}/></div><nav>{renderNav(student,"LEARNING")}{renderNav(admin,"ADMINISTRATION")}</nav><div className="sidebar-bottom"><div className="help"><b>Learning support</b><p>Keep classes, resources and practice in one place.</p><NavLink to="/library" onClick={()=>setOpen(false)}>Explore resources <ArrowRight size={12}/></NavLink></div><div className="account"><span>N</span><div><b>Preview session</b><small>Authentication not connected</small></div></div></div></aside>
  <main className="main"><header className="topbar"><div className="crumb"><button className="mobile-menu" aria-label="Open navigation" onClick={()=>setOpen(true)}><Menu size={19}/></button><span>Workspace</span><i>/</i><b>{page.title}</b></div><div className="top-actions"><button className="search" onClick={()=>window.alert("Search will be enabled when the content index is connected.")}><Search size={15}/><span>Search resources...</span><kbd>⌘ K</kbd></button><button className="bell" aria-label="Notifications"><Bell size={17}/></button><span className="avatar">N</span></div></header><div className="content"><div className="page-intro"><div><small>NEWIAS / {loc.pathname==="/"?"OVERVIEW":loc.pathname.slice(1).replaceAll("/"," / ").toUpperCase()}</small><h1>{page.title}</h1><p>{page.subtitle}</p></div><span className="study-chip"><CalendarDays size={14}/> Learning workspace</span></div><Routes><Route path="/" element={<Home/>}/>{Object.entries(pages).filter(([path])=>path!=="/").map(([path,p])=><Route key={path} path={path} element={<Placeholder title={p.title} subtitle={p.subtitle} admin={path.startsWith("/admin")}/>}/>)}<Route path="*" element={<Placeholder title="Page not found" subtitle="Choose a route from the navigation." admin={false}/>}/></Routes><footer><span>© 2026 NewIAS</span><span><i/> Independent project · preview data only</span></footer></div></main></div>;
 }
