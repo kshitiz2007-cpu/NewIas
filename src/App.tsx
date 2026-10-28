@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import { Activity, ArrowRight, Bell, BookOpen, CalendarDays, CheckCircle2, ChevronDown, Clock3, FileText, GraduationCap, LayoutDashboard, Layers3, LibraryBig, Menu, PlayCircle, Search, Settings2, ShieldCheck, Sparkles, Target, Users, X, Save, Send, Tags, AlertCircle } from "lucide-react";
-import { AdminOverview, ClassesPage, ClassManagement, PerformancePage, SettingsPage, StudentsPage, TestsPage } from "./phase1/Modules";
+import { AdminOverview, ClassesPage, ClassManagement, SettingsPage, StudentsPage, TestsPage } from "./phase1/Modules";
 import { CsvImporter, PdfUploader } from "./phase1/ContentImports";
 import { Performance360 } from "./phase1/Performance360";
 import { Phase2Cms, Phase2Library } from "./phase2/Phase2";
