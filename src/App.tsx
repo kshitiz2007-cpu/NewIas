@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import { Activity, ArrowRight, Bell, BookOpen, CalendarDays, CheckCircle2, ChevronDown, Clock3, FileText, GraduationCap, LayoutDashboard, Layers3, LibraryBig, Menu, PlayCircle, Search, Settings2, ShieldCheck, Sparkles, Target, Users, X, Save, Send, Tags, AlertCircle } from "lucide-react";
 import { AdminOverview, ClassesPage, ClassManagement, PerformancePage, SettingsPage, StudentsPage, TestsPage } from "./phase1/Modules";
+import { CsvImporter, PdfUploader } from "./phase1/ContentImports";
 
 type NavItem = { to: string; label: string; icon: typeof Activity };
 const student: NavItem[] = [
@@ -181,6 +182,7 @@ function ContentStudio() {
    <div className="studio-field"><label htmlFor="tax-tags">Tags</label><div className="tag-input-wrap"><Tags size={14}/><input id="tax-tags" value={tags} onChange={e=>setTags(e.target.value)} placeholder="Static, Prelims, Revision"/></div><small>Separate tags with commas.</small></div>
    <div className="metadata-preview"><span><CheckCircle2 size={14}/> Metadata preview</span><div>{[exam,paper,subject,topic,subtopic,type,language,difficulty,...tags.split(",").map(t=>t.trim()).filter(Boolean)].filter(Boolean).map((v,i)=><b key={v+i}>{v}</b>)}</div><small>These values become database fields after backend persistence is enabled.</small></div>
   </section></div>
+  <div className="studio-import-grid"><CsvImporter/><PdfUploader/></div>
   <section className="studio-saved"><div className="studio-panel-heading"><div><h3>Recently created in this session</h3><p>Local preview records — refresh clears these until Supabase is connected.</p></div><span className="draft-pill">{saved.length} ITEMS</span></div>{saved.length===0?<div className="studio-empty"><FileText size={22}/><strong>No resources created yet</strong><span>Fill the form and save a draft or publish a preview.</span></div>:<div className="studio-saved-list">{saved.map(item=><article className="studio-saved-item" key={item.id}><span className="saved-file"><FileText size={17}/></span><div className="saved-item-copy"><strong>{item.title}</strong><small>{item.exam} · {item.paper} · {item.subject} / {item.topic} / {item.subtopic}</small></div><span className={item.status==="Published"?"saved-status published":"saved-status"}>{item.status}</span></article>)}</div>}</section>
  </div>;
 }
