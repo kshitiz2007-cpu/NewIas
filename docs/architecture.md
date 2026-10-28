@@ -28,7 +28,7 @@ Use route-level lazy loading, stable deep links, reusable nested layouts, error 
 ## Database domains
 Identity: institutes, profiles, memberships.
 Academics: courses, batches, enrolments, subjects, topics.
-Content: content items, versions, assets, exam tracks, subjects, hierarchical topics/subtopics and many-to-many resource-topic links. Each resource carries filterable metadata (format, language, paper, difficulty, date, source, syllabus codes, tags, estimated study time, display order and optional parent resource).
+Content: content items, version snapshots, private file assets, exam tracks, subjects, hierarchical topics/subtopics and many-to-many resource-topic links. Each resource carries filterable metadata (format, language, paper, difficulty, date, source, syllabus codes, tags, estimated study time, display order and optional parent resource).
 Classes: class sessions, provider metadata, recordings and attendance.
 Assessment: tests, sections, questions, options, attempts, answers and results.
 Analytics: activity events and performance snapshots.
@@ -37,13 +37,23 @@ Operations: notifications and audit events.
 Every tenant-owned record should be scoped by institute ID or a verified parent relationship. Index common lookup/filter columns and test isolation between institutes.
 
 ## Metadata-first content organisation
-- Treat taxonomy as structured records, not subject/topic text typed into each resource.
+- Treat taxonomy as structured records, not subject/topic text typed into each resource. The database is the source of truth; web and Android clients must fetch it rather than maintain separate hardcoded taxonomies.
 - Browse hierarchy: exam track → paper → subject → topic → subtopic; allow a resource to be linked to multiple topics while retaining one primary topic.
 - Store metadata as typed columns for common filters and a JSONB extension field only for evolving, non-critical attributes.
 - Make search/filter/sort server-side and paginated once real content is connected; never load an entire large library into the browser.
 - Show the same resource through relevant topic collections without duplicating the resource record.
 - Use stable resource IDs and deep links so rearranging taxonomy does not break bookmarks.
 - Require metadata validation on publish and offer explicit “Uncategorised” review queues for incomplete records.
+
+## Empty-database bootstrap sequence
+1. Create a dedicated Supabase project for NewIAS.
+2. Apply migrations in order: `0001_initial_schema.sql`, `0002_content_taxonomy_metadata.sql`, `0003_content_management_foundation.sql`.
+3. Create the first Auth user and provision the first institute/admin membership through a controlled one-time bootstrap procedure. Do not expose a service-role key in the client.
+4. Sign in as the provisioned admin; create exam tracks, subjects, topics and subtopics through the admin UI.
+5. Create resources, attach metadata/files, save drafts, review and publish through the app.
+6. Verify RLS with separate admin, editor, reviewer, faculty and student accounts before using real learners.
+
+The migrations establish schema and policies only. They intentionally do not seed real content or pretend that an empty database already contains a taxonomy.
 
 ## Class provider adapters
 Keep provider-specific configuration separate from canonical class metadata. Support YouTube embed/playback where permitted, Zoom and Google Meet join/SDK/OAuth flows where needed, external URLs and uploaded recordings. Validate provider links and access on the server. Provide a safe open/join fallback for providers that do not permit embedding.
