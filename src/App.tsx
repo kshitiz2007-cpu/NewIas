@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
-import { Activity, ArrowRight, Bell, BookOpen, CalendarDays, CheckCircle2, ChevronDown, Clock3, FileText, GraduationCap, LayoutDashboard, Layers3, LibraryBig, Menu, PlayCircle, Search, Settings2, ShieldCheck, Sparkles, Target, Users, X, Save, Send, Tags, CircleCheck, AlertCircle } from "lucide-react";
+import { Activity, ArrowRight, Bell, BookOpen, CalendarDays, CheckCircle2, ChevronDown, Clock3, FileText, GraduationCap, LayoutDashboard, Layers3, LibraryBig, Menu, PlayCircle, Search, Settings2, ShieldCheck, Sparkles, Target, Users, X, Save, Send, Tags, AlertCircle } from "lucide-react";
 
 type NavItem = { to: string; label: string; icon: typeof Activity };
 const student: NavItem[] = [
@@ -113,7 +113,6 @@ function ContentStudio() {
  const [syllabus,setSyllabus]=useState("");
  const [body,setBody]=useState("");
  const [notice,setNotice]=useState("");
- const [status,setStatus]=useState<"draft"|"published">("draft");
  const [saved,setSaved]=useState<DraftResource[]>([]);
  const exams=Object.keys(taxonomy);
  const papers=Object.keys(taxonomy[exam]?.papers??{});
@@ -125,7 +124,7 @@ function ContentStudio() {
  const changeSubject=(value:string)=>{setSubject(value);const next=subjects.find(s=>s.name===value)?.topics[0];setTopic(next?.name??"");setSubtopic(next?.subtopics[0]??"");};
  const changeTopic=(value:string)=>{setTopic(value);setSubtopic(topics.find(t=>t.name===value)?.subtopics[0]??"");};
  const resetForm=()=>{setTitle("");setSummary("");setSource("");setBody("");setSyllabus("");setNotice("");};
- const saveResource=(publish:boolean)=>{if(!title.trim()){setNotice("Resource title is required before saving.");return;}if(!summary.trim()){setNotice("Add a short summary so students can understand this resource.");return;}const row:DraftResource={id:Date.now(),title:title.trim(),exam,paper,subject,topic,subtopic,type,language,status:publish?"Published":"Draft",updated:"Just now"};setSaved(prev=>[row,...prev]);setStatus(publish?"published":"draft");setNotice(publish?"Preview record marked published. Database publishing is not connected yet.":"Draft saved in this browser session only. Connect Supabase to persist it.");};
+ const saveResource=(publish:boolean)=>{if(!title.trim()){setNotice("Resource title is required before saving.");return;}if(!summary.trim()){setNotice("Add a short summary so students can understand this resource.");return;}const row:DraftResource={id:Date.now(),title:title.trim(),exam,paper,subject,topic,subtopic,type,language,status:publish?"Published":"Draft",updated:"Just now"};setSaved(prev=>[row,...prev]);setNotice(publish?"Preview record marked published. Database publishing is not connected yet.":"Draft saved in this browser session only. Connect Supabase to persist it.");};
  return <div className="studio-layout">
   <section className="studio-banner"><div><span className="eyebrow"><Layers3 size={13}/> TAXONOMY-AWARE PUBLISHING</span><h2>One resource.<br/><em>The right place.</em></h2><p>Assign structured metadata once. The library can organise the resource automatically by exam, paper, subject, topic and subtopic.</p></div><div className="studio-banner-stat"><strong>{saved.length.toString().padStart(2,"0")}</strong><span>session records</span><small>Not yet saved to database</small></div></section>
   <div className="studio-columns"><section className="studio-form-panel"><div className="studio-panel-heading"><div><h3><FileText size={16}/> Resource details</h3><p>Start with a clear title and a useful summary.</p></div><span className="draft-pill">CONTENT EDITOR</span></div>
