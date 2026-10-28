@@ -22,7 +22,7 @@ export function Performance360() {
  const [testId,setTestId]=useState("All tests");
  const [attemptId,setAttemptId]=useState("Latest attempt");
  const [period,setPeriod]=useState("All time");
- const students=useMemo(()=>Array.from(new Map(attempts.map(a=>[a.studentId,{id:a.studentId,name:a.studentName,email:a.email}])).values(),[]);
+ const students=useMemo(()=>Array.from(new Map(attempts.map(a=>[a.studentId,{id:a.studentId,name:a.studentName,email:a.email}])).values());
  const studentAttempts=useMemo(()=>attempts.filter(a=>a.studentId===studentId).sort((a,b)=>b.date.localeCompare(a.date)),[studentId]);
  const testIds=useMemo(()=>Array.from(new Map(studentAttempts.map(a=>[a.testId,{id:a.testId,title:a.testTitle}])).values()),[studentAttempts]);
  const testAttempts=useMemo(()=>studentAttempts.filter(a=>testId==="All tests"||a.testId===testId),[studentAttempts,testId]);
