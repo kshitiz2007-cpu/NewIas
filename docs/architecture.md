@@ -28,13 +28,22 @@ Use route-level lazy loading, stable deep links, reusable nested layouts, error 
 ## Database domains
 Identity: institutes, profiles, memberships.
 Academics: courses, batches, enrolments, subjects, topics.
-Content: content items, versions and assets.
+Content: content items, versions, assets, exam tracks, subjects, hierarchical topics/subtopics and many-to-many resource-topic links. Each resource carries filterable metadata (format, language, paper, difficulty, date, source, syllabus codes, tags, estimated study time, display order and optional parent resource).
 Classes: class sessions, provider metadata, recordings and attendance.
 Assessment: tests, sections, questions, options, attempts, answers and results.
 Analytics: activity events and performance snapshots.
 Operations: notifications and audit events.
 
 Every tenant-owned record should be scoped by institute ID or a verified parent relationship. Index common lookup/filter columns and test isolation between institutes.
+
+## Metadata-first content organisation
+- Treat taxonomy as structured records, not subject/topic text typed into each resource.
+- Browse hierarchy: exam track → paper → subject → topic → subtopic; allow a resource to be linked to multiple topics while retaining one primary topic.
+- Store metadata as typed columns for common filters and a JSONB extension field only for evolving, non-critical attributes.
+- Make search/filter/sort server-side and paginated once real content is connected; never load an entire large library into the browser.
+- Show the same resource through relevant topic collections without duplicating the resource record.
+- Use stable resource IDs and deep links so rearranging taxonomy does not break bookmarks.
+- Require metadata validation on publish and offer explicit “Uncategorised” review queues for incomplete records.
 
 ## Class provider adapters
 Keep provider-specific configuration separate from canonical class metadata. Support YouTube embed/playback where permitted, Zoom and Google Meet join/SDK/OAuth flows where needed, external URLs and uploaded recordings. Validate provider links and access on the server. Provide a safe open/join fallback for providers that do not permit embedding.
