@@ -1920,3 +1920,131 @@
 }
 @media(min-width:621px) and (max-width:900px){.app-shell .p1-test-bento-grid{gap:11px}.app-shell .p1-test-bento-card{padding:15px}}
 @media(prefers-reduced-motion:reduce){.app-shell .p1-test-bento-card,.app-shell .p1-test-library-cta button{transition:none!important}.app-shell .p1-test-bento-card:hover,.app-shell .p1-test-library-cta button:hover{transform:none}}
+
+
+/* ==========================================================
+   NEWIAS DESIGN SYSTEM v3 — mapped hero identities + typography
+   Aurora Glass / Holographic Bento / Mission Control /
+   Living Editorial / Orbital Intelligence / Dark Command
+   ========================================================== */
+.app-shell{
+ --type-display:clamp(2rem,4.4vw,3.65rem);
+ --type-heading:clamp(1.45rem,2.7vw,2.15rem);
+ --type-subheading:clamp(1.05rem,1.55vw,1.3rem);
+ --type-body:15px;
+ --type-meta:12px;
+ --motion-smooth:cubic-bezier(.2,.75,.25,1);
+ font-feature-settings:"ss01" on,"cv11" on;
+}
+.app-shell :is(h1,h2,h3,h4){text-wrap:balance}
+.app-shell :is(p,.subtitle,.description){text-wrap:pretty}
+.app-shell :is(button,a,input,select,textarea){-webkit-tap-highlight-color:transparent}
+.app-shell :is(button,a,[role="button"],input,select,textarea):focus-visible{outline:3px solid var(--ui-ring,#c87ba3);outline-offset:3px}
+.app-shell :is(.hero,.p1-banner,.p360-hero,.p2-hero){
+ position:relative;isolation:isolate;overflow:hidden;
+ border-radius:clamp(22px,3vw,34px)!important;
+ box-shadow:0 18px 48px rgba(46,22,43,.10),inset 0 1px rgba(255,255,255,.68);
+}
+.app-shell :is(.hero,.p1-banner,.p360-hero,.p2-hero):after{
+ content:"";position:absolute;z-index:-1;pointer-events:none;
+ width:clamp(180px,28vw,360px);aspect-ratio:1;right:-9%;top:-42%;
+ border:1px solid rgba(255,255,255,.2);border-radius:50%;
+ box-shadow:0 0 0 24px rgba(255,255,255,.035),0 0 0 54px rgba(255,255,255,.025);
+}
+.app-shell :is(.hero,.p1-banner,.p360-hero,.p2-hero) :is(.eyebrow,.p1-banner-number span,.p360-kicker){
+ letter-spacing:.15em;font-size:10px;font-weight:900;text-transform:uppercase;
+}
+.app-shell :is(.hero,.p1-banner,.p360-hero,.p2-hero) h2{
+ font-size:var(--type-display)!important;font-weight:900!important;
+ letter-spacing:-.065em!important;line-height:.99!important;
+}
+.app-shell :is(.hero,.p1-banner,.p360-hero,.p2-hero) h2 em{
+ font-style:normal;background:linear-gradient(100deg,#f4b5d2 0%,#e59ac7 45%,#c5b1ff 100%);
+ -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.app-shell .hero{
+ background:radial-gradient(ellipse at 94% 4%,rgba(239,177,211,.48),transparent 36%),radial-gradient(ellipse at 0% 100%,rgba(190,162,239,.23),transparent 44%),linear-gradient(120deg,#fff7fb 0%,#f9eaf3 54%,#f2eafb 100%)!important;
+ border:1px solid rgba(207,159,190,.52)!important;
+}
+.app-shell .hero h2{color:#302031!important}
+.app-shell .hero .hero-copy>p{max-width:52ch;color:#665064!important;line-height:1.75}
+.app-shell .hero .hero-art{filter:drop-shadow(0 18px 24px rgba(119,62,104,.12))}
+.app-shell .hero :is(a,button,.button){min-height:48px;border-radius:15px}
+.app-shell .p1-banner{
+ padding:clamp(22px,3.4vw,38px)!important;
+ background:radial-gradient(ellipse at 92% 0%,rgba(209,119,176,.28),transparent 38%),radial-gradient(ellipse at 4% 100%,rgba(144,113,198,.14),transparent 42%),linear-gradient(125deg,#2d1d31 0%,#261a2d 58%,#211725 100%)!important;
+ border:1px solid #563d55!important;
+ box-shadow:0 18px 40px rgba(26,14,28,.2),inset 0 1px rgba(255,255,255,.07)!important;
+}
+.app-shell .p1-banner h2{color:#fff3fa!important}
+.app-shell .p1-banner p{max-width:56ch;color:#e0cddd!important;line-height:1.75}
+.app-shell .p1-banner .eyebrow{color:#f2b4d1!important}
+.app-shell .p1-banner-number{
+ min-width:105px;padding:16px;border:1px solid rgba(242,180,209,.24);border-radius:20px;
+ background:rgba(255,255,255,.055);backdrop-filter:blur(12px);
+}
+.app-shell .p1-banner-number strong{font-size:clamp(29px,4vw,44px);font-weight:950;letter-spacing:-.07em;color:#ffc5df;font-variant-numeric:tabular-nums}
+.app-shell .p1-banner-number span{display:block;color:#f4ddea}
+.app-shell .p1-banner-number small{color:#cbb4c9}
+.app-shell .p1-test-bento-card,.app-shell .p1-card,.app-shell .panel,.app-shell .p360-panel,.app-shell .p2-panel{
+ transition:transform .22s var(--motion-smooth),border-color .22s ease,box-shadow .22s ease;
+}
+.app-shell :is(.p1-test-bento-card,.p1-card,.panel,.p360-panel,.p2-panel):hover{
+ border-color:color-mix(in srgb,#c778a1 48%,transparent);
+}
+.app-shell .p1-test-bento-card h3,.app-shell .p1-card h3{font-size:var(--type-subheading);letter-spacing:-.035em;line-height:1.25}
+.app-shell :is(.p1-card,.p1-test-bento-card,.p360-panel,.p2-panel) :is(p,small,.muted,.meta){line-height:1.6}
+.app-shell :is(.p1-meta,.p360-meta,.resource-meta,.class-meta){font-variant-numeric:tabular-nums}
+.app-shell .p360-hero{
+ background:radial-gradient(ellipse at 90% 0%,rgba(216,130,187,.26),transparent 42%),linear-gradient(135deg,#2b1c30,#211624)!important;
+ border:1px solid #51374f!important;
+}
+.app-shell .p360-hero :is(h1,h2,h3){color:#fff2f9!important}
+.app-shell .p360-hero p{color:#e2d0e0!important}
+.app-shell .p2-hero{
+ background:radial-gradient(ellipse at 100% 0%,rgba(212,143,188,.22),transparent 38%),linear-gradient(125deg,#fff8fc,#f7eaf3 66%,#f2eafa)!important;
+ border:1px solid #e4c9d9!important;
+}
+.app-shell .p2-hero :is(h1,h2,h3){color:#332032!important}
+.app-shell .p2-hero p{color:#695367!important}
+.app-shell .editorial-hero,.app-shell .current-affairs-hero{
+ border-left:4px solid #bf6f98!important;border-radius:5px 22px 22px 5px!important;
+ background:linear-gradient(110deg,rgba(250,236,244,.98),rgba(255,250,253,.96))!important;
+}
+.app-shell .orbital-hero{
+ background:radial-gradient(circle at 82% 18%,rgba(191,151,255,.23),transparent 31%),linear-gradient(130deg,#1d1931,#25192d 62%,#321e38)!important;
+ border:1px solid #594269!important;
+}
+.app-shell .orbital-hero :is(h1,h2,h3){color:#fff4fb!important}
+.app-shell .orbital-hero p{color:#e4d6ec!important}
+.app-shell .admin-command-hero{
+ background:linear-gradient(135deg,#17151f,#211927 70%,#2c1d31)!important;
+ border:1px solid #4a394c!important;
+ box-shadow:0 18px 42px rgba(15,10,18,.25),inset 0 1px rgba(255,255,255,.05)!important;
+}
+.app-shell .admin-command-hero :is(h1,h2,h3){color:#fff4fb!important}
+.app-shell .admin-command-hero p{color:#d8cad9!important}
+.app-shell :is(.hero,.p1-banner,.p360-hero,.p2-hero) :is(button,a):focus-visible{outline-color:#ffc4df!important}
+.app-shell[data-theme="dark"] .hero{
+ background:radial-gradient(ellipse at 94% 4%,rgba(211,123,174,.2),transparent 36%),radial-gradient(ellipse at 0% 100%,rgba(145,119,198,.14),transparent 44%),linear-gradient(120deg,#2b1d30,#211624 58%,#291b30)!important;
+ border-color:#53384e!important;
+}
+.app-shell[data-theme="dark"] .hero h2{color:#fff2f9!important}
+.app-shell[data-theme="dark"] .hero .hero-copy>p{color:#e0cddd!important}
+.app-shell[data-theme="dark"] .p2-hero{
+ background:radial-gradient(ellipse at 100% 0%,rgba(203,116,170,.16),transparent 38%),linear-gradient(125deg,#2b1d30,#211624 66%,#281b2e)!important;
+ border-color:#50384e!important;
+}
+.app-shell[data-theme="dark"] .p2-hero :is(h1,h2,h3){color:#fff2f9!important}
+.app-shell[data-theme="dark"] .p2-hero p{color:#e0cddd!important}
+@media(max-width:620px){
+ .app-shell{--type-display:clamp(2rem,9vw,2.8rem);--type-heading:clamp(1.4rem,6vw,1.9rem);--type-body:15px}
+ .app-shell :is(.hero,.p1-banner,.p360-hero,.p2-hero){border-radius:23px!important}
+ .app-shell .p1-banner{gap:16px}
+ .app-shell .p1-banner-number{min-width:80px;padding:12px}
+ .app-shell .p1-banner p{font-size:13px;line-height:1.7}
+}
+@media(prefers-reduced-motion:reduce){
+ .app-shell :is(.p1-test-bento-card,.p1-card,.panel,.p360-panel,.p2-panel){transition:none!important}
+ .app-shell :is(.p1-test-bento-card,.p1-card,.panel,.p360-panel,.p2-panel):hover{transform:none!important}
+}
