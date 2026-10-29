@@ -247,7 +247,8 @@ function ContentStudio() {
  </div>;
 }
 function Placeholder({title,subtitle,admin:staff}:{title:string;subtitle:string;admin:boolean}) {
- return <section className="placeholder"><div className="placeholder-icon">{staff?<Settings2 size={26}/>:<GraduationCap size={26}/>}</div><span className="eyebrow">{staff?"ADMINISTRATION WORKSPACE":"STUDENT WORKSPACE"}</span><h2>{title}</h2><p>{subtitle}</p><div className="divider"/><span className="ready"><CheckCircle2 size={15}/> Route is ready for implementation</span><p className="note">This page is currently a UI foundation. Live data, authentication, permissions and module-specific workflows must be connected before production use.</p></section>;
+ const identity=staff?"admin-command-hero":/current affairs|editorial/i.test(title)?"editorial-hero":/quiz|intelligence/i.test(title)?"orbital-hero":"";
+ return <section className={`placeholder ${identity}`}><div className="placeholder-icon">{staff?<Settings2 size={26}/>:<GraduationCap size={26}/>}</div><span className="eyebrow">{staff?"ADMINISTRATION WORKSPACE":"STUDENT WORKSPACE"}</span><h2>{title}</h2><p>{subtitle}</p><div className="divider"/><span className="ready"><CheckCircle2 size={15}/> Route is ready for implementation</span><p className="note">This page is currently a UI foundation. Live data, authentication, permissions and module-specific workflows must be connected before production use.</p></section>;
 }
 
 function AuthScreen() {
