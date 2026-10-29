@@ -1220,3 +1220,108 @@
 @media(prefers-reduced-motion:reduce) {
   .app-shell .metric,.app-shell .panel,.app-shell .resource-card,.app-shell .subject-group,.app-shell .p1-card,.app-shell .p2-resource,.app-shell .primary,.app-shell .auth-submit,.app-shell .studio-publish { transition:none; }
 }
+
+
+/* Editorial kinetic Bento v2: reusable card language for Home and all feature modules */
+.app-shell .metrics.bento-grid {
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;
+  grid-auto-flow:row;align-items:stretch;
+}
+.app-shell .metrics.bento-grid .metric {
+  position:relative;isolation:isolate;overflow:hidden;min-height:170px;
+  padding:20px;display:flex;flex-direction:column;justify-content:space-between;
+  border-radius:23px;box-shadow:0 9px 27px rgba(0,0,0,.12);
+}
+.app-shell .metrics.bento-grid .metric--feature {
+  grid-column:span 2;grid-row:span 2;min-height:354px;padding:27px;
+  background:radial-gradient(circle at 85% 13%,rgba(229,155,194,.24),transparent 38%),linear-gradient(135deg,#2d1c33 0%,#4a2a46 55%,#2b233c 100%);
+  border-color:rgba(244,193,219,.26);
+}
+.app-shell .metrics.bento-grid .metric--feature:before {
+  content:"";position:absolute;width:290px;height:290px;right:-120px;top:-125px;
+  border:1px solid rgba(255,227,242,.11);border-radius:50%;pointer-events:none;
+}
+.app-shell .metrics.bento-grid .metric--progress {
+  grid-column:span 2;min-height:170px;
+  background:linear-gradient(120deg,rgba(49,33,53,.98),rgba(33,28,45,.98));
+}
+.app-shell .metric-topline { display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:1; }
+.app-shell .metric-index {font-size:9px;letter-spacing:.15em;font-weight:800;color:#bd9caf;}
+.app-shell .metric--feature .metric-index {color:#f3bed8;}
+.app-shell .metric-copy {position:relative;z-index:1;}
+.app-shell .metrics.bento-grid .metric p {font-size:11px;font-weight:750;letter-spacing:.015em;margin:8px 0;}
+.app-shell .metrics.bento-grid .metric .metric-value-kinetic {
+  display:block;font-size:clamp(28px,3.1vw,43px);line-height:1.08;
+  font-weight:850;letter-spacing:-.065em;font-variant-numeric:tabular-nums;
+  color:#fff0f7;animation:newias-number-rise .75s cubic-bezier(.18,.75,.22,1) both;
+}
+.app-shell .metrics.bento-grid .metric--feature .metric-value-kinetic {
+  font-size:clamp(47px,5.6vw,78px);line-height:1;letter-spacing:-.075em;
+  text-shadow:0 9px 30px rgba(23,12,27,.14);
+}
+.app-shell .metrics.bento-grid .metric small {line-height:1.5;font-size:10px;margin-top:9px;}
+.app-shell .metrics.bento-grid .metric--feature small {color:#d9bed0;}
+.app-shell .metrics.bento-grid .metric--feature .metric-icon {
+  width:44px;height:44px;border-radius:15px;
+  background:rgba(255,231,245,.12);color:#ffe0ef;border-color:rgba(255,231,245,.19);
+}
+.app-shell .metric-visual {height:76px;display:flex;align-items:flex-end;gap:6px;max-width:320px;position:relative;z-index:1;}
+.app-shell .metric-visual span {flex:1;height:28%;min-width:0;border-radius:6px 6px 3px 3px;background:linear-gradient(180deg,#f3b9d6,#a687cf);opacity:.88;transform-origin:bottom;animation:newias-bar-rise .65s cubic-bezier(.18,.75,.22,1) both;}
+.app-shell .metric-visual span:nth-child(2),.app-shell .metric-visual span:nth-child(8){height:43%}
+.app-shell .metric-visual span:nth-child(3),.app-shell .metric-visual span:nth-child(10){height:64%}
+.app-shell .metric-visual span:nth-child(4),.app-shell .metric-visual span:nth-child(9){height:51%}
+.app-shell .metric-visual span:nth-child(5),.app-shell .metric-visual span:nth-child(12){height:84%}
+.app-shell .metric-visual span:nth-child(6){height:70%}
+.app-shell .metric-visual span:nth-child(7){height:94%}
+.app-shell .metric-visual span:nth-child(11){height:76%}
+.app-shell .metric-visual span:nth-child(3n){animation-delay:.08s}
+.app-shell .metric-visual span:nth-child(3n + 1){animation-delay:.14s}
+.app-shell .metric-accent-line {height:4px;width:100%;background:rgba(219,175,204,.13);border-radius:99px;overflow:hidden;margin-top:14px;}
+.app-shell .metric-accent-line span {display:block;height:100%;width:62%;border-radius:inherit;background:linear-gradient(90deg,#edb4ce,#a994d8);transform-origin:left;animation:newias-track-rise .8s ease both;}
+.app-shell .metric--compact:nth-child(3) .metric-accent-line span {width:80%;}
+.app-shell .metric--progress .metric-progress {margin-top:14px;height:7px;border-radius:99px;background:rgba(244,218,235,.12);}
+.app-shell .metric--progress .metric-progress__fill {border-radius:inherit;background:linear-gradient(90deg,#e6a9c6,#a994d8);box-shadow:0 0 14px rgba(213,139,171,.22);}
+.app-shell .metric--progress .metric-milestone {margin-top:9px;color:#cdb3c7;}
+.app-shell .metric--progress .metric-milestone b {color:#f1c4d9;}
+.app-shell .bento-feature-grid .panel {position:relative;overflow:hidden;border-radius:23px;}
+.app-shell .bento-feature-grid .panel:before {content:"";position:absolute;right:-48px;top:-62px;width:170px;height:170px;border:1px solid rgba(222,155,190,.1);border-radius:50%;pointer-events:none;}
+.app-shell .bento-feature-grid .section-title h3,.app-shell .pulse .section-title h3 {font-size:clamp(16px,1.65vw,22px);letter-spacing:-.045em;}
+.app-shell .bento-feature-grid .task>b {font-size:15px;font-variant-numeric:tabular-nums;letter-spacing:-.05em;color:#e6a9c6;}
+.app-shell .bento-feature-grid .task strong {font-size:12px;}
+.app-shell .pulse {border-radius:23px;}
+.app-shell .pulse-grid>div:not(.insight) {padding:15px;border-radius:15px;background:rgba(215,149,185,.055);border:1px solid rgba(220,177,202,.1);}
+.app-shell .pulse-grid>div:not(.insight)>strong {font-size:clamp(22px,2.7vw,35px);font-variant-numeric:tabular-nums;letter-spacing:-.06em;color:#ffe5f0;animation:newias-number-rise .7s ease both;}
+.app-shell .p1-metrics article strong,.app-shell .p2-metrics strong,.app-shell .p360-metrics article>strong,.app-shell .p360-detail-metrics strong,.app-shell .library-count strong,.app-shell .studio-banner-stat strong,.app-shell .p1-banner-number strong,.app-shell .p2-hero-count strong {
+  font-variant-numeric:tabular-nums;letter-spacing:-.055em;animation:newias-number-rise .7s ease both;
+}
+.app-shell .p1-metrics article,.app-shell .p2-metrics>div,.app-shell .p360-metrics article,.app-shell .p360-detail-metrics article,.app-shell .p2-library-card {
+  border-radius:19px;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;
+}
+@media(hover:hover) {
+  .app-shell .metrics.bento-grid .metric:hover,.app-shell .p1-metrics article:hover,.app-shell .p2-metrics>div:hover,.app-shell .p2-library-card:hover {
+    transform:translateY(-3px);border-color:rgba(240,180,211,.36);box-shadow:0 16px 34px rgba(0,0,0,.16);
+  }
+}
+@keyframes newias-number-rise {from{opacity:.25;transform:translateY(10px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes newias-bar-rise {from{transform:scaleY(.1);opacity:.25}to{transform:scaleY(1);opacity:.88}}
+@keyframes newias-track-rise {from{transform:scaleX(.12)}to{transform:scaleX(1)}}
+@media(max-width:1100px) {
+  .app-shell .metrics.bento-grid {grid-template-columns:repeat(2,minmax(0,1fr));}
+  .app-shell .metrics.bento-grid .metric--feature {grid-row:auto;min-height:250px;}
+  .app-shell .metrics.bento-grid .metric--progress {grid-column:span 2;}
+}
+@media(max-width:620px) {
+  .app-shell .metrics.bento-grid {gap:10px;}
+  .app-shell .metrics.bento-grid .metric {min-height:155px;padding:15px;border-radius:19px;}
+  .app-shell .metrics.bento-grid .metric--feature {min-height:260px;padding:21px;grid-column:span 2;}
+  .app-shell .metrics.bento-grid .metric--feature .metric-value-kinetic {font-size:clamp(46px,12vw,66px);}
+  .app-shell .metrics.bento-grid .metric--compact .metric-value-kinetic {font-size:clamp(25px,7vw,34px);}
+  .app-shell .metrics.bento-grid .metric--progress {min-height:155px;}
+  .app-shell .metric-visual {height:54px;}
+  .app-shell .metric-index {font-size:8px;}
+  .app-shell .pulse-grid>div:not(.insight) {padding:10px;}
+  .app-shell .pulse-grid>div:not(.insight)>strong {font-size:22px;}
+}
+@media(prefers-reduced-motion:reduce) {
+  .app-shell .metric-value-kinetic,.app-shell .metric-visual span,.app-shell .metric-accent-line span,.app-shell .pulse-grid>div:not(.insight)>strong,.app-shell .p1-metrics article strong,.app-shell .p2-metrics strong,.app-shell .p360-metrics article>strong,.app-shell .p360-detail-metrics strong,.app-shell .library-count strong,.app-shell .studio-banner-stat strong,.app-shell .p1-banner-number strong,.app-shell .p2-hero-count strong {animation:none!important;}
+}
