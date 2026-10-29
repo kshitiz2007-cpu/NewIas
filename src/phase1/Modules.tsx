@@ -4,8 +4,8 @@ import { Activity, ArrowRight, CalendarDays, CheckCircle2, Clock3, FileText, Fil
 
 type Item = { id:number; title:string; subtitle:string; status:string; date:string; meta:string };
 const sampleTests:Item[]=[
- {id:1,title:"General Studies — Full Length Test 01",subtitle:"UPSC CSE · Prelims",status:"Available",date:"28 Oct 2026",meta:"100 questions · 120 minutes · 200 marks"},
- {id:2,title:"Indian Polity: Constitutional Framework",subtitle:"Subject test · GS Paper II",status:"Available",date:"27 Oct 2026",meta:"50 questions · 60 minutes · 100 marks"},
+ {id:1,title:"General Studies — Full Length Test 01",subtitle:"UPSC CSE · Prelims",status:"Available",date:"28 Oct 2026",meta:"5 demo questions · 20 minutes · 10 marks"},
+ {id:2,title:"Indian Polity: Constitutional Framework",subtitle:"Subject test · GS Paper II",status:"Available",date:"27 Oct 2026",meta:"4 demo questions · 15 minutes · 8 marks"},
  {id:3,title:"Current Affairs Weekly Review",subtitle:"Current affairs · Prelims",status:"Upcoming",date:"31 Oct 2026",meta:"40 questions · 45 minutes · 80 marks"},
  {id:4,title:"MPPSC Prelims — Madhya Pradesh Special",subtitle:"MPPSC · State-specific practice",status:"Available",date:"28 Oct 2026",meta:"4 demo questions · 20 minutes · 8 marks"},
  {id:5,title:"CSAT — Reasoning & Comprehension",subtitle:"UPSC CSE · CSAT practice",status:"Available",date:"28 Oct 2026",meta:"3 demo questions · 15 minutes · 6 marks"}
