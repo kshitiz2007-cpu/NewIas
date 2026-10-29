@@ -331,16 +331,19 @@ export default function App() {
   let active=true;
   async function resolveRole(){
    if(!authUser){setMembershipRole(null);setRoleLoading(false);return;}
-   if(!supabase){setMembershipRole(null);setRoleLoading(false);return;}
+   const configuredAdmin=isAdminEmail(authUser.email);
+   if(configuredAdmin&&active)setMembershipRole("admin");
+   else if(active)setMembershipRole(null);
+   if(!supabase){if(active)setRoleLoading(false);return;}
    setRoleLoading(true);
    try{
     const {data:institute,error:instituteError}=await supabase.from("institutes").select("id").eq("slug","newias").maybeSingle();
     if(instituteError)throw instituteError;
-    if(!institute){if(active)setMembershipRole(null);return;}
+    if(!institute){if(active&&!configuredAdmin)setMembershipRole(null);return;}
     const {data:membership,error:membershipError}=await supabase.from("institute_memberships").select("role,status").eq("institute_id",institute.id).eq("user_id",authUser.id).eq("status","active").maybeSingle();
     if(membershipError)throw membershipError;
-    if(active)setMembershipRole(membership?.role??null);
-   }catch(error){console.error("Could not resolve NewIAS membership role:",error);if(active)setMembershipRole(null);}
+    if(active)setMembershipRole(membership?.role==="admin"||configuredAdmin?"admin":membership?.role??null);
+   }catch(error){console.error("Could not resolve NewIAS membership role:",error);if(active&&!configuredAdmin)setMembershipRole(null);}
    finally{if(active)setRoleLoading(false);}
   }
   void resolveRole();
