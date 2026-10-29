@@ -1377,3 +1377,132 @@
   .app-shell .sidebar .signout-button svg { pointer-events:none; }
   .app-shell .backdrop { z-index:25; }
 }
+
+
+/* Contrast + interaction quality pass: fix mixed-theme analytics and unify premium UI */
+.app-shell .p360-hero {
+  color:#fff5fa !important;
+  background:
+    radial-gradient(ellipse at 82% 8%,rgba(230,157,198,.28),transparent 36%),
+    radial-gradient(ellipse at 8% 100%,rgba(158,128,213,.17),transparent 42%),
+    linear-gradient(125deg,#24152b 0%,#42243e 54%,#211b31 100%) !important;
+  border:1px solid rgba(245,190,220,.28) !important;
+  box-shadow:0 18px 42px rgba(60,25,52,.16),inset 0 1px rgba(255,255,255,.055) !important;
+}
+.app-shell .p360-hero h2,
+.app-shell .p360-hero h2:first-child { color:#fff4fa !important; text-shadow:0 2px 18px rgba(16,7,20,.18); }
+.app-shell .p360-hero h2 em { color:#ffb9dc !important; }
+.app-shell .p360-hero .eyebrow { color:#f2a9cc !important; }
+.app-shell .p360-hero p { color:#ead8e7 !important; }
+.app-shell .p360-hero .p360-hero-badge strong { color:#d6c2ff !important; text-shadow:0 0 28px rgba(181,149,255,.18); }
+.app-shell .p360-hero .p360-hero-badge span { color:#fff0f7 !important; }
+.app-shell .p360-hero .p360-hero-badge small { color:#cbb8cd !important; }
+.app-shell .p360-hero .p360-primary-action {
+  background:linear-gradient(115deg,#e7a7c8 0%,#d28db5 54%,#b49bdf 100%) !important;
+  color:#291628 !important;border:1px solid rgba(255,236,247,.48) !important;
+  border-radius:14px !important;box-shadow:0 8px 22px rgba(15,5,20,.22),inset 0 1px rgba(255,255,255,.48) !important;
+  font-weight:800;text-decoration:none;transition:transform .2s ease,filter .2s ease,box-shadow .2s ease;
+}
+.app-shell .p360-hero .p360-primary-action:hover { transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 12px 28px rgba(15,5,20,.28) !important; }
+.app-shell .p360-filter-panel,.app-shell .p360-identity,.app-shell .p360-panel {
+  border-radius:22px !important;box-shadow:0 10px 30px rgba(53,29,43,.07);
+}
+.app-shell[data-theme="light"] .p360-filter-panel,
+.app-shell[data-theme="light"] .p360-identity,
+.app-shell[data-theme="light"] .p360-panel {
+  background:linear-gradient(145deg,#fffdfd,#fff6fa) !important;
+  color:#382b36 !important;border:1px solid #ead7e1 !important;
+}
+.app-shell[data-theme="light"] .p360-filter-panel label,
+.app-shell[data-theme="light"] .p360-identity h3,
+.app-shell[data-theme="light"] .p360-identity-right strong,
+.app-shell[data-theme="light"] .p360-panel h3,
+.app-shell[data-theme="light"] .p360-panel h4 { color:#392633 !important; }
+.app-shell[data-theme="light"] .p360-filter-panel label { font-weight:650; }
+.app-shell[data-theme="light"] .p360-filter-panel select {
+  background:#fff !important;color:#392633 !important;border:1px solid #e2cedb !important;
+  box-shadow:inset 0 1px 2px rgba(54,27,44,.025);
+}
+.app-shell[data-theme="light"] .p360-filter-panel select option { background:#fff;color:#392633; }
+.app-shell[data-theme="light"] .p360-identity p,
+.app-shell[data-theme="light"] .p360-identity-right small,
+.app-shell[data-theme="light"] .p360-panel p,
+.app-shell[data-theme="light"] .p360-panel small,
+.app-shell[data-theme="light"] .p360-panel label { color:#756473 !important; }
+.app-shell[data-theme="light"] .p360-ident-tags span {
+  background:#f7eaf1 !important;color:#78465f !important;border-color:#ead1df !important;
+}
+.app-shell[data-theme="light"] .p360-avatar {
+  background:linear-gradient(145deg,#f1d9e7,#dfb5d0) !important;color:#63384f !important;
+  border-color:#e4c3d7 !important;
+}
+.app-shell[data-theme="light"] .p360-attempt-row,
+.app-shell[data-theme="light"] .p360-question-card,
+.app-shell[data-theme="light"] .p360-detail-metrics article,
+.app-shell[data-theme="light"] .p360-metrics article {
+  background:#fff !important;border-color:#eadce4 !important;color:#392b36 !important;
+}
+.app-shell[data-theme="light"] .p360-attempt-row :is(strong,b,h3,h4),
+.app-shell[data-theme="light"] .p360-question-card :is(h3,h4,strong),
+.app-shell[data-theme="light"] .p360-detail-metrics strong,
+.app-shell[data-theme="light"] .p360-metrics article>strong { color:#382533 !important; }
+.app-shell[data-theme="light"] .p360-attempt-row :is(small,p,span),
+.app-shell[data-theme="light"] .p360-question-card :is(p,small),
+.app-shell[data-theme="light"] .p360-detail-metrics small,
+.app-shell[data-theme="light"] .p360-metrics article small { color:#746272 !important; }
+.app-shell[data-theme="dark"] .p360-filter-panel,
+.app-shell[data-theme="dark"] .p360-identity,
+.app-shell[data-theme="dark"] .p360-panel {
+  background:linear-gradient(145deg,#211724,#19131f) !important;color:#f7edf4 !important;border-color:#493449 !important;
+}
+.app-shell[data-theme="dark"] .p360-filter-panel label,
+.app-shell[data-theme="dark"] .p360-identity h3,
+.app-shell[data-theme="dark"] .p360-identity-right strong,
+.app-shell[data-theme="dark"] .p360-panel h3,
+.app-shell[data-theme="dark"] .p360-panel h4 { color:#f7edf4 !important; }
+.app-shell[data-theme="dark"] .p360-filter-panel select { background:#170f1c !important;color:#f7edf4 !important;border-color:#493449 !important; }
+.app-shell[data-theme="dark"] .p360-filter-panel select option { background:#170f1c;color:#f7edf4; }
+.app-shell[data-theme="dark"] .p360-identity p,
+.app-shell[data-theme="dark"] .p360-identity-right small,
+.app-shell[data-theme="dark"] .p360-panel p,
+.app-shell[data-theme="dark"] .p360-panel small,
+.app-shell[data-theme="dark"] .p360-panel label { color:#cbb8ca !important; }
+.app-shell[data-theme="dark"] .p360-attempt-row,
+.app-shell[data-theme="dark"] .p360-question-card,
+.app-shell[data-theme="dark"] .p360-detail-metrics article,
+.app-shell[data-theme="dark"] .p360-metrics article { background:#211724 !important;border-color:#493449 !important;color:#f7edf4 !important; }
+.app-shell[data-theme="dark"] .p360-attempt-row :is(strong,b,h3,h4),
+.app-shell[data-theme="dark"] .p360-question-card :is(h3,h4,strong),
+.app-shell[data-theme="dark"] .p360-detail-metrics strong,
+.app-shell[data-theme="dark"] .p360-metrics article>strong { color:#fff1f8 !important; }
+.app-shell[data-theme="dark"] .p360-attempt-row :is(small,p,span),
+.app-shell[data-theme="dark"] .p360-question-card :is(p,small),
+.app-shell[data-theme="dark"] .p360-detail-metrics small,
+.app-shell[data-theme="dark"] .p360-metrics article small { color:#cbb8ca !important; }
+
+/* Shared legibility defaults for every module: no muted-on-muted text or accidental dark fields */
+.app-shell[data-theme="light"] :is(.p1-panel,.p1-card,.p2-panel,.p2-resource,.p2-library-card,.studio-panel,.studio-saved,.import-panel,.assessment-question-panel,.assessment-navigator) {
+  color:#382b36;
+}
+.app-shell[data-theme="light"] :is(.p1-panel,.p1-card,.p2-panel,.p2-resource,.p2-library-card,.studio-panel,.studio-saved,.import-panel,.assessment-question-panel,.assessment-navigator) :is(h2,h3,h4,strong,b) { color:#382633; }
+.app-shell[data-theme="light"] :is(.p1-panel,.p1-card,.p2-panel,.p2-resource,.p2-library-card,.studio-panel,.studio-saved,.import-panel,.assessment-question-panel,.assessment-navigator) :is(p,small,label) { color:#6f5b6a; }
+.app-shell[data-theme="light"] :is(.p1-panel,.p1-card,.p2-panel,.p2-resource,.p2-library-card,.studio-panel,.studio-saved,.import-panel,.assessment-question-panel,.assessment-navigator) :is(input,select,textarea) {
+  color:#392633;background:#fff;border-color:#e3d0dc;
+}
+.app-shell[data-theme="light"] :is(.p1-panel,.p1-card,.p2-panel,.p2-resource,.p2-library-card,.studio-panel,.studio-saved,.import-panel,.assessment-question-panel,.assessment-navigator) :is(input,select,textarea)::placeholder { color:#8b7886; }
+.app-shell[data-theme="light"] :is(.p1-panel,.p1-card,.p2-panel,.p2-resource,.p2-library-card,.studio-panel,.studio-saved,.import-panel,.assessment-question-panel,.assessment-navigator) select option { color:#392633;background:#fff; }
+.app-shell :is(.p1-banner,.p2-hero) :is(h2,h3) { color:#fff4fa; }
+.app-shell :is(.p1-banner,.p2-hero) em { color:#ffb9dc; }
+.app-shell .p1-banner,.app-shell .p2-hero {
+  background:radial-gradient(ellipse at 88% 12%,rgba(230,157,198,.24),transparent 36%),linear-gradient(125deg,#28192f,#43253e 55%,#211b31) !important;
+}
+.app-shell .p1-banner :is(p,small),.app-shell .p2-hero :is(p,small) { color:#ead8e7; }
+@media(max-width:620px) {
+ .app-shell .p360-hero { gap:18px;padding:21px 18px; }
+ .app-shell .p360-hero h2 { font-size:clamp(27px,7.5vw,36px);line-height:1.08; }
+ .app-shell .p360-hero .p360-primary-action { width:100%;justify-content:center; }
+ .app-shell .p360-filter-panel,.app-shell .p360-identity,.app-shell .p360-panel { border-radius:18px !important; }
+}
+@media(prefers-reduced-motion:reduce) {
+ .app-shell .p360-primary-action { transition:none !important; }
+}
