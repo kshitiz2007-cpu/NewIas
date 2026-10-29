@@ -213,6 +213,7 @@ function AuthScreen() {
   if(!supabase){setError("Authentication is not configured yet. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in the Render environment settings.");return;}
   setBusy(true);
   try{
+   if(mode==="signup"&&isAdminEmail(email)){throw new Error("The administrator account must be created or invited from the Supabase Dashboard. Sign in here after it has been provisioned.");}
    if(mode==="signin"){
     const {error}=await supabase.auth.signInWithPassword({email:email.trim(),password});
     if(error)throw error;
