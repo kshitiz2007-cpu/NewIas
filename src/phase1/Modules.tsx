@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Activity, ArrowRight, CalendarDays, CheckCircle2, Clock3, FileText, Filter, PlayCircle, Plus, Search, Settings2, Target, Users, Video, X } from "lucide-react";
 
 type Item = { id:number; title:string; subtitle:string; status:string; date:string; meta:string };
@@ -7,7 +7,8 @@ const sampleTests:Item[]=[
  {id:1,title:"General Studies — Full Length Test 01",subtitle:"UPSC CSE · Prelims",status:"Available",date:"28 Oct 2026",meta:"100 questions · 120 minutes · 200 marks"},
  {id:2,title:"Indian Polity: Constitutional Framework",subtitle:"Subject test · GS Paper II",status:"Available",date:"27 Oct 2026",meta:"50 questions · 60 minutes · 100 marks"},
  {id:3,title:"Current Affairs Weekly Review",subtitle:"Current affairs · Prelims",status:"Upcoming",date:"31 Oct 2026",meta:"40 questions · 45 minutes · 80 marks"},
- {id:4,title:"Geography Practice Set",subtitle:"Subject test · Prelims",status:"Completed",date:"22 Oct 2026",meta:"50 questions · 60 minutes · 100 marks"}
+ {id:4,title:"MPPSC Prelims — Madhya Pradesh Special",subtitle:"MPPSC · State-specific practice",status:"Available",date:"28 Oct 2026",meta:"4 demo questions · 20 minutes · 8 marks"},
+ {id:5,title:"CSAT — Reasoning & Comprehension",subtitle:"UPSC CSE · CSAT practice",status:"Available",date:"28 Oct 2026",meta:"3 demo questions · 15 minutes · 6 marks"}
 ];
 const sampleClasses:Item[]=[
  {id:1,title:"Constitutional Development in India",subtitle:"General Studies · Polity",status:"Upcoming",date:"Today · 6:00 PM",meta:"Faculty session · 60 minutes"},
@@ -21,6 +22,7 @@ function Notice({children}:{children:ReactNode}) { return <div className="p1-not
 function Status({value}:{value:string}) { return <span className={"p1-status "+value.toLowerCase()}>{value}</span>; }
 
 export function TestsPage() {
+ const navigate=useNavigate();
  const [tab,setTab]=useState("All tests"); const [query,setQuery]=useState(""); const [selected,setSelected]=useState<Item|null>(null); const [started,setStarted]=useState<number[]>([]);
  const filtered=sampleTests.filter(t=>(tab==="All tests"||t.status===tab)&&[t.title,t.subtitle,t.meta].join(" ").toLowerCase().includes(query.toLowerCase()));
  return <div className="p1-stack">
@@ -28,7 +30,7 @@ export function TestsPage() {
   <div className="p1-toolbar"><label className="p1-search"><Search size={15}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search tests or subjects"/></label><div className="p1-tabs">{["All tests","Available","Upcoming","Completed"].map(v=><button className={tab===v?"active":""} key={v} onClick={()=>setTab(v)}>{v}</button>)}</div></div>
   {filtered.length?<div className="p1-cards">{filtered.map(t=><article className="p1-card" key={t.id}><div className="p1-card-icon"><FileText size={19}/></div><div className="p1-card-main"><div className="p1-card-top"><Status value={t.status}/><small>{t.date}</small></div><h3>{t.title}</h3><p>{t.subtitle}</p><div className="p1-meta"><span><Target size={13}/>{t.meta.split(" · ")[0]}</span><span><Clock3 size={13}/>{t.meta.split(" · ")[1]}</span><span>{t.meta.split(" · ")[2]}</span></div><div className="p1-card-actions"><button className="p1-primary" onClick={()=>setSelected(t)} disabled={t.status==="Upcoming"}>{started.includes(t.id)?"Preview started":t.status==="Completed"?"Review preview":t.status==="Upcoming"?"Not yet available":"View test details"} <ArrowRight size={14}/></button></div></div></article>)}</div>:<div className="p1-empty"><Search size={24}/><strong>No tests found</strong><p>Try a different keyword or status.</p><button onClick={()=>{setQuery("");setTab("All tests")}}>Reset filters</button></div>}
   <p className="p1-footnote">Demo data only · Starting or reviewing a test opens a local preview, not a real assessment attempt.</p>
-  {selected&&<div className="p1-modal-backdrop" role="presentation" onClick={()=>setSelected(null)}><section className="p1-modal" role="dialog" aria-modal="true" aria-labelledby="test-modal-title" onClick={e=>e.stopPropagation()}><button className="p1-modal-close" onClick={()=>setSelected(null)} aria-label="Close"><X size={17}/></button><span className="eyebrow">TEST PREVIEW</span><h3 id="test-modal-title">{selected.title}</h3><p>{selected.subtitle}</p><div className="p1-modal-details"><span>{selected.meta}</span><span>Question order, timer and result saving will be wired during assessment-engine implementation.</span></div><div className="p1-modal-actions"><button className="p1-secondary" onClick={()=>setSelected(null)}>Cancel</button><button className="p1-primary" onClick={()=>{setStarted(s=>s.includes(selected.id)?s:[...s,selected.id]);setSelected(null)}}>{selected.status==="Completed"?"Open review preview":"Start local preview"} <ArrowRight size={14}/></button></div></section></div>}
+  {selected&&<div className="p1-modal-backdrop" role="presentation" onClick={()=>setSelected(null)}><section className="p1-modal" role="dialog" aria-modal="true" aria-labelledby="test-modal-title" onClick={e=>e.stopPropagation()}><button className="p1-modal-close" onClick={()=>setSelected(null)} aria-label="Close"><X size={17}/></button><span className="eyebrow">TEST PREVIEW</span><h3 id="test-modal-title">{selected.title}</h3><p>{selected.subtitle}</p><div className="p1-modal-details"><span>{selected.meta}</span><span>This interactive demo includes question navigation, answer selection, review flags, scoring and local attempt saving.</span></div><div className="p1-modal-actions"><button className="p1-secondary" onClick={()=>setSelected(null)}>Cancel</button><button className="p1-primary" onClick={()=>{const ids:Record<number,string>={1:"TST-UPSC-GS1-001",2:"TST-UPSC-POL-014",4:"TST-MPPSC-PRE-003",5:"TST-UPSC-CSAT-006"};const target=ids[selected.id];if(target){setSelected(null);navigate(`/tests/attempt/${target}`);}else{setStarted(s=>s.includes(selected.id)?s:[...s,selected.id]);setSelected(null);}}}>{selected.status==="Completed"?"Retake assessment":"Start assessment"} <ArrowRight size={14}/></button></div></section></div>}
  </div>;
 }
 
