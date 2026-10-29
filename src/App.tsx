@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { NavLink, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Activity, ArrowRight, Bell, BookOpen, CalendarClock, CalendarDays, CheckCircle2, ChevronDown, Clock3, FilePenLine, FileText, GraduationCap, LayoutGrid, Layers3, Menu, Radio, Search, Settings2, ShieldCheck, Sparkles, BrainCircuit, Target, UsersRound, Workflow, SlidersHorizontal, X, Save, Send, Tags, AlertCircle, Sun, Moon, LogOut } from "lucide-react";
 import { AdminOverview, ClassesPage, ClassManagement, SettingsPage, StudentsPage, TestsPage } from "./phase1/Modules";
@@ -208,7 +208,7 @@ function AuthScreen() {
  const [notice,setNotice]=useState("");
  const [error,setError]=useState("");
  const configured=Boolean(supabase);
- const submit=async(e:React.FormEvent<HTMLFormElement>)=>{
+ const submit=async(e:FormEvent<HTMLFormElement>)=>{
   e.preventDefault();setError("");setNotice("");
   if(!supabase){setError("Authentication is not configured yet. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in the Render environment settings.");return;}
   setBusy(true);
@@ -249,12 +249,13 @@ export default function App() {
  const [authUser,setAuthUser]=useState<User|null>(null);
  const [authLoading,setAuthLoading]=useState(true);
  const navigate=useNavigate();
+ const loc=useLocation();
  const isAdmin=isAdminEmail(authUser?.email);
  useEffect(()=>{if(!supabase){setAuthLoading(false);return;}let active=true;supabase.auth.getSession().then(({data})=>{if(active){setAuthUser(data.session?.user??null);setAuthLoading(false);}});const {data:{subscription}}=supabase.auth.onAuthStateChange((_event,session)=>{setAuthUser(session?.user??null);setAuthLoading(false);});return()=>{active=false;subscription.unsubscribe();};},[]);
  useEffect(()=>{if(authUser&&!isAdmin&&loc.pathname.startsWith("/admin"))navigate("/",{replace:true});},[authUser,isAdmin,loc.pathname,navigate]);
  const [theme,setTheme]=useState<"light"|"dark">(()=>{try{return localStorage.getItem("newias-theme")==="dark"?"dark":"light";}catch{return "light";}});
  useEffect(()=>{try{localStorage.setItem("newias-theme",theme);}catch{}},[theme]);
- const loc=useLocation();const page=loc.pathname.startsWith("/tests/attempt/")?{title:"Assessment",subtitle:"Answer questions, review responses and submit your attempt."}:pages[loc.pathname]??{title:"Page not found",subtitle:"This route is not available."};
+ const page=loc.pathname.startsWith("/tests/attempt/")?{title:"Assessment",subtitle:"Answer questions, review responses and submit your attempt."}:pages[loc.pathname]??{title:"Page not found",subtitle:"This route is not available."};
  useEffect(()=>{const root=document.querySelector(".app-shell");if(!root)return;const targets=root.querySelectorAll("[data-reveal],.p1-banner,.p1-card,.p1-panel,.p360-hero,.p360-panel,.p360-attempt-list > *, .p2-hero,.p2-panel,.p2-resource,.p2-library-card,.import-panel,.pdf-drop,.assessment-result,.assessment-question-panel,.assessment-navigator,.studio-panel,.studio-saved,.panel,.metric");if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){targets.forEach(el=>el.classList.add("is-visible"));return;}root.classList.add("reveal-ready");const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("is-visible");observer.unobserve(entry.target);}});},{threshold:0.12,rootMargin:"0px 0px -35px 0px"});targets.forEach(el=>observer.observe(el));return()=>observer.disconnect();},[loc.pathname]);
  const renderNav=(items:NavItem[],label:string)=><div className="nav-group" key={label}><span className="nav-heading">{label}</span>{items.map(({to,label:item,icon:Icon})=><NavLink end={to==="/"} key={to} to={to} onClick={()=>setOpen(false)} className={({isActive})=>"nav-link"+(isActive?" active":"")}><Icon size={17}/><span>{item}</span></NavLink>)}</div>;
  if(authLoading)return <main className="auth-screen"><section className="auth-card auth-loading"><span className="auth-brand-mark"><GraduationCap size={26}/></span><h1>Preparing your workspace…</h1><p>Checking your secure session.</p></section></main>;
