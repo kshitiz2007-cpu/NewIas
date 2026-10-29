@@ -86,3 +86,41 @@ export function ShimmerButton({
     </button>
   );
 }
+
+
+export type StatusKind = "live" | "upcoming" | "completed" | "draft" | "error" | "success" | "neutral";
+
+export function StatusChip({ status, children }: { status: StatusKind; children: ReactNode }) {
+  return <span className={`status-chip status-chip--${status}`}><span className="status-chip__dot" aria-hidden="true" />{children}</span>;
+}
+
+export function FormField({
+  id, label, hint, error, required, children,
+}: {
+  id: string; label: string; hint?: string; error?: string; required?: boolean; children: ReactNode;
+}) {
+  const hintId = hint ? `${id}-hint` : undefined;
+  const errorId = error ? `${id}-error` : undefined;
+  return (
+    <div className={`ui-form-field${error ? " ui-form-field--error" : ""}`}>
+      <label className="ui-form-field__label" htmlFor={id}>{label}{required && <span aria-hidden="true"> *</span>}</label>
+      {children}
+      {hint && <small className="ui-form-field__hint" id={hintId}>{hint}</small>}
+      {error && <small className="ui-form-field__error" id={errorId} role="alert">{error}</small>}
+    </div>
+  );
+}
+
+export function FeedbackState({
+  kind = "empty", title, description, action,
+}: {
+  kind?: "loading" | "success" | "empty" | "error";
+  title: string; description?: string; action?: ReactNode;
+}) {
+  return (
+    <section className={`ui-feedback ui-feedback--${kind}`} role={kind === "error" ? "alert" : "status"} aria-live={kind === "loading" ? "polite" : "off"}>
+      <span className="ui-feedback__mark" aria-hidden="true">{kind === "loading" ? "…" : kind === "success" ? "✓" : kind === "error" ? "!" : "—"}</span>
+      <div className="ui-feedback__copy"><strong>{title}</strong>{description && <p>{description}</p>}{action && <div className="ui-feedback__action">{action}</div>}</div>
+    </section>
+  );
+}
