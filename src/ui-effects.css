@@ -1710,3 +1710,81 @@
 @media(prefers-reduced-motion:reduce) {
  .app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero,.metric,.panel,.resource-card,.p1-card,.p2-resource) {scroll-behavior:auto;transition:none!important;animation:none!important;}
 }
+
+
+/* Library discovery controls — kinetic typography + editorial bento filters */
+.app-shell .library-filter-bento {
+  position:relative;display:flex;flex-direction:column;gap:20px;
+  padding:clamp(18px,3vw,28px);border-radius:26px;
+  border:1px solid #e8d3df;
+  background:radial-gradient(ellipse at 96% 0%,rgba(214,154,191,.15),transparent 32%),linear-gradient(145deg,#fffdfd,#fff5fa 75%,#f8eff8);
+  box-shadow:0 14px 36px rgba(82,42,65,.065),inset 0 1px #fff;
+  color:#382633;
+}
+.app-shell .library-filter-heading {display:flex;align-items:center;justify-content:space-between;gap:18px;}
+.app-shell .library-filter-heading>div:first-child {min-width:0;}
+.app-shell .library-filter-kicker {display:flex;align-items:center;gap:7px;color:#91415f;font-size:10px;font-weight:850;letter-spacing:.16em;}
+.app-shell .library-filter-heading h3 {margin:9px 0 6px;color:#352033;font-size:clamp(22px,3vw,32px);font-weight:900;line-height:1.05;letter-spacing:-.055em;}
+.app-shell .library-filter-heading h3 span {color:#c56c95;}
+.app-shell .library-filter-heading p {margin:0;color:#705c6b;font-size:13px;line-height:1.55;}
+.app-shell .library-filter-count {flex:0 0 auto;min-width:92px;padding:12px 14px;border:1px solid #ead4e0;border-radius:17px;background:rgba(255,255,255,.78);text-align:center;box-shadow:0 6px 18px rgba(83,40,65,.045);}
+.app-shell .library-filter-count strong {display:block;color:#87385d;font-size:28px;line-height:1;font-weight:900;letter-spacing:-.06em;font-variant-numeric:tabular-nums;}
+.app-shell .library-filter-count span {display:block;margin-top:6px;color:#6d5667;font-size:10px;font-weight:700;}
+.app-shell .library-controls .library-search {display:flex;align-items:center;gap:13px;min-height:62px;padding:7px 14px;border:1px solid #e2ccda;border-radius:18px;background:#fff;color:#73415d;box-shadow:inset 0 1px 2px rgba(57,28,46,.025);transition:border-color .18s ease,box-shadow .18s ease;}
+.app-shell .library-controls .library-search:focus-within {border-color:#b9658c;box-shadow:0 0 0 4px rgba(185,101,140,.12);}
+.app-shell .library-controls .library-search input {flex:1;min-width:0;min-height:46px;border:0!important;outline:none!important;background:transparent!important;box-shadow:none!important;color:#382633!important;font-size:15px;}
+.app-shell .library-controls .library-search input::placeholder {color:#887383!important;opacity:1;}
+.app-shell .library-controls .library-search>button {display:grid;place-items:center;min-width:44px;min-height:44px;border:1px solid #ead7e2;border-radius:12px;background:#fff5fa;color:#713c59;}
+.app-shell .library-controls .filter-row {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;}
+.app-shell .library-controls .filter-row>label {display:flex;flex-direction:column;gap:8px;min-width:0;padding:13px;border:1px solid #ead7e2;border-radius:17px;background:linear-gradient(145deg,#fff,#fff9fc);box-shadow:0 4px 13px rgba(71,36,57,.025);}
+.app-shell .library-controls .filter-row>label>span {display:flex;align-items:center;gap:7px;color:#634b5e;font-size:10px;font-weight:850;letter-spacing:.09em;}
+.app-shell .library-controls .filter-row>label>span b {display:inline-grid;place-items:center;width:21px;height:21px;border-radius:7px;background:#f5e3ed;color:#8c3e65;font-size:9px;letter-spacing:0;}
+.app-shell .library-controls .filter-row select {width:100%;min-width:0;min-height:48px;padding:0 12px;border:1px solid #e3d1dc;border-radius:12px;background:#fff;color:#382633;font-size:14px;font-weight:650;outline-offset:2px;}
+.app-shell .library-controls .filter-row select option {background:#fff;color:#382633;}
+.app-shell .library-controls .filter-row select:focus-visible {outline:3px solid #a84e78;outline-offset:2px;}
+.app-shell .library-controls .library-reset-button {grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;width:100%;padding:0 16px;border:1px solid #d49ab6;border-radius:14px;background:linear-gradient(110deg,#eab5cf,#d997b9 58%,#c0a4df);color:#392033;font-size:13px;font-weight:850;box-shadow:0 7px 17px rgba(144,68,106,.12);transition:transform .18s ease,box-shadow .18s ease;}
+.app-shell .library-controls .library-reset-button:hover {transform:translateY(-1px);box-shadow:0 10px 21px rgba(144,68,106,.17);}
+.app-shell .library-controls .library-reset-button:focus-visible {outline:3px solid #8c3e68;outline-offset:3px;}
+.app-shell[data-theme="dark"] .library-filter-bento {border-color:#493449;background:radial-gradient(ellipse at 96% 0%,rgba(211,123,174,.13),transparent 32%),linear-gradient(145deg,#241926,#1c1421 75%,#261a2b);color:#fff1f8;box-shadow:0 14px 36px rgba(0,0,0,.15),inset 0 1px rgba(255,255,255,.035);}
+.app-shell[data-theme="dark"] .library-filter-kicker {color:#f2b3d0;}
+.app-shell[data-theme="dark"] .library-filter-heading h3 {color:#fff1f8;}
+.app-shell[data-theme="dark"] .library-filter-heading h3 span {color:#ffb6d7;}
+.app-shell[data-theme="dark"] .library-filter-heading p {color:#d4c0d1;}
+.app-shell[data-theme="dark"] .library-filter-count {border-color:#51384e;background:#2b1c2e;}
+.app-shell[data-theme="dark"] .library-filter-count strong {color:#ffc4df;}
+.app-shell[data-theme="dark"] .library-filter-count span {color:#e1ccdf;}
+.app-shell[data-theme="dark"] .library-controls .library-search {background:#170f1c;border-color:#51384e;color:#f3c7df;}
+.app-shell[data-theme="dark"] .library-controls .library-search input {color:#fff1f8!important;}
+.app-shell[data-theme="dark"] .library-controls .library-search input::placeholder {color:#bca9bc!important;}
+.app-shell[data-theme="dark"] .library-controls .library-search>button {background:#332033;border-color:#60415a;color:#ffe5f1;}
+.app-shell[data-theme="dark"] .library-controls .filter-row>label {background:linear-gradient(145deg,#2a1d2e,#211724);border-color:#493449;}
+.app-shell[data-theme="dark"] .library-controls .filter-row>label>span {color:#e4d1e2;}
+.app-shell[data-theme="dark"] .library-controls .filter-row>label>span b {background:#493047;color:#ffc4df;}
+.app-shell[data-theme="dark"] .library-controls .filter-row select {background:#170f1c;color:#fff1f8;border-color:#51384e;}
+.app-shell[data-theme="dark"] .library-controls .filter-row select option {background:#170f1c;color:#fff1f8;}
+.app-shell[data-theme="dark"] .library-controls .library-reset-button {background:linear-gradient(110deg,#e9a6c6,#d27eaa 58%,#b29add);color:#2b1729;border-color:#e9a6c6;}
+@media(max-width:620px) {
+ .app-shell .library-filter-bento {gap:15px;padding:18px 15px;border-radius:22px;}
+ .app-shell .library-filter-heading {align-items:flex-start;gap:10px;}
+ .app-shell .library-filter-heading h3 {font-size:25px;}
+ .app-shell .library-filter-heading p {font-size:12px;}
+ .app-shell .library-filter-count {min-width:68px;padding:10px 8px;border-radius:14px;}
+ .app-shell .library-filter-count strong {font-size:23px;}
+ .app-shell .library-filter-count span {font-size:9px;}
+ .app-shell .library-controls .library-search {min-height:56px;padding:6px 11px;border-radius:15px;}
+ .app-shell .library-controls .library-search input {font-size:14px;}
+ .app-shell .library-controls .filter-row {gap:9px;}
+ .app-shell .library-controls .filter-row>label {padding:10px;border-radius:14px;gap:7px;}
+ .app-shell .library-controls .filter-row>label>span {font-size:9px;letter-spacing:.045em;}
+ .app-shell .library-controls .filter-row>label>span b {width:19px;height:19px;}
+ .app-shell .library-controls .filter-row select {min-height:48px;padding:0 8px;font-size:12px;}
+}
+@media(max-width:370px) {
+ .app-shell .library-filter-heading {display:block;}
+ .app-shell .library-filter-count {display:inline-flex;align-items:center;gap:9px;margin-top:12px;text-align:left;}
+ .app-shell .library-filter-count span {margin:0;}
+}
+@media(prefers-reduced-motion:reduce) {
+ .app-shell .library-controls .library-search,.app-shell .library-controls .library-reset-button {transition:none!important;}
+ .app-shell .library-controls .library-reset-button:hover {transform:none;}
+}
