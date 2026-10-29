@@ -448,3 +448,29 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
  .page-intro h1{letter-spacing:-.6px}
  .hero h2{letter-spacing:-.65px}
 }
+
+
+/* Ultra-modern icon system: precision strokes, controlled glow, consistent rhythm */
+:root{--icon-accent:#f0dba4;--icon-muted:#8493a6;--icon-well:#1a2633;--icon-well-active:#342d1f}
+svg{stroke-width:1.75;vector-effect:non-scaling-stroke}
+.nav-link>svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.65;transition:color .18s ease,transform .18s ease,filter .18s ease}
+.nav-link:hover>svg{transform:translateY(-1px);color:#f0dba4}
+.nav-link.active>svg{color:#f0dba4;filter:drop-shadow(0 0 5px #d5a94f45);stroke-width:1.9}
+.brand-mark{position:relative;overflow:hidden;border:1px solid #f0dba45c;border-radius:13px;background:linear-gradient(145deg,#f4e4b7 0%,#d2a64b 48%,#8f6828 100%);box-shadow:0 6px 22px #c49a3b20,inset 0 1px #ffffff55}
+.brand-mark:after{content:"";position:absolute;inset:1px;border:1px solid #ffffff24;border-radius:11px;pointer-events:none}
+.brand-mark svg{width:22px;height:22px;stroke-width:1.7;filter:drop-shadow(0 1px 1px #62471945)}
+.metric-icon,.p1-card-icon,.subject-symbol,.saved-file,.placeholder-icon{position:relative;overflow:hidden;border:1px solid #ffffff0a;background:linear-gradient(145deg,#26313c,#18222d);color:#d6bb79}
+.metric-icon{width:36px;height:36px;border-radius:11px;box-shadow:inset 0 1px #ffffff0b}
+.metric-icon svg,.p1-card-icon svg,.subject-symbol svg,.saved-file svg{width:18px;height:18px;stroke-width:1.65}
+.metric:nth-child(2) .metric-icon{background:linear-gradient(145deg,#203b40,#172a30);color:#8adbd1}
+.metric:nth-child(3) .metric-icon{background:linear-gradient(145deg,#392c3b,#251e2b);color:#e8b4d0}
+.metric:nth-child(4) .metric-icon{background:linear-gradient(145deg,#263c33,#182a23);color:#a2dfbb}
+.p1-card-icon{border-radius:11px;background:linear-gradient(145deg,#3b3323,#24231d);color:#f0dba4}
+.subject-symbol{background:linear-gradient(145deg,#3b3323,#24231d);color:#f0dba4}
+.saved-file{background:linear-gradient(145deg,#3b3323,#24231d);color:#f0dba4}
+.placeholder-icon{background:linear-gradient(145deg,#3b3323,#24231d);color:#f0dba4;box-shadow:inset 0 1px #ffffff0b}
+.eyebrow svg{width:14px;height:14px;stroke-width:1.8}
+.primary svg,.p1-primary svg,.footer-link svg,.resource-open svg{stroke-width:1.8}
+.bell{transition:border-color .18s ease,background .18s ease,color .18s ease}
+.bell:hover{border-color:#766039;background:#1a2631;color:#f0dba4}
+@media(max-width:620px){.nav-link>svg{width:19px;height:19px}.metric-icon{width:34px;height:34px}}
