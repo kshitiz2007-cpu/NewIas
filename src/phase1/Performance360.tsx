@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Activity, AlertTriangle, ArrowDownRight, ArrowUpRight, BookOpen, CheckCircle2, ChevronDown, Clock3, FileSearch, Gauge, Target, TrendingUp } from "lucide-react";
+import { Activity, AlertTriangle, ArrowDownRight, ArrowUpRight, BookOpen, CheckCircle2, ChevronDown, Clock3, FileSearch, Gauge, TrendingUp } from "lucide-react";
 
 type Attempt = {
   attemptId: string; testId: string; testTitle: string; studentId: string; studentName: string; email: string;
