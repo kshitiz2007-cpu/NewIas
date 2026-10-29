@@ -1822,3 +1822,48 @@
 .app-shell .library-controls .library-reset-button:hover{transform:translateY(-2px);filter:brightness(1.04);box-shadow:0 12px 25px rgba(151,62,108,.25)!important}
 .app-shell .library-controls :is(input,select,button):focus-visible{outline:3px solid #8c3e68!important;outline-offset:3px}
 @keyframes library-count-in{from{opacity:.35;transform:translateY(7px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+
+/* Explicit dark-mode contrast and compact-screen layout for library filters */
+.app-shell[data-theme="dark"] .library-controls.library-filter-bento{
+ border-color:#51394f!important;
+ background:radial-gradient(ellipse at 100% 0%,rgba(203,116,170,.18),transparent 34%),linear-gradient(145deg,#281b2d,#211624 58%,#261b2e)!important;
+ box-shadow:0 16px 38px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.04)!important;
+}
+.app-shell[data-theme="dark"] .library-filter-kicker{color:#f1b2d0!important}
+.app-shell[data-theme="dark"] .library-filter-heading h3{color:#fff2f9!important}
+.app-shell[data-theme="dark"] .library-filter-heading h3 span{color:#ffb7d8!important}
+.app-shell[data-theme="dark"] .library-filter-heading p{color:#e0cddd!important}
+.app-shell[data-theme="dark"] .library-filter-count{background:linear-gradient(145deg,#35243a,#2b1d30)!important;border-color:#5c4059!important}
+.app-shell[data-theme="dark"] .library-filter-count strong{color:#ffc4df!important}
+.app-shell[data-theme="dark"] .library-filter-count span{color:#ead7e6!important}
+.app-shell[data-theme="dark"] .library-controls .library-search{background:#180f1d!important;border-color:#5a3c56!important;color:#ffc4df!important}
+.app-shell[data-theme="dark"] .library-controls .library-search>svg{color:#f0a9cc!important}
+.app-shell[data-theme="dark"] .library-controls .library-search input{color:#fff3fa!important}
+.app-shell[data-theme="dark"] .library-controls .library-search input::placeholder{color:#c4afc2!important}
+.app-shell[data-theme="dark"] .library-controls .filter-row>label{background:linear-gradient(145deg,#302034,#261a2c)!important;border-color:#51384e!important}
+.app-shell[data-theme="dark"] .library-controls .filter-row>label>span{color:#f0ddeb!important}
+.app-shell[data-theme="dark"] .library-controls .filter-row>label>span b{background:#493047!important;color:#ffc4df!important}
+.app-shell[data-theme="dark"] .library-controls .filter-row select{background:#180f1d!important;color:#fff3fa!important;border-color:#5b4057!important}
+.app-shell[data-theme="dark"] .library-controls .filter-row select option{background:#180f1d!important;color:#fff3fa!important}
+.app-shell[data-theme="dark"] .library-controls .library-reset-button{background:linear-gradient(112deg,#e9a6c6,#d27eaa 55%,#b29add)!important;color:#291628!important;border-color:#e9a6c6!important}
+.app-shell[data-theme="dark"] .library-controls .library-reset-button svg{color:#291628!important}
+@media(max-width:620px){
+ .app-shell .library-controls.library-filter-bento{gap:16px;padding:18px 15px;border-radius:22px!important}
+ .app-shell .library-filter-heading{align-items:flex-start;gap:10px}
+ .app-shell .library-filter-heading h3{font-size:clamp(25px,7vw,32px)!important}
+ .app-shell .library-filter-heading p{font-size:12px}
+ .app-shell .library-filter-count{min-width:75px;padding:11px 10px}
+ .app-shell .library-filter-count strong{font-size:25px!important}
+ .app-shell .library-controls .library-search{min-height:56px;padding:6px 11px;border-radius:15px}
+ .app-shell .library-controls .filter-row{grid-template-columns:minmax(0,1fr);gap:10px}
+ .app-shell .library-controls .filter-row>label{padding:12px;border-radius:15px!important}
+ .app-shell .library-controls .filter-row select{min-height:48px;font-size:14px!important}
+ .app-shell .library-controls .library-reset-button{grid-column:1/-1}
+}
+@media(min-width:621px) and (max-width:900px){.app-shell .library-controls .filter-row{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:reduce){
+ .app-shell .library-filter-count strong{animation:none!important}
+ .app-shell .library-controls .library-search,.app-shell .library-controls .filter-row>label,.app-shell .library-controls .library-reset-button{transition:none!important}
+ .app-shell .library-controls .library-reset-button:hover,.app-shell .library-controls .library-search:focus-within{transform:none}
+}
