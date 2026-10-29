@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Activity, AlertTriangle, ArrowDownRight, ArrowUpRight, BookOpen, CheckCircle2, Clock3, FileSearch, Gauge, Target, TrendingUp } from "lucide-react";
 
 type Attempt = {
@@ -18,7 +19,10 @@ const attempts: Attempt[] = [
 const pct=(a:number,b:number)=>b?Math.round(a/b*100):0;
 const fmtDate=(d:string)=>new Date(d+"T12:00:00").toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
 export function Performance360() {
- const [studentId,setStudentId]=useState("STU-1001");
+ const [searchParams]=useSearchParams();
+ const requestedStudent=searchParams.get("student");
+ const initialStudent=attempts.some(a=>a.studentId===requestedStudent)?requestedStudent!:"STU-1001";
+ const [studentId,setStudentId]=useState(initialStudent);
  const [testId,setTestId]=useState("All tests");
  const [attemptId,setAttemptId]=useState("Latest attempt");
  const [period,setPeriod]=useState("All time");
@@ -36,11 +40,11 @@ export function Performance360() {
  function selectStudent(id:string){setStudentId(id);setTestId("All tests");setAttemptId("Latest attempt");}
  function selectTest(id:string){setTestId(id);setAttemptId("Latest attempt");}
  return <div className="p360-shell">
-  <section className="p360-hero"><div><span className="eyebrow"><Activity size={13}/> INDIVIDUAL TEST PERFORMANCE</span><h2>Every attempt has a story.<br/><em>Analyse it by its ID.</em></h2><p>Inspect each student's unique test and attempt IDs, scoring, time usage, topic accuracy and improvement between attempts.</p></div><div className="p360-hero-badge"><strong>360°</strong><span>attempt analytics</span><small>Sample data preview</small></div></section>
+  <section className="p360-hero"><div><span className="eyebrow"><Activity size={13}/> INDIVIDUAL TEST PERFORMANCE</span><h2>Every attempt has a story.<br/><em>Analyse it by its ID.</em></h2><p>Inspect each student's unique test and attempt IDs, scoring, time usage, topic accuracy and improvement between attempts.</p><a className="p360-primary-action" href="#p360-attempt-register"><FileSearch size={15}/> Open detailed analysis <ArrowDownRight size={15}/></a></div><div className="p360-hero-badge"><strong>360°</strong><span>attempt analytics</span><small>Sample data preview</small></div></section>
   <section className="p360-filter-panel"><label>Student<select value={studentId} onChange={e=>selectStudent(e.target.value)}>{students.map(s=><option key={s.id} value={s.id}>{s.name} · {s.id}</option>)}</select></label><label>Test ID<select value={testId} onChange={e=>selectTest(e.target.value)}><option>All tests</option>{testIds.map(t=><option key={t.id} value={t.id}>{t.id} · {t.title}</option>)}</select></label><label>Time period<select value={period} onChange={e=>setPeriod(e.target.value)}><option>All time</option><option>Last 7 days</option><option>Last 30 days</option></select></label></section>
   <section className="p360-identity"><div className="p360-avatar">{students.find(s=>s.id===studentId)?.name.split(" ").map(n=>n[0]).join("").slice(0,2)}</div><div className="p360-ident-main"><h3>{students.find(s=>s.id===studentId)?.name}</h3><p>{students.find(s=>s.id===studentId)?.email}</p><div className="p360-ident-tags"><span>Student ID: {studentId}</span><span>{studentAttempts.length} total sample attempts</span></div></div><div className="p360-identity-right"><small>Selected tests</small><strong>{filteredAttempts.length}</strong></div></section>
   <div className="p360-metrics"><article><span><Target size={14}/> Average score</span><strong>{filteredAttempts.length?overall+"%":"—"}</strong><small>Across selected attempts</small></article><article><span><CheckCircle2 size={14}/> Average accuracy</span><strong>{filteredAttempts.length?accuracy+"%":"—"}</strong><small>Correct ÷ attempted questions</small></article><article><span><BookOpen size={14}/> Attempts</span><strong>{filteredAttempts.length}</strong><small>Unique attempt records</small></article><article><span><Clock3 size={14}/> Avg. time used</span><strong>{filteredAttempts.length?Math.round(filteredAttempts.reduce((s,a)=>s+a.durationMin,0)/filteredAttempts.length)+"m":"—"}</strong><small>Of available test duration</small></article></div>
-  <section className="p360-panel"><div className="p360-panel-heading"><div><h3><FileSearch size={16}/> Attempt register</h3><p>Select a specific attempt ID to inspect its complete breakdown.</p></div><span className="p360-count">{filteredAttempts.length} attempts</span></div>
+  <section className="p360-panel" id="p360-attempt-register"><div className="p360-panel-heading"><div><h3><FileSearch size={16}/> Detailed analysis & attempt review</h3><p>Select a specific attempt ID to inspect its complete breakdown.</p></div><span className="p360-count">{filteredAttempts.length} attempts</span></div>
    {filteredAttempts.length===0?<div className="p360-empty"><AlertTriangle size={22}/><strong>No attempts for these filters</strong><span>Choose another test or time period.</span></div>:<><label className="p360-attempt-select">Selected attempt<select value={selected?.attemptId||"Latest attempt"} onChange={e=>setAttemptId(e.target.value)}><option value="Latest attempt">Latest attempt</option>{filteredAttempts.map(a=><option key={a.attemptId} value={a.attemptId}>{a.attemptId} · {fmtDate(a.date)} · {a.score}/{a.maxScore}</option>)}</select></label><div className="p360-attempt-list">{filteredAttempts.map(a=><button key={a.attemptId} className={"p360-attempt-row "+(selected?.attemptId===a.attemptId?"selected":"")} onClick={()=>setAttemptId(a.attemptId)}><span className="p360-attempt-icon"><FileSearch size={16}/></span><span className="p360-attempt-copy"><b>{a.testId}</b><small>{a.testTitle}</small><small>Attempt: {a.attemptId} · {fmtDate(a.date)}</small></span><span className="p360-attempt-score"><b>{a.score}/{a.maxScore}</b><small>{pct(a.score,a.maxScore)}%</small></span></button>)}</div></>}
   </section>
   {selected&&<><div className="p360-detail-head"><div><span className="p360-kicker">SELECTED ATTEMPT</span><h3>{selected.testTitle}</h3><p>Test ID: <b>{selected.testId}</b> · Attempt ID: <b>{selected.attemptId}</b></p></div><span className="p360-submitted">{selected.status}</span></div>
