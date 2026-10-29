@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
-import { Activity, ArrowRight, Bell, BookOpen, CalendarDays, CheckCircle2, ChevronDown, Clock3, FileText, GraduationCap, LayoutDashboard, Layers3, LibraryBig, Menu, PlayCircle, Search, Settings2, ShieldCheck, Sparkles, Target, Users, X, Save, Send, Tags, AlertCircle } from "lucide-react";
+import { Activity, ArrowRight, Bell, BookOpenText, CalendarClock, CheckCircle2, ChevronDown, Clock3, FilePenLine, GraduationCap, LayoutGrid, Layers3, LibraryBig, Menu, Radio, Search, Settings2, ShieldCheck, Sparkles, BrainCircuit, UsersRound, Workflow, SlidersHorizontal, X, Save, Send, Tags, AlertCircle } from "lucide-react";
 import { AdminOverview, ClassesPage, ClassManagement, SettingsPage, StudentsPage, TestsPage } from "./phase1/Modules";
 import { CsvImporter, PdfUploader } from "./phase1/ContentImports";
 import { Performance360 } from "./phase1/Performance360";
@@ -9,20 +9,20 @@ import { Phase2Cms, Phase2Library } from "./phase2/Phase2";
 
 type NavItem = { to: string; label: string; icon: typeof Activity };
 const student: NavItem[] = [
- {to:"/",label:"Overview",icon:LayoutDashboard},
- {to:"/classes",label:"Live & recorded classes",icon:PlayCircle},
- {to:"/tests",label:"Mock test centre",icon:Target},
+ {to:"/",label:"Overview",icon:LayoutGrid},
+ {to:"/classes",label:"Live & recorded classes",icon:Radio},
+ {to:"/tests",label:"Mock test centre",icon:BrainCircuit},
  {to:"/library",label:"Digital library",icon:LibraryBig},
- {to:"/library/workspace",label:"Resource explorer",icon:BookOpen},
+ {to:"/library/workspace",label:"Resource explorer",icon:BookOpenText},
  {to:"/performance",label:"360° performance",icon:Activity}
 ];
 const admin: NavItem[] = [
  {to:"/admin",label:"Admin overview",icon:ShieldCheck},
- {to:"/admin/content",label:"Content studio",icon:FileText},
- {to:"/admin/cms",label:"CMS & publishing",icon:Layers3},
- {to:"/admin/students",label:"Students & batches",icon:Users},
- {to:"/admin/classes",label:"Class management",icon:CalendarDays},
- {to:"/admin/settings",label:"Platform settings",icon:Settings2}
+ {to:"/admin/content",label:"Content studio",icon:FilePenLine},
+ {to:"/admin/cms",label:"CMS & publishing",icon:Workflow},
+ {to:"/admin/students",label:"Students & batches",icon:UsersRound},
+ {to:"/admin/classes",label:"Class management",icon:CalendarClock},
+ {to:"/admin/settings",label:"Platform settings",icon:SlidersHorizontal}
 ];
 const pages: Record<string,{title:string;subtitle:string}> = {
  "/":{title:"Your preparation, in focus.",subtitle:"A clearer path from daily effort to exam readiness."},
