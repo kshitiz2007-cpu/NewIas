@@ -55,20 +55,27 @@ function Home() {
  </div>;
 }
 type LibraryItem = {
- id: number; title: string; summary: string; exam: string; paper: string;
+ id: string; title: string; summary: string; exam: string; paper: string;
  subject: string; topic: string; subtopic: string; type: string; language: string;
- updated: string; tags: string[];
+ updated: string; tags: string[]; body: unknown; externalUrl: string | null; storagePath: string | null;
 };
-const libraryItems: LibraryItem[] = [
- {id:1,title:"भारतीय संविधान का विकास",summary:"Regulating Act से Indian Independence Act तक संवैधानिक विकास की क्रमबद्ध व्याख्या।",exam:"UPSC CSE",paper:"GS Paper II",subject:"भारतीय राजव्यवस्था",topic:"संवैधानिक विकास",subtopic:"कंपनी शासन",type:"Notes",language:"Hindi",updated:"28 Oct 2026",tags:["Static","Prelims","Timeline"]},
- {id:2,title:"मौलिक अधिकार: अनुच्छेद 12–35",summary:"अनुच्छेदवार सार, महत्वपूर्ण निर्णय और Prelims के लिए तथ्य।",exam:"UPSC CSE",paper:"GS Paper II",subject:"भारतीय राजव्यवस्था",topic:"मौलिक अधिकार",subtopic:"संवैधानिक प्रावधान",type:"Notes",language:"Hindi",updated:"27 Oct 2026",tags:["Static","Prelims","Mains"]},
- {id:3,title:"DPSP और मौलिक कर्तव्य",summary:"भाग IV और IVA की तुलनात्मक समझ तथा प्रमुख संवैधानिक संशोधन।",exam:"UPSC CSE",paper:"GS Paper II",subject:"भारतीय राजव्यवस्था",topic:"राज्य के नीति-निदेशक तत्व",subtopic:"तुलनात्मक अध्ययन",type:"PDF",language:"Hindi",updated:"25 Oct 2026",tags:["Static","Revision"]},
- {id:4,title:"आज का संपादकीय विश्लेषण",summary:"मुख्य तर्क, पृष्ठभूमि, GS linkage और Mains answer enrichment points।",exam:"UPSC CSE",paper:"GS Paper II",subject:"Current Affairs",topic:"शासन एवं नीति",subtopic:"समसामयिक विश्लेषण",type:"Editorial",language:"Hindi",updated:"28 Oct 2026",tags:["Daily","Mains"]},
- {id:5,title:"मौद्रिक नीति और RBI",summary:"Repo rate, liquidity tools और inflation targeting की अवधारणाएँ।",exam:"UPSC CSE",paper:"GS Paper III",subject:"भारतीय अर्थव्यवस्था",topic:"मौद्रिक नीति",subtopic:"RBI के उपकरण",type:"Notes",language:"Hindi",updated:"24 Oct 2026",tags:["Static","Prelims"]},
- {id:6,title:"जलवायु परिवर्तन: मूल अवधारणाएँ",summary:"Mitigation, adaptation, carbon markets और भारत की प्रतिबद्धताएँ।",exam:"UPSC CSE",paper:"GS Paper III",subject:"पर्यावरण एवं पारिस्थितिकी",topic:"जलवायु परिवर्तन",subtopic:"वैश्विक समझौते",type:"Video",language:"English",updated:"22 Oct 2026",tags:["Static","Concept"]},
- {id:7,title:"मध्य प्रदेश की नदियाँ",summary:"उद्गम, प्रवाह, सहायक नदियाँ और परीक्षा उपयोगी मानचित्र-आधारित तथ्य।",exam:"MPPSC",paper:"State Specific",subject:"मध्य प्रदेश विशेष",topic:"भौतिक भूगोल",subtopic:"नदी तंत्र",type:"Notes",language:"Hindi",updated:"26 Oct 2026",tags:["State PCS","Map"]},
- {id:8,title:"दैनिक करेंट अफेयर्स क्विज़",summary:"आज की प्रमुख घटनाओं पर आधारित अभ्यास प्रश्न।",exam:"UPSC CSE",paper:"Prelims",subject:"Current Affairs",topic:"दैनिक समाचार",subtopic:"राष्ट्रीय एवं अंतरराष्ट्रीय",type:"Quiz",language:"Hindi",updated:"28 Oct 2026",tags:["Daily","Practice"]}
-];
+function mapContentType(value: string) {
+ const labels: Record<string,string> = { note:"Notes", pdf:"PDF", editorial:"Editorial", current_affairs:"Current Affairs", video:"Video", article:"Article", quiz:"Quiz", other:"Other" };
+ return labels[value] ?? value;
+}
+function formatContentDate(value: string | null | undefined) {
+ if (!value) return "Recently updated";
+ const date = new Date(value);
+ return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
+}
+function contentBodyText(value: unknown): string {
+ if (typeof value === "string") return value;
+ if (value && typeof value === "object") {
+  const item=value as Record<string,unknown>;
+  return [item.content,item.text,item.markdown,item.body].filter((part):part is string=>typeof part==="string").join("\\n\\n");
+ }
+ return "";
+}
 const librarySubjectOptions = [
  "भारतीय राजव्यवस्था","इतिहास एवं संस्कृति","भूगोल","भारतीय अर्थव्यवस्था","पर्यावरण एवं पारिस्थितिकी","सामान्य विज्ञान एवं प्रौद्योगिकी","Current Affairs","कृषि","सामाजिक न्याय एवं समाज","अंतरराष्ट्रीय संबंध","आंतरिक सुरक्षा","आपदा प्रबंधन","नीतिशास्त्र एवं सत्यनिष्ठा","निबंध","CSAT / तार्किक क्षमता","सामान्य हिंदी","मध्य प्रदेश का इतिहास, संस्कृति एवं साहित्य","मध्य प्रदेश का भूगोल","मध्य प्रदेश की राजनीति एवं प्रशासन","मध्य प्रदेश की अर्थव्यवस्था","मध्य प्रदेश विशेष अध्ययन","राष्ट्रीय एवं अंतरराष्ट्रीय समसामयिकी","सूचना एवं संचार प्रौद्योगिकी","लोक प्रशासन","सामान्य हिंदी एवं निबंध",
  "Agriculture","Animal Husbandry & Veterinary Science","Anthropology","Botany","Chemistry","Civil Engineering","Commerce & Accountancy","Criminology & Forensic Science","Economics","Electrical Engineering","English Literature","Geography","Geology","Hindi Literature","History","Law","Management","Mathematics","Mechanical Engineering","Medical Science","Military Science","Philosophy","Physics","Political Science & International Relations","Psychology","Public Administration","Sanskrit Literature","Sociology","Statistics","Urdu Literature","Zoology","Bengali Literature","Bodo Literature","Dogri Literature","Gujarati Literature","Kannada Literature","Kashmiri Literature","Konkani Literature","Maithili Literature","Malayalam Literature","Manipuri Literature","Marathi Literature","Nepali Literature","Odia Literature","Punjabi Literature","Santhali Literature","Sindhi Literature","Tamil Literature","Telugu Literature"
@@ -79,23 +86,68 @@ function LibraryPage() {
  const [subject,setSubject]=useState("All subjects");
  const [kind,setKind]=useState("All formats");
  const [language,setLanguage]=useState("All languages");
- const [expanded,setExpanded]=useState<string>("भारतीय राजव्यवस्था");
- const subjects=Array.from(new Set([...librarySubjectOptions,...libraryItems.map(item=>item.subject)])).sort((a,b)=>a.localeCompare(b));
- const filtered=libraryItems.filter(item=>{
+ const [expanded,setExpanded]=useState("");
+ const [items,setItems]=useState<LibraryItem[]>([]);
+ const [loading,setLoading]=useState(true);
+ const [loadError,setLoadError]=useState("");
+ const [selected,setSelected]=useState<LibraryItem|null>(null);
+
+ useEffect(()=>{
+  let active=true;
+  async function loadPublishedResources(){
+   setLoading(true);setLoadError("");
+   if(!supabase){if(active){setLoadError("Supabase is not configured. Check the Render environment variables and redeploy.");setItems([]);setLoading(false);}return;}
+   try{
+    const {data:institute,error:instituteError}=await supabase.from("institutes").select("id").eq("slug","newias").maybeSingle();
+    if(instituteError)throw instituteError;
+    if(!institute)throw new Error("The NewIAS institute record was not found in this Supabase project.");
+    const {data,error}=await supabase.from("content_items")
+     .select("id,title,summary,content_type,language,subject,topic,paper_code,content_date,updated_at,tags,metadata,body,external_url,storage_path")
+     .eq("institute_id",institute.id).eq("status","published")
+     .order("published_at",{ascending:false,nullsFirst:false}).order("updated_at",{ascending:false});
+    if(error)throw error;
+    const mapped:LibraryItem[]=(data??[]).map((row:any)=>{
+     const metadata=(row.metadata&&typeof row.metadata==="object"?row.metadata:{}) as Record<string,unknown>;
+     const exam=typeof metadata.exam==="string"?metadata.exam:(typeof metadata.exam_name==="string"?metadata.exam_name:"NewIAS");
+     const subtopic=typeof metadata.subtopic==="string"?metadata.subtopic:"";
+     const tags=Array.isArray(row.tags)?row.tags.filter((tag:unknown):tag is string=>typeof tag==="string"):[];
+     return {id:String(row.id),title:row.title??"Untitled resource",summary:row.summary??"",exam,paper:row.paper_code??"",subject:row.subject??"Uncategorised",topic:row.topic??"General",subtopic,type:mapContentType(row.content_type??"other"),language:(row.language??"en").toLowerCase().startsWith("hi")?"Hindi":(row.language??"en").toLowerCase().startsWith("en")?"English":row.language??"Other",updated:formatContentDate(row.content_date??row.updated_at),tags,body:row.body,externalUrl:row.external_url??null,storagePath:row.storage_path??null};
+    });
+    if(active){setItems(mapped);setExpanded(mapped[0]?.subject??"");}
+   }catch(error){
+    console.error("NewIAS library load failed:",error);
+    if(active){setItems([]);setLoadError(error instanceof Error?error.message:"Could not load published resources.");}
+   }finally{if(active)setLoading(false);}
+  }
+  void loadPublishedResources();
+  return()=>{active=false;};
+ },[]);
+
+ const subjects=Array.from(new Set([...items.map(item=>item.subject)])).sort((a,b)=>a.localeCompare(b));
+ const formats=Array.from(new Set(items.map(item=>item.type))).sort();
+ const exams=Array.from(new Set(items.map(item=>item.exam))).sort();
+ const filtered=items.filter(item=>{
   const haystack=[item.title,item.summary,item.exam,item.paper,item.subject,item.topic,item.subtopic,...item.tags].join(" ").toLowerCase();
   return haystack.includes(query.toLowerCase())&&(exam==="All exams"||item.exam===exam)&&(subject==="All subjects"||item.subject===subject)&&(kind==="All formats"||item.type===kind)&&(language==="All languages"||item.language===language);
  });
  const grouped=filtered.reduce<Record<string,LibraryItem[]>>((groups,item)=>{(groups[item.subject]??=[]).push(item);return groups;},{});
+ const resetFilters=()=>{setQuery("");setExam("All exams");setSubject("All subjects");setKind("All formats");setLanguage("All languages");};
+ const bodyText=selected?contentBodyText(selected.body):"";
  return <div className="library-stack">
-  <section className="library-banner"><div><span className="eyebrow"><BookOpen size={13}/> STRUCTURED KNOWLEDGE SPACE</span><h2>Less searching.<br/><em>More learning.</em></h2><p>Every resource is organised by exam, paper, subject, topic, format and language — so a growing library stays navigable.</p></div><div className="library-count"><strong>{filtered.length.toString().padStart(2,"0")}</strong><span>matching resources</span><small>Sample preview catalogue</small></div></section>
-  <section className="library-controls"><label className="library-search"><Search size={16}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search title, topic, keyword or tag…"/>{query&&<button onClick={()=>setQuery("")} aria-label="Clear search"><X size={14}/></button>}</label>
-   <div className="filter-row"><label><span>Exam</span><select value={exam} onChange={e=>setExam(e.target.value)}><option>All exams</option><option>UPSC CSE</option><option>MPPSC</option></select></label><label><span>Subject</span><select value={subject} onChange={e=>setSubject(e.target.value)}><option>All subjects</option>{subjects.map(s=><option key={s}>{s}</option>)}</select></label><label><span>Resource type</span><select value={kind} onChange={e=>setKind(e.target.value)}><option>All formats</option>{Array.from(new Set(libraryItems.map(i=>i.type))).map(k=><option key={k}>{k}</option>)}</select></label><label><span>Language</span><select value={language} onChange={e=>setLanguage(e.target.value)}><option>All languages</option><option>Hindi</option><option>English</option></select></label><button className="clear-filters" onClick={()=>{setQuery("");setExam("All exams");setSubject("All subjects");setKind("All formats");setLanguage("All languages")}}>Reset filters</button></div>
+  <section className="library-banner"><div><span className="eyebrow"><BookOpen size={13}/> STRUCTURED KNOWLEDGE SPACE</span><h2>Less searching.<br/><em>More learning.</em></h2><p>Published resources from your NewIAS library, organised by subject, topic, format and language.</p></div><div className="library-count"><strong>{loading?"…":filtered.length.toString().padStart(2,"0")}</strong><span>matching resources</span><small>Live Supabase catalogue</small></div></section>
+  <section className="library-controls"><label className="library-search"><Search size={16}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search title, topic or keyword…"/>{query&&<button onClick={()=>setQuery("")} aria-label="Clear search"><X size={14}/></button>}</label>
+   <div className="filter-row"><label><span>Exam</span><select value={exam} onChange={e=>setExam(e.target.value)}><option>All exams</option>{exams.map(value=><option key={value}>{value}</option>)}</select></label><label><span>Subject</span><select value={subject} onChange={e=>setSubject(e.target.value)}><option>All subjects</option>{subjects.map(value=><option key={value}>{value}</option>)}</select></label><label><span>Resource type</span><select value={kind} onChange={e=>setKind(e.target.value)}><option>All formats</option>{formats.map(value=><option key={value}>{value}</option>)}</select></label><label><span>Language</span><select value={language} onChange={e=>setLanguage(e.target.value)}><option>All languages</option><option>Hindi</option><option>English</option></select></label><button className="clear-filters" onClick={resetFilters}>Reset filters</button></div>
   </section>
-  <div className="library-results-head"><div><h3>Browse by subject</h3><p>Subjects contain topic clusters; each resource keeps its own metadata.</p></div><span>{Object.keys(grouped).length} SUBJECT GROUPS</span></div>
-  {Object.entries(grouped).length===0?<section className="empty-library"><FileText size={26}/><strong>No resources match these filters</strong><p>Try another subject, format or search term.</p><button onClick={()=>{setQuery("");setExam("All exams");setSubject("All subjects");setKind("All formats");setLanguage("All languages")}}>Clear all filters</button></section>:<div className="subject-groups">{Object.entries(grouped).map(([subjectName,items])=><section className="subject-group" key={subjectName}><button className="subject-group-head" onClick={()=>setExpanded(expanded===subjectName?"":subjectName)} aria-expanded={expanded===subjectName}><span className="subject-symbol"><Layers3 size={17}/></span><span className="subject-group-name"><strong>{subjectName}</strong><small>{Array.from(new Set(items.map(i=>i.topic))).length} topics · {items.length} resources</small></span><span className="group-exams">{Array.from(new Set(items.map(i=>i.exam))).join(" · ")}</span><ChevronDown className={expanded===subjectName?"group-chevron open": "group-chevron"} size={17}/></button>{expanded===subjectName&&<div className="topic-list">{Object.entries(items.reduce<Record<string,LibraryItem[]>>((g,item)=>{(g[item.topic]??=[]).push(item);return g;},{})).map(([topic,topicItems])=><div className="topic-cluster" key={topic}><div className="topic-heading"><span/><strong>{topic}</strong><small>{topicItems.length} {topicItems.length===1?"resource":"resources"}</small></div><div className="resource-list">{topicItems.map(item=><article className="resource-card" key={item.id}><span className={"resource-type type-"+item.type.toLowerCase().replaceAll(" ","-")}>{item.type}</span><div className="resource-main"><h4>{item.title}</h4><p>{item.summary}</p><div className="resource-meta"><span>{item.exam}</span><i>·</i><span>{item.paper}</span><i>·</i><span>{item.language}</span><i>·</i><span>{item.updated}</span></div><div className="resource-tags">{item.tags.map(tag=><span key={tag}>{tag}</span>)}<span className="subtopic-tag">{item.subtopic}</span></div></div><button className="resource-open" title="Open resource" onClick={()=>window.alert("Resource viewer will open when the content backend is connected.")}><ArrowRight size={16}/></button></article>)}</div></div>)}</div>}</section>)}</div>}
-  <p className="library-footnote"><Sparkles size={13}/> This is sample catalogue data. When the database is connected, these same filters and groups will use saved metadata rather than demo records.</p>
+  <div className="library-results-head"><div><h3>Browse by subject</h3><p>Only published resources available to your signed-in account are shown.</p></div><span>{loading?"LOADING":Object.keys(grouped).length+" SUBJECT GROUPS"}</span></div>
+  {loading?<section className="empty-library"><Sparkles size={24}/><strong>Loading your library…</strong><p>Fetching published resources from NewIAS.</p></section>
+  :loadError?<section className="empty-library"><AlertCircle size={26}/><strong>We couldn’t load the library</strong><p>{loadError}</p><button onClick={()=>window.location.reload()}>Retry</button></section>
+  :filtered.length===0?<section className="empty-library"><FileText size={26}/><strong>{items.length===0?"Your library is ready for content":"No resources match these filters"}</strong><p>{items.length===0?"No published resources were found. Publish a resource from Admin → Content Studio, then it will appear here.":"Try another subject, format or search term."}</p>{items.length>0&&<button onClick={resetFilters}>Clear all filters</button>}</section>
+  :<div className="subject-groups">{Object.entries(grouped).map(([subjectName,subjectItems])=><section className="subject-group" key={subjectName}><button className="subject-group-head" onClick={()=>setExpanded(expanded===subjectName?"":subjectName)} aria-expanded={expanded===subjectName}><span className="subject-symbol"><Layers3 size={17}/></span><span className="subject-group-name"><strong>{subjectName}</strong><small>{Array.from(new Set(subjectItems.map(item=>item.topic))).length} topics · {subjectItems.length} resources</small></span><span className="group-exams">{Array.from(new Set(subjectItems.map(item=>item.exam))).join(" · ")}</span><ChevronDown className={expanded===subjectName?"group-chevron open":"group-chevron"} size={17}/></button>{expanded===subjectName&&<div className="topic-list">{Object.entries(subjectItems.reduce<Record<string,LibraryItem[]>>((groups,item)=>{(groups[item.topic]??=[]).push(item);return groups;},{})).map(([topic,topicItems])=><div className="topic-cluster" key={topic}><div className="topic-heading"><span/><strong>{topic}</strong><small>{topicItems.length} {topicItems.length===1?"resource":"resources"}</small></div><div className="resource-list">{topicItems.map(item=><article className="resource-card" key={item.id}><span className={"resource-type type-"+item.type.toLowerCase().replaceAll(" ","-")}>{item.type}</span><div className="resource-main"><h4>{item.title}</h4><p>{item.summary}</p><div className="resource-meta"><span>{item.exam}</span>{item.paper&&<><i>·</i><span>{item.paper}</span></>}<i>·</i><span>{item.language}</span><i>·</i><span>{item.updated}</span></div><div className="resource-tags">{item.tags.map(tag=><span key={tag}>{tag}</span>)}{item.subtopic&&<span className="subtopic-tag">{item.subtopic}</span>}</div></div><button className="resource-open" title="Open resource" onClick={()=>setSelected(item)}><ArrowRight size={16}/></button></article>)}</div></div>)}</div>}</section>)}</div>}
+  <p className="library-footnote"><Sparkles size={13}/> Catalogue data is loaded live from the NewIAS Supabase project; only published resources are listed.</p>
+  {selected&&<div role="presentation" onClick={()=>setSelected(null)} style={{position:"fixed",inset:0,zIndex:1000,background:"#160f1bcc",display:"grid",placeItems:"center",padding:16}}><section role="dialog" aria-modal="true" aria-labelledby="resource-dialog-title" onClick={event=>event.stopPropagation()} style={{width:"min(100%,760px)",maxHeight:"85dvh",overflow:"auto",background:"var(--surface, #fffdfb)",color:"var(--text, #382d31)",border:"1px solid var(--border, #eadce2)",borderRadius:20,padding:24,boxShadow:"0 24px 80px #0003"}}><div style={{display:"flex",justifyContent:"space-between",gap:12,alignItems:"start"}}><div><span className="eyebrow">{selected.type} · {selected.language}</span><h2 id="resource-dialog-title" style={{marginTop:10}}>{selected.title}</h2><p>{selected.summary}</p></div><button className="clear-filters" onClick={()=>setSelected(null)} aria-label="Close resource">Close</button></div><div style={{marginTop:18,lineHeight:1.8,whiteSpace:"pre-wrap",overflowWrap:"anywhere"}}>{bodyText||"This resource does not contain readable text yet."}</div>{selected.externalUrl&&<p style={{marginTop:20}}><a href={selected.externalUrl} target="_blank" rel="noreferrer">Open resource link ↗</a></p>}{selected.storagePath&&<p className="library-footnote">File storage path: {selected.storagePath}. Signed download/view support will be added with the storage integration.</p>}</section></div>}
  </div>;
 }
+
 type TaxonomyNode = { name: string; topics: { name: string; subtopics: string[] }[] };
 const taxonomy: Record<string, { papers: Record<string, TaxonomyNode[]> }> = {
  "UPSC CSE": { papers: {
