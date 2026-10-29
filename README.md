@@ -52,3 +52,27 @@ Copy `.env.example` to `.env.local` and add credentials for a dedicated new Supa
 - Zoom and Meet should use supported join or SDK workflows; do not assume all meetings can be embedded.
 
 See `docs/architecture.md` and `docs/roadmap.md`.
+
+## Authentication and role separation
+
+The web app now uses Supabase Auth for email/password sign-in and sign-up. The authenticated email `kshitiz2007@gmail.com` is treated as the admin account; every other authenticated email receives the student workspace. Admin navigation is hidden from students and admin routes redirect non-admin users to the student home.
+
+### Required Render environment variables
+
+In **Render → NewIAS Web Service → Environment**, set:
+
+- `VITE_SUPABASE_URL` — the Supabase project URL
+- `VITE_SUPABASE_ANON_KEY` — the Supabase publishable/anon key (never a service-role key)
+
+Then trigger a new deploy. Vite environment variables are embedded at build time, so a redeploy is required after changing them. In Supabase Auth settings, configure the site URL and allowed redirect URLs for the deployed NewIAS domain. Enable email confirmation if desired.
+
+### Create the admin account
+
+1. Configure the two environment variables and redeploy.
+2. Use **Create an account** on the auth screen with `kshitiz2007@gmail.com`.
+3. Confirm the email if confirmation is enabled, then sign in.
+4. Other email addresses can create accounts and will only receive student navigation/routes.
+
+### Security boundary
+
+The email-based UI role gate separates the current frontend experience; it is **not a substitute for backend authorization**. Before storing or exposing real admin-managed data, enforce permissions with Supabase Row Level Security policies and/or server-side authorization. Never use a client-side email check alone to protect database rows, storage objects, or privileged operations. The frontend must only use the Supabase anon/publishable key.
