@@ -69,9 +69,9 @@ Then trigger a new deploy. Vite environment variables are embedded at build time
 ### Create the admin account
 
 1. Configure the two environment variables and redeploy.
-2. Use **Create an account** on the auth screen with `kshitiz2007@gmail.com`.
-3. Confirm the email if confirmation is enabled, then sign in.
-4. Other email addresses can create accounts and will only receive student navigation/routes.
+2. In **Supabase Dashboard → Authentication → Users**, invite or create `kshitiz2007@gmail.com` as the administrator account. Do not create the reserved admin account through public sign-up.
+3. Set a strong password / complete the invite and sign in through the NewIAS auth screen.
+4. Other email addresses can sign up through the app and will only receive student navigation/routes.
 
 ### Security boundary
 
