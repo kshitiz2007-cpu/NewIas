@@ -1080,3 +1080,143 @@
  .p360-score-number>strong,.p360-score-ring,.p360-week-bar-track i { animation:none; }
  .app-shell .mobile-bottom-link,.app-shell .mobile-bottom-link:before { transition:none; }
 }
+
+
+/* NewIAS unified Rose Luxury system — shared across every route and module */
+:root {
+  --newias-rose: #d58bab;
+  --newias-rose-strong: #b9688b;
+  --newias-lilac: #a994d8;
+  --newias-gold: #e6c58b;
+  --newias-rose-soft: rgba(213,139,171,.13);
+  --newias-card-radius: 22px;
+}
+.app-shell {
+  background:
+    radial-gradient(ellipse at 78% -12%, rgba(195,125,166,.13), transparent 38%),
+    radial-gradient(ellipse at 4% 40%, rgba(150,126,195,.055), transparent 35%),
+    linear-gradient(180deg,#100d17 0%,#11101a 54%,#0e111a 100%);
+}
+.app-shell .sidebar {
+  background:linear-gradient(180deg,#17121d 0%,#110f18 100%);
+  border-right-color:rgba(220,177,202,.13);
+}
+.app-shell .brand-mark {
+  background:linear-gradient(145deg,#f3d8e4 0%,#d18cad 48%,#9d648e 100%);
+  color:#2b1728;border-color:rgba(255,235,245,.55);
+  box-shadow:0 7px 22px rgba(190,113,157,.22),inset 0 1px rgba(255,255,255,.5);
+}
+.app-shell .brand-name>span,.app-shell .page-intro small,.app-shell .eyebrow { color:#e6a9c6; }
+.app-shell .workspace,.app-shell .search,.app-shell .bell,.app-shell .study-chip,.app-shell .tag {
+  background:linear-gradient(145deg,rgba(39,29,43,.96),rgba(24,22,33,.96));
+  border-color:rgba(220,177,202,.16);
+}
+.app-shell .nav-link { border-radius:13px; min-height:43px; transition:background .2s ease,color .2s ease,transform .2s ease; }
+.app-shell .nav-link:hover { background:rgba(213,139,171,.09); color:#fff0f7; }
+.app-shell .nav-link.active {
+  background:linear-gradient(105deg,rgba(213,139,171,.2),rgba(169,148,216,.09));
+  color:#ffe5f0; box-shadow:inset 2px 0 #dc91b4,0 5px 18px rgba(83,40,68,.12);
+}
+.app-shell .nav-link.active svg { color:#edb4ce; filter:drop-shadow(0 0 5px rgba(220,145,180,.28)); }
+.app-shell .topbar {
+  background:rgba(17,14,24,.88);border-bottom-color:rgba(220,177,202,.12);
+  backdrop-filter:blur(22px) saturate(150%);-webkit-backdrop-filter:blur(22px) saturate(150%);
+}
+.app-shell .crumb b,.app-shell .page-intro h1 { color:#fff1f7; }
+.app-shell .page-intro h1 { letter-spacing:-1.05px; }
+.app-shell .page-intro p,.app-shell .section-title p { color:#a99aa9; }
+.app-shell .primary,.app-shell .auth-submit,.app-shell .studio-publish,.app-shell .p1-primary {
+  border:1px solid rgba(255,225,239,.25);
+  background:linear-gradient(120deg,#e6b0c9 0%,#c77ea5 53%,#a98dd1 100%);
+  color:#281526;box-shadow:0 7px 20px rgba(184,105,145,.18),inset 0 1px rgba(255,255,255,.45);
+  border-radius:12px;font-weight:800;transition:transform .2s ease,box-shadow .2s ease,filter .2s ease;
+}
+.app-shell .primary:hover,.app-shell .auth-submit:hover,.app-shell .studio-publish:hover,.app-shell .p1-primary:hover {
+  transform:translateY(-1px);filter:brightness(1.04);box-shadow:0 10px 26px rgba(184,105,145,.25);
+}
+.app-shell .hero,.app-shell .library-banner,.app-shell .studio-banner,.app-shell .assessment-banner,.app-shell .p1-banner,.app-shell .p2-hero,.app-shell .p360-hero {
+  border:1px solid rgba(229,174,202,.22);
+  border-radius:26px;
+  background:radial-gradient(ellipse at 88% 12%,rgba(220,145,180,.23),transparent 37%),radial-gradient(ellipse at 12% 100%,rgba(169,148,216,.12),transparent 42%),linear-gradient(125deg,#251a2b 0%,#302033 52%,#1b1b2b 100%);
+  box-shadow:0 14px 38px rgba(0,0,0,.13),inset 0 1px rgba(255,255,255,.035);
+}
+.app-shell .hero h2 em,.app-shell .library-banner h2 em,.app-shell .studio-banner h2 em,.app-shell .assessment-banner h2 em { color:#f0b8d1; }
+.app-shell .hero p,.app-shell .library-banner p,.app-shell .studio-banner p,.app-shell .assessment-banner p { color:#c5b2c4; }
+.app-shell .hero-art .orbit { border-color:rgba(233,169,201,.28); }
+.app-shell .core { background:linear-gradient(145deg,#f3d7e5,#d28db0 54%,#a67cc2);color:#321a2d;box-shadow:0 0 42px rgba(213,139,171,.25); }
+.app-shell .metric,.app-shell .panel,.app-shell .placeholder,.app-shell .p1-panel,.app-shell .p2-panel,.app-shell .p360-panel,.app-shell .assessment-question-panel,.app-shell .assessment-navigator,.app-shell .studio-form-panel,.app-shell .studio-saved,.app-shell .library-controls {
+  border:1px solid rgba(221,178,202,.15);border-radius:var(--newias-card-radius);
+  background:linear-gradient(145deg,rgba(34,27,39,.97),rgba(23,22,33,.97));
+  box-shadow:0 9px 26px rgba(0,0,0,.11),inset 0 1px rgba(255,255,255,.025);
+}
+.app-shell .metric,.app-shell .panel,.app-shell .resource-card,.app-shell .subject-group,.app-shell .p1-card,.app-shell .p2-resource,.app-shell .p360-attempt-row,.app-shell .assessment-question-panel,.app-shell .assessment-navigator,.app-shell .studio-form-panel,.app-shell .studio-saved {
+  transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease;
+}
+@media (hover:hover) {
+  .app-shell .metric:hover,.app-shell .panel:hover,.app-shell .resource-card:hover,.app-shell .subject-group:hover,.app-shell .p1-card:hover,.app-shell .p2-resource:hover {
+    border-color:rgba(221,151,185,.34);box-shadow:0 13px 32px rgba(0,0,0,.16),0 0 0 1px rgba(213,139,171,.035);
+  }
+}
+.app-shell .metric-icon,.app-shell .p1-card-icon,.app-shell .subject-symbol,.app-shell .saved-file,.app-shell .placeholder-icon,.app-shell .p2-resource-icon {
+  border:1px solid rgba(230,173,204,.17);
+  background:linear-gradient(145deg,rgba(191,119,158,.23),rgba(146,120,185,.14));
+  color:#efbad3;border-radius:13px;
+}
+.app-shell .metric:nth-child(n) .metric-icon { background:linear-gradient(145deg,rgba(191,119,158,.23),rgba(146,120,185,.14));color:#efbad3; }
+.app-shell .metric p,.app-shell .metric small,.app-shell .task small,.app-shell .class-description { color:#aa9cad; }
+.app-shell .metric strong,.app-shell .task strong,.app-shell .class-heading,.app-shell .section-title h3 { color:#f4eaf2; }
+.app-shell .task,.app-shell .account { border-color:rgba(221,178,202,.12); }
+.app-shell .task>b,.app-shell .footer-link,.app-shell .subtle-link,.app-shell .help a { color:#e6a9c6; }
+.app-shell .task-status,.app-shell .resource-tags span,.app-shell .metadata-preview b,.app-shell .draft-pill,.app-shell .required-note {
+  border-color:rgba(221,178,202,.18);background:rgba(213,139,171,.07);color:#e4c4d5;
+}
+.app-shell .class-art,.app-shell .insight,.app-shell .help {
+  border:1px solid rgba(221,178,202,.15);
+  background:linear-gradient(135deg,rgba(192,119,159,.12),rgba(145,122,185,.09));
+  color:#edb5d0;border-radius:16px;
+}
+.app-shell .insight b { color:#f5d7e5; }
+.app-shell .live-tag,.app-shell .ready { color:#b8e4d1; }
+.app-shell .library-search,.app-shell .filter-row select,.app-shell .studio-field input,.app-shell .studio-field select,.app-shell .studio-field textarea,.app-shell .p1-filter select,.app-shell .p1-form-grid input,.app-shell .p1-form-grid select,.app-shell .p1-form-grid textarea,.app-shell .p2-filters select,.app-shell input,.app-shell select,.app-shell textarea {
+  background:rgba(17,15,25,.88);border-color:rgba(221,178,202,.19);color:#f4eaf2;border-radius:11px;
+}
+.app-shell input::placeholder,.app-shell textarea::placeholder { color:#817586; }
+.app-shell input:focus,.app-shell select:focus,.app-shell textarea:focus,.app-shell .library-search:focus-within {
+  border-color:#d58bab;box-shadow:0 0 0 3px rgba(213,139,171,.11);outline:none;
+}
+.app-shell .resource-card,.app-shell .subject-group,.app-shell .p1-card,.app-shell .p2-resource,.app-shell .p360-attempt-row {
+  background:linear-gradient(145deg,rgba(37,29,42,.96),rgba(25,23,35,.96));border-color:rgba(221,178,202,.14);border-radius:17px;
+}
+.app-shell .resource-type,.app-shell .status-chip,.app-shell .p360-ident-tags span,.app-shell .study-chip {
+  background:rgba(213,139,171,.1);border-color:rgba(221,178,202,.19);color:#edc1d6;border-radius:999px;
+}
+.app-shell .resource-open,.app-shell .clear-filters,.app-shell .studio-secondary,.app-shell .p1-secondary,.app-shell .p2-actions button {
+  border-radius:11px;transition:background .18s ease,border-color .18s ease,transform .18s ease;
+}
+.app-shell .resource-open:hover,.app-shell .clear-filters:hover,.app-shell .studio-secondary:hover,.app-shell .p1-secondary:hover { background:rgba(213,139,171,.12);border-color:rgba(221,178,202,.32); }
+.app-shell .assessment-option { border-radius:13px; }
+.app-shell .assessment-option.chosen { border-color:#d58bab;background:rgba(213,139,171,.12); }
+.app-shell .assessment-option.chosen>span,.app-shell .assessment-question-grid button.current { border-color:#d58bab;background:rgba(213,139,171,.16);color:#ffeaf4; }
+.app-shell .assessment-result,.app-shell .assessment-result-score,.app-shell .assessment-result-grid>div { background:linear-gradient(145deg,#281e2e,#1a1926);border-color:rgba(221,178,202,.18);border-radius:18px; }
+.app-shell .assessment-result h2,.app-shell .assessment-result-grid b { color:#f5e8f1; }
+.app-shell .assessment-result-score strong,.app-shell .library-count strong,.app-shell .studio-banner-stat strong { color:#efb7d0; }
+.app-shell .p360-featured-score { border-color:rgba(245,197,221,.18); }
+.app-shell .content>footer { color:#938599; }
+.app-shell .content>footer i { background:#d58bab;box-shadow:0 0 9px rgba(213,139,171,.4); }
+.app-shell .mobile-bottom-nav {
+  border:1px solid rgba(221,178,202,.2);background:rgba(28,21,34,.82);
+  box-shadow:0 12px 34px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.07);
+  backdrop-filter:blur(24px) saturate(155%);-webkit-backdrop-filter:blur(24px) saturate(155%);
+}
+.app-shell .mobile-bottom-link { border-radius:15px;color:#a99aaa; }
+.app-shell .mobile-bottom-link.active { color:#f4c6dc; }
+.app-shell .mobile-bottom-link.active:before { background:linear-gradient(135deg,rgba(213,139,171,.3),rgba(169,148,216,.24)); }
+.app-shell button:focus-visible,.app-shell a:focus-visible { outline:2px solid #e6a9c6;outline-offset:3px; }
+@media(max-width:760px) {
+  .app-shell .hero,.app-shell .library-banner,.app-shell .studio-banner,.app-shell .assessment-banner,.app-shell .p1-banner,.app-shell .p2-hero,.app-shell .p360-hero { border-radius:22px; }
+  .app-shell .metric,.app-shell .panel,.app-shell .placeholder,.app-shell .p1-panel,.app-shell .p2-panel,.app-shell .p360-panel,.app-shell .assessment-question-panel,.app-shell .assessment-navigator,.app-shell .studio-form-panel,.app-shell .studio-saved,.app-shell .library-controls { border-radius:19px; }
+  .app-shell .content { padding-bottom:calc(92px + env(safe-area-inset-bottom,0px)); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .app-shell .metric,.app-shell .panel,.app-shell .resource-card,.app-shell .subject-group,.app-shell .p1-card,.app-shell .p2-resource,.app-shell .primary,.app-shell .auth-submit,.app-shell .studio-publish { transition:none; }
+}
