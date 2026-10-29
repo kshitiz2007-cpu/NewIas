@@ -1590,3 +1590,123 @@
 .app-shell[data-theme="dark"] .p360-private-state>p {color:#d0bdcf;}
 .app-shell[data-theme="dark"] .p360-private-note {background:#2a1b2b;border-color:#493449;color:#f0d9e8;}
 @media(max-width:620px) {.app-shell .p360-private-state{margin:20px 0;padding:24px 20px;border-radius:22px;}}
+
+
+/* Unified hero/Bento system — final UX audit pass across Home, Library, Practice,
+   Classes, Performance, CMS and admin modules. Explicit contrast beats legacy rules. */
+.app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) {
+  position:relative;isolation:isolate;overflow:hidden;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(118px,.34fr);
+  align-items:center;gap:clamp(18px,3vw,34px);
+  padding:clamp(22px,3.2vw,38px);
+  border-radius:26px;
+  border:1px solid #e7c9d9;
+  background:
+    radial-gradient(ellipse at 90% 8%,rgba(233,166,202,.27),transparent 35%),
+    radial-gradient(ellipse at 4% 100%,rgba(177,151,220,.15),transparent 42%),
+    linear-gradient(120deg,#fff8fb 0%,#f9eaf2 55%,#f5eaf8 100%);
+  box-shadow:0 12px 30px rgba(104,55,83,.08),inset 0 1px rgba(255,255,255,.9);
+  color:#352334;
+}
+.app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero):after {
+  content:"";position:absolute;z-index:-1;right:-76px;bottom:-132px;width:270px;height:270px;
+  border:1px solid rgba(185,105,145,.16);border-radius:50%;pointer-events:none;
+  box-shadow:0 0 0 24px rgba(185,105,145,.025),0 0 0 50px rgba(169,148,216,.025);
+}
+.app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) :is(h2,h3) {
+  color:#352033 !important;font-weight:850;letter-spacing:-.055em;
+  line-height:1.02;text-wrap:balance;
+}
+.app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) h2 em {
+  color:#a43e6b !important;font-style:normal;
+}
+.app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) p {
+  max-width:62ch;color:#604b5c !important;line-height:1.7;font-size:clamp(13px,1.1vw,15px);
+}
+.app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) .eyebrow {
+  display:inline-flex;align-items:center;gap:8px;color:#91415f !important;
+  font-size:10px;font-weight:850;letter-spacing:.15em;line-height:1.5;
+}
+.app-shell :is(.library-count,.studio-banner-stat,.p1-banner-number,.p2-hero-count,.p360-hero-badge) {
+  min-width:0;align-self:center;justify-self:stretch;padding:18px 14px;
+  border-radius:20px;border:1px solid rgba(176,104,145,.2);
+  background:rgba(255,255,255,.67);box-shadow:0 8px 24px rgba(109,57,87,.055),inset 0 1px #fff;
+  text-align:center;backdrop-filter:blur(12px);
+}
+.app-shell :is(.library-count,.studio-banner-stat,.p1-banner-number,.p2-hero-count,.p360-hero-badge) strong {
+  display:block;color:#87385d !important;font-size:clamp(28px,3.5vw,42px);
+  font-weight:900;letter-spacing:-.065em;line-height:1.05;font-variant-numeric:tabular-nums;
+}
+.app-shell :is(.library-count,.studio-banner-stat,.p1-banner-number,.p2-hero-count,.p360-hero-badge) :is(span,small) {
+  display:block;color:#655062 !important;font-size:11px;line-height:1.5;margin-top:6px;
+}
+.app-shell .hero .hero-actions {display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:20px;}
+.app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) :is(.primary,.subtle-link,.resource-open,.p360-primary-action) {
+  min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  border-radius:13px;padding:0 17px;font-weight:800;font-size:13px;
+}
+.app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) .primary {
+  background:linear-gradient(110deg,#c95f8c,#a94b7d 58%,#8057ad) !important;
+  color:#fff !important;border:1px solid rgba(255,255,255,.42);
+  box-shadow:0 7px 18px rgba(151,61,107,.2);
+}
+.app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) .subtle-link {
+  color:#703550 !important;border:1px solid #dfb9ce;background:rgba(255,255,255,.46);
+}
+.app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) :is(.primary,.subtle-link,.p360-primary-action):focus-visible {
+  outline:3px solid #8c3e68 !important;outline-offset:3px;
+}
+.app-shell .hero-art {min-width:0;}
+.app-shell .hero .core {width:clamp(76px,8vw,104px);height:clamp(76px,8vw,104px);border-radius:30px;}
+.app-shell :is(.p1-banner,.p2-hero,.p360-hero) {grid-template-columns:minmax(0,1fr) minmax(120px,.3fr);}
+.app-shell[data-theme="dark"] :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) {
+  border-color:rgba(240,185,215,.24);
+  background:
+    radial-gradient(ellipse at 88% 7%,rgba(211,123,174,.24),transparent 36%),
+    radial-gradient(ellipse at 8% 100%,rgba(149,121,200,.16),transparent 42%),
+    linear-gradient(125deg,#26172d 0%,#3c233d 55%,#211b30 100%);
+  box-shadow:0 16px 36px rgba(0,0,0,.16),inset 0 1px rgba(255,255,255,.045);
+  color:#fff3fa;
+}
+.app-shell[data-theme="dark"] :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) :is(h2,h3) {color:#fff3fa !important;}
+.app-shell[data-theme="dark"] :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) h2 em {color:#ffb7d7 !important;}
+.app-shell[data-theme="dark"] :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) p {color:#e4d2e2 !important;}
+.app-shell[data-theme="dark"] :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) .eyebrow {color:#f2b3d0 !important;}
+.app-shell[data-theme="dark"] :is(.library-count,.studio-banner-stat,.p1-banner-number,.p2-hero-count,.p360-hero-badge) {
+  background:rgba(20,14,27,.56);border-color:rgba(240,185,215,.2);box-shadow:inset 0 1px rgba(255,255,255,.04);
+}
+.app-shell[data-theme="dark"] :is(.library-count,.studio-banner-stat,.p1-banner-number,.p2-hero-count,.p360-hero-badge) strong {color:#ffc4df !important;}
+.app-shell[data-theme="dark"] :is(.library-count,.studio-banner-stat,.p1-banner-number,.p2-hero-count,.p360-hero-badge) :is(span,small) {color:#e1ccdf !important;}
+.app-shell[data-theme="dark"] :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) .subtle-link {
+  color:#ffe5f1 !important;border-color:rgba(241,185,215,.35);background:rgba(255,255,255,.055);
+}
+.app-shell[data-theme="dark"] :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) .primary {
+  background:linear-gradient(110deg,#e9a6c6,#d27eaa 58%,#b29add) !important;color:#2b1729 !important;
+}
+.app-shell :is(.metric,.panel,.resource-card,.subject-group,.p1-card,.p2-resource,.p2-library-card,.p360-panel,.p360-attempt-row) :is(button,a,select,input,textarea) {min-height:44px;}
+.app-shell :is(button,a,select,input[type="checkbox"],input[type="radio"]) {touch-action:manipulation;}
+.app-shell :is(button,a,input,select,textarea,[tabindex]):focus-visible {outline:3px solid #a84e78;outline-offset:3px;}
+.app-shell[data-theme="dark"] :is(button,a,input,select,textarea,[tabindex]):focus-visible {outline-color:#f0b2d0;}
+.app-shell :is(p,small,label,.muted,.description) {overflow-wrap:anywhere;}
+@media(max-width:760px) {
+ .app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) {
+   grid-template-columns:minmax(0,1fr);gap:17px;padding:22px 19px;border-radius:22px;
+ }
+ .app-shell :is(.library-count,.studio-banner-stat,.p1-banner-number,.p2-hero-count,.p360-hero-badge) {
+   display:flex;align-items:center;justify-content:flex-start;gap:12px;text-align:left;
+   width:100%;box-sizing:border-box;padding:12px 14px;border-radius:15px;
+ }
+ .app-shell :is(.library-count,.studio-banner-stat,.p1-banner-number,.p2-hero-count,.p360-hero-badge) strong {font-size:27px;}
+ .app-shell :is(.library-count,.studio-banner-stat,.p1-banner-number,.p2-hero-count,.p360-hero-badge) :is(span,small) {margin:0;}
+ .app-shell .hero-art {display:none;}
+ .app-shell .hero .hero-actions {gap:9px;margin-top:17px;}
+ .app-shell .hero .hero-actions :is(.primary,.subtle-link) {flex:1 1 auto;}
+ .app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) :is(h2,h3) {font-size:clamp(30px,8vw,42px);line-height:1.02;}
+}
+@media(max-width:390px) {
+ .app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero) {padding:19px 16px;}
+ .app-shell .hero .hero-actions :is(.primary,.subtle-link) {width:100%;}
+}
+@media(prefers-reduced-motion:reduce) {
+ .app-shell :is(.hero,.library-banner,.studio-banner,.assessment-banner,.p1-banner,.p2-hero,.p360-hero,.metric,.panel,.resource-card,.p1-card,.p2-resource) {scroll-behavior:auto;transition:none!important;animation:none!important;}
+}
