@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from "react";
 import { supabase } from "../supabase";
-import { AlertCircle, CheckCircle2, Download, FileSpreadsheet, FileUp, FileText, Eye, Trash2, X } from "lucide-react";
+import { AlertCircle, CheckCircle2, Download, FileSpreadsheet, FileUp, FileText, X } from "lucide-react";
 
 type CsvQuestion = {
   question: string;
