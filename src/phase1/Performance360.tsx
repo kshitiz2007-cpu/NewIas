@@ -7,6 +7,7 @@ type Attempt = {
   exam: string; date: string; status: "Submitted" | "In progress"; score: number; maxScore: number;
   correct: number; incorrect: number; skipped: number; durationMin: number; totalMin: number;
   topics: { name: string; correct: number; total: number }[];
+  answers?: ReviewQuestion[];
 };
 const attempts: Attempt[] = [
  {attemptId:"ATT-2026-10482",testId:"TST-UPSC-GS1-001",testTitle:"UPSC CSE — General Studies Full Length 01",studentId:"STU-1001",studentName:"Aarav Sharma",email:"aarav@example.test",exam:"UPSC CSE",date:"2026-10-27",status:"Submitted",score:132,maxScore:200,correct:72,incorrect:24,skipped:4,durationMin:104,totalMin:120,topics:[{name:"Indian Polity",correct:18,total:20},{name:"History & Culture",correct:12,total:20},{name:"Geography",correct:14,total:20},{name:"Economy",correct:10,total:20},{name:"Environment",correct:18,total:20}]},
@@ -40,21 +41,32 @@ const reviewQuestions:ReviewQuestion[] = [
 const pct=(a:number,b:number)=>b?Math.round(a/b*100):0;
 const fmtDate=(d:string)=>new Date(d+"T12:00:00").toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
 export function Performance360() {
+ const [browserAttempts]=useState<Attempt[]>(()=>{
+  try{
+   if(typeof window==="undefined") return [];
+   const raw=window.localStorage.getItem("newias-assessment-attempts-v1");
+   if(!raw) return [];
+   const saved=JSON.parse(raw) as Array<Record<string,unknown>>;
+   return saved.map(item=>({...item,answers:Array.isArray(item.answers)?(item.answers as Array<Record<string,unknown>>).map(q=>({id:String(q.questionId||q.id),testId:String(item.testId),topic:String(q.topic||"General"),prompt:String(q.prompt||""),selectedAnswer:q.selectedAnswer==null?null:String(q.selectedAnswer),correctAnswer:String(q.correctAnswer||""),status:q.status as "correct"|"incorrect"|"skipped",explanation:String(q.explanation||""),revisionTip:String(q.revisionTip||"Review this topic.")})):[]} as Attempt);
+  }catch{return [];}
+ });
+ const allAttempts=[...attempts,...browserAttempts];
  const [searchParams]=useSearchParams();
  const requestedStudent=searchParams.get("student");
- const initialStudent=attempts.some(a=>a.studentId===requestedStudent)?requestedStudent!:"STU-1001";
+ const initialStudent=allAttempts.some(a=>a.studentId===requestedStudent)?requestedStudent!:"STU-1001";
  const [studentId,setStudentId]=useState(initialStudent);
  const [testId,setTestId]=useState("All tests");
  const [attemptId,setAttemptId]=useState("Latest attempt");
  const [period,setPeriod]=useState("All time");
  const [questionFilter,setQuestionFilter]=useState("All");
  const [questionSearch,setQuestionSearch]=useState("");
- const students=useMemo(()=>Array.from(new Set(attempts.map(a=>a.studentId))).map(id=>{const a=attempts.find(x=>x.studentId===id)!;return {id:a.studentId,name:a.studentName,email:a.email};}),[]);
- const studentAttempts=useMemo(()=>attempts.filter(a=>a.studentId===studentId).sort((a,b)=>b.date.localeCompare(a.date)),[studentId]);
+ const students=useMemo(()=>Array.from(new Set(allAttempts.map(a=>a.studentId))).map(id=>{const a=attempts.find(x=>x.studentId===id)!;return {id:a.studentId,name:a.studentName,email:a.email};}),[]);
+ const studentAttempts=useMemo(()=>allAttempts.filter(a=>a.studentId===studentId).sort((a,b)=>b.date.localeCompare(a.date)),[studentId]);
  const testIds=useMemo(()=>Array.from(new Set(studentAttempts.map(a=>a.testId))).map(id=>{const a=studentAttempts.find(x=>x.testId===id)!;return {id:a.testId,title:a.testTitle};}),[studentAttempts]);
  const testAttempts=useMemo(()=>studentAttempts.filter(a=>testId==="All tests"||a.testId===testId),[studentAttempts,testId]);
  const filteredAttempts=useMemo(()=>testAttempts.filter(a=>period==="All time"||a.date>= (period==="Last 7 days"?"2026-10-21":"2026-09-28")), [testAttempts,period]);
  const selected=filteredAttempts.find(a=>a.attemptId===attemptId)||filteredAttempts[0];
+ const selectedQuestions=selected?.answers?.length?selected.answers:reviewQuestions.filter(q=>q.testId===selected?.testId);
  const overall=filteredAttempts.length?Math.round(filteredAttempts.reduce((s,a)=>s+pct(a.score,a.maxScore),0)/filteredAttempts.length):0;
  const accuracy=filteredAttempts.length?Math.round(filteredAttempts.reduce((s,a)=>s+pct(a.correct,a.correct+a.incorrect),0)/filteredAttempts.length):0;
  const topics=selected?.topics.map(t=>({...t,rate:pct(t.correct,t.total)}))||[];
@@ -79,8 +91,8 @@ export function Performance360() {
   {selected&&<section className="p360-panel p360-question-review" id="p360-question-review">
    <div className="p360-panel-heading"><div><h3><FileSearch size={16}/> Question-wise review</h3><p>Inspect sample responses, the correct answer, explanations and revision actions for this test.</p></div><span className="p360-count">Sample questions</span></div>
    <div className="p360-question-tools"><label className="p360-question-search"><FileSearch size={14}/><input value={questionSearch} onChange={e=>setQuestionSearch(e.target.value)} placeholder="Search question, topic or answer…"/></label><label className="p360-question-filter"><span>Response</span><select value={questionFilter} onChange={e=>setQuestionFilter(e.target.value)}><option value="All">All responses</option><option value="incorrect">Incorrect</option><option value="skipped">Skipped</option><option value="correct">Correct</option></select></label></div>
-   <div className="p360-question-summary"><span><b>{reviewQuestions.filter(q=>q.testId===selected.testId&&q.status==="correct").length}</b> correct examples</span><span><b>{reviewQuestions.filter(q=>q.testId===selected.testId&&q.status==="incorrect").length}</b> incorrect examples</span><span><b>{reviewQuestions.filter(q=>q.testId===selected.testId&&q.status==="skipped").length}</b> skipped examples</span></div>
-   {reviewQuestions.filter(q=>q.testId===selected.testId&&(questionFilter==="All"||q.status===questionFilter)&&[q.id,q.topic,q.prompt,q.selectedAnswer||"skipped",q.correctAnswer,q.explanation].join(" ").toLowerCase().includes(questionSearch.toLowerCase())).length===0?<div className="p360-empty"><FileSearch size={20}/><strong>No questions match this filter</strong><span>Try another response status or search term.</span></div>:reviewQuestions.filter(q=>q.testId===selected.testId&&(questionFilter==="All"||q.status===questionFilter)&&[q.id,q.topic,q.prompt,q.selectedAnswer||"skipped",q.correctAnswer,q.explanation].join(" ").toLowerCase().includes(questionSearch.toLowerCase())).map(q=><article className="p360-question-card" key={q.id}><div className="p360-question-top"><span className="p360-question-id">{q.id}</span><span className={"p360-question-status "+q.status}>{q.status==="correct"?"Correct":q.status==="incorrect"?"Incorrect":"Skipped"}</span></div><p className="p360-question-topic">{q.topic}</p><h4>{q.prompt}</h4><div className="p360-answer-grid"><div><small>Your response</small><strong className={q.status==="incorrect"?"answer-wrong":q.status==="skipped"?"answer-skipped":"answer-right"}>{q.selectedAnswer||"Not answered"}</strong></div><div><small>Correct answer</small><strong className="answer-right">{q.correctAnswer}</strong></div></div><div className="p360-explanation"><b>Why?</b><p>{q.explanation}</p></div><div className="p360-revision-tip"><BookOpen size={14}/><span><b>Revision action</b><small>{q.revisionTip}</small></span></div></article>)}
+   <div className="p360-question-summary"><span><b>{selectedQuestions.filter(q=>q.status==="correct").length}</b> correct examples</span><span><b>{selectedQuestions.filter(q=>q.status==="incorrect").length}</b> incorrect examples</span><span><b>{selectedQuestions.filter(q=>q.status==="skipped").length}</b> skipped examples</span></div>
+   {selectedQuestions.filter(q=>(questionFilter==="All"||q.status===questionFilter)&&[q.id,q.topic,q.prompt,q.selectedAnswer||"skipped",q.correctAnswer,q.explanation].join(" ").toLowerCase().includes(questionSearch.toLowerCase())).length===0?<div className="p360-empty"><FileSearch size={20}/><strong>No questions match this filter</strong><span>Try another response status or search term.</span></div>:reviewQuestions.filter(q=>q.testId===selected.testId&&(questionFilter==="All"||q.status===questionFilter)&&[q.id,q.topic,q.prompt,q.selectedAnswer||"skipped",q.correctAnswer,q.explanation].join(" ").toLowerCase().includes(questionSearch.toLowerCase())).map(q=><article className="p360-question-card" key={q.id}><div className="p360-question-top"><span className="p360-question-id">{q.id}</span><span className={"p360-question-status "+q.status}>{q.status==="correct"?"Correct":q.status==="incorrect"?"Incorrect":"Skipped"}</span></div><p className="p360-question-topic">{q.topic}</p><h4>{q.prompt}</h4><div className="p360-answer-grid"><div><small>Your response</small><strong className={q.status==="incorrect"?"answer-wrong":q.status==="skipped"?"answer-skipped":"answer-right"}>{q.selectedAnswer||"Not answered"}</strong></div><div><small>Correct answer</small><strong className="answer-right">{q.correctAnswer}</strong></div></div><div className="p360-explanation"><b>Why?</b><p>{q.explanation}</p></div><div className="p360-revision-tip"><BookOpen size={14}/><span><b>Revision action</b><small>{q.revisionTip}</small></span></div></article>)}
   </section>}
   <p className="p360-disclaimer">Demonstration data only. These IDs and scores are illustrative, not actual student records. Production 360° analysis requires authenticated student IDs, unique test IDs and attempt IDs, question-level answer records, timestamps, scoring rules and server-side access controls. Email is shown as a profile attribute only; analytics are keyed by studentId + testId + attemptId.</p>
  </div>;
