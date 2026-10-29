@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Activity, AlertTriangle, ArrowDownRight, ArrowUpRight, BookOpen, CheckCircle2, ChevronDown, Clock3, FileSearch, Gauge, TrendingUp } from "lucide-react";
+import { Activity, AlertTriangle, ArrowDownRight, ArrowUpRight, BookOpen, CheckCircle2, ChevronDown, Clock3, FileSearch, Gauge, TrendingUp, ShieldCheck } from "lucide-react";
 
 type Attempt = {
   attemptId: string; testId: string; testTitle: string; studentId: string; studentName: string; email: string;
@@ -40,7 +40,7 @@ const reviewQuestions:ReviewQuestion[] = [
 ];
 const pct=(a:number,b:number)=>b?Math.round(a/b*100):0;
 const fmtDate=(d:string)=>new Date(d+"T12:00:00").toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"});
-export function Performance360() {
+export function Performance360({isAdmin=false}:{isAdmin?:boolean}) {
  const [browserAttempts]=useState<Attempt[]>(()=>{
   try{
    if(typeof window==="undefined") return [];
@@ -74,6 +74,7 @@ export function Performance360() {
  const best=topics.filter(t=>t.rate>=70).sort((a,b)=>b.rate-a.rate);
  function selectStudent(id:string){setStudentId(id);setTestId("All tests");setAttemptId("Latest attempt");}
  function selectTest(id:string){setTestId(id);setAttemptId("Latest attempt");}
+ if(!isAdmin) return <section className="p360-private-state" role="status" aria-live="polite"><div className="p360-private-icon"><ShieldCheck size={25}/></div><span className="p360-private-kicker">PRIVATE PERFORMANCE</span><h2>Your progress is personal.</h2><p>This page is reserved for your own results. Personal analytics will appear here once your signed-in account is connected to securely stored assessment attempts.</p><div className="p360-private-note"><ShieldCheck size={17}/><span>Other students’ names, attempts and scores are not shown in the student view.</span></div></section>;
  return <div className="p360-shell">
   <section className="p360-hero"><div><span className="eyebrow"><Activity size={13}/> INDIVIDUAL TEST PERFORMANCE</span><h2>Every attempt has a story.<br/><em>Analyse it by its ID.</em></h2><p>Inspect each student's unique test and attempt IDs, scoring, time usage, topic accuracy and improvement between attempts.</p><a className="p360-primary-action" href="#p360-attempt-register" onClick={()=>document.querySelector(".p360-collapsible-analytics")?.setAttribute("open","")}><FileSearch size={15}/> Open detailed analysis <ArrowDownRight size={15}/></a></div><div className="p360-hero-badge"><strong>360°</strong><span>attempt analytics</span><small>Sample data preview</small></div></section>
   <section className="p360-filter-panel"><label>Student<select value={studentId} onChange={e=>selectStudent(e.target.value)}>{students.map(s=><option key={s.id} value={s.id}>{s.name} · {s.id}</option>)}</select></label><label>Test ID<select value={testId} onChange={e=>selectTest(e.target.value)}><option>All tests</option>{testIds.map(t=><option key={t.id} value={t.id}>{t.id} · {t.title}</option>)}</select></label><label>Time period<select value={period} onChange={e=>setPeriod(e.target.value)}><option>All time</option><option>Last 7 days</option><option>Last 30 days</option></select></label></section>
