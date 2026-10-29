@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { NavLink, Route, Routes, useLocation } from "react-router-dom";
-import { Activity, ArrowRight, Bell, BookOpen, CalendarClock, CalendarDays, CheckCircle2, ChevronDown, Clock3, FilePenLine, FileText, GraduationCap, LayoutGrid, Layers3, Menu, Radio, Search, Settings2, ShieldCheck, Sparkles, BrainCircuit, Target, UsersRound, Workflow, SlidersHorizontal, X, Save, Send, Tags, AlertCircle, Sun, Moon } from "lucide-react";
+import { NavLink, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Activity, ArrowRight, Bell, BookOpen, CalendarClock, CalendarDays, CheckCircle2, ChevronDown, Clock3, FilePenLine, FileText, GraduationCap, LayoutGrid, Layers3, Menu, Radio, Search, Settings2, ShieldCheck, Sparkles, BrainCircuit, Target, UsersRound, Workflow, SlidersHorizontal, X, Save, Send, Tags, AlertCircle, Sun, Moon, LogOut } from "lucide-react";
 import { AdminOverview, ClassesPage, ClassManagement, SettingsPage, StudentsPage, TestsPage } from "./phase1/Modules";
 import { CsvImporter, PdfUploader } from "./phase1/ContentImports";
 import { Performance360 } from "./phase1/Performance360";
 import { AssessmentEngine } from "./phase1/AssessmentEngine";
 import { Phase2Cms, Phase2Library } from "./phase2/Phase2";
+import type { User } from "@supabase/supabase-js";
+import { supabase, isAdminEmail, ADMIN_EMAIL } from "./supabase";
 
 type NavItem = { to: string; label: string; icon: typeof Activity };
 const student: NavItem[] = [
@@ -197,13 +199,66 @@ function ContentStudio() {
 function Placeholder({title,subtitle,admin:staff}:{title:string;subtitle:string;admin:boolean}) {
  return <section className="placeholder"><div className="placeholder-icon">{staff?<Settings2 size={26}/>:<GraduationCap size={26}/>}</div><span className="eyebrow">{staff?"ADMINISTRATION WORKSPACE":"STUDENT WORKSPACE"}</span><h2>{title}</h2><p>{subtitle}</p><div className="divider"/><span className="ready"><CheckCircle2 size={15}/> Route is ready for implementation</span><p className="note">This page is currently a UI foundation. Live data, authentication, permissions and module-specific workflows must be connected before production use.</p></section>;
 }
+
+function AuthScreen() {
+ const [mode,setMode]=useState<"signin"|"signup">("signin");
+ const [email,setEmail]=useState("");
+ const [password,setPassword]=useState("");
+ const [busy,setBusy]=useState(false);
+ const [notice,setNotice]=useState("");
+ const [error,setError]=useState("");
+ const configured=Boolean(supabase);
+ const submit=async(e:React.FormEvent<HTMLFormElement>)=>{
+  e.preventDefault();setError("");setNotice("");
+  if(!supabase){setError("Authentication is not configured yet. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in the Render environment settings.");return;}
+  setBusy(true);
+  try{
+   if(mode==="signin"){
+    const {error}=await supabase.auth.signInWithPassword({email:email.trim(),password});
+    if(error)throw error;
+   }else{
+    const {data,error}=await supabase.auth.signUp({email:email.trim(),password,options:{emailRedirectTo:window.location.origin}});
+    if(error)throw error;
+    if(!data.session)setNotice("Account created. Check your email to confirm the account, then sign in.");
+   }
+  }catch(err){setError(err instanceof Error?err.message:"Authentication failed. Please try again.");}
+  finally{setBusy(false);}
+ };
+ return <main className="auth-screen" data-theme="light">
+  <section className="auth-card">
+   <div className="auth-brand"><span className="auth-brand-mark"><GraduationCap size={26}/></span><div><b>New<span>IAS</span></b><small>CIVIL SERVICES LEARNING</small></div></div>
+   <span className="auth-kicker">YOUR LEARNING SPACE</span>
+   <h1>{mode==="signin"?"Welcome back.":"Start your preparation."}</h1>
+   <p className="auth-intro">{mode==="signin"?"Sign in to continue your learning journey.":"Create your learner account to access study resources and practice."}</p>
+   {!configured&&<div className="auth-alert" role="alert"><AlertCircle size={17}/><span>Authentication setup required. Add <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code> to Render before accounts can sign in.</span></div>}
+   <form onSubmit={submit} className="auth-form">
+    <label>Email address<input type="email" autoComplete="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com"/></label>
+    <label>Password<input type="password" autoComplete={mode==="signin"?"current-password":"new-password"} minLength={6} required value={password} onChange={e=>setPassword(e.target.value)} placeholder="At least 6 characters"/></label>
+    {error&&<p className="auth-error" role="alert">{error}</p>}
+    {notice&&<p className="auth-notice" role="status">{notice}</p>}
+    <button className="auth-submit" type="submit" disabled={busy||!configured}>{busy?"Please wait…":mode==="signin"?"Sign in securely":"Create account"}<ArrowRight size={17}/></button>
+   </form>
+   <p className="auth-switch">{mode==="signin"?"New to NewIAS?":"Already have an account?"} <button onClick={()=>{setMode(mode==="signin"?"signup":"signin");setError("");setNotice("");}}>{mode==="signin"?"Create an account":"Sign in"}</button></p>
+   <div className="auth-security"><ShieldCheck size={16}/><span>Admin access is reserved for <b>{ADMIN_EMAIL}</b>. All other accounts enter the student workspace.</span></div>
+  </section>
+ </main>;
+}
+
 export default function App() {
  const [open,setOpen]=useState(false);
+ const [authUser,setAuthUser]=useState<User|null>(null);
+ const [authLoading,setAuthLoading]=useState(true);
+ const navigate=useNavigate();
+ const isAdmin=isAdminEmail(authUser?.email);
+ useEffect(()=>{if(!supabase){setAuthLoading(false);return;}let active=true;supabase.auth.getSession().then(({data})=>{if(active){setAuthUser(data.session?.user??null);setAuthLoading(false);}});const {data:{subscription}}=supabase.auth.onAuthStateChange((_event,session)=>{setAuthUser(session?.user??null);setAuthLoading(false);});return()=>{active=false;subscription.unsubscribe();};},[]);
+ useEffect(()=>{if(authUser&&!isAdmin&&loc.pathname.startsWith("/admin"))navigate("/",{replace:true});},[authUser,isAdmin,loc.pathname,navigate]);
  const [theme,setTheme]=useState<"light"|"dark">(()=>{try{return localStorage.getItem("newias-theme")==="dark"?"dark":"light";}catch{return "light";}});
  useEffect(()=>{try{localStorage.setItem("newias-theme",theme);}catch{}},[theme]);
  const loc=useLocation();const page=loc.pathname.startsWith("/tests/attempt/")?{title:"Assessment",subtitle:"Answer questions, review responses and submit your attempt."}:pages[loc.pathname]??{title:"Page not found",subtitle:"This route is not available."};
  useEffect(()=>{const root=document.querySelector(".app-shell");if(!root)return;const targets=root.querySelectorAll("[data-reveal],.p1-banner,.p1-card,.p1-panel,.p360-hero,.p360-panel,.p360-attempt-list > *, .p2-hero,.p2-panel,.p2-resource,.p2-library-card,.import-panel,.pdf-drop,.assessment-result,.assessment-question-panel,.assessment-navigator,.studio-panel,.studio-saved,.panel,.metric");if(window.matchMedia("(prefers-reduced-motion: reduce)").matches){targets.forEach(el=>el.classList.add("is-visible"));return;}root.classList.add("reveal-ready");const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("is-visible");observer.unobserve(entry.target);}});},{threshold:0.12,rootMargin:"0px 0px -35px 0px"});targets.forEach(el=>observer.observe(el));return()=>observer.disconnect();},[loc.pathname]);
  const renderNav=(items:NavItem[],label:string)=><div className="nav-group" key={label}><span className="nav-heading">{label}</span>{items.map(({to,label:item,icon:Icon})=><NavLink end={to==="/"} key={to} to={to} onClick={()=>setOpen(false)} className={({isActive})=>"nav-link"+(isActive?" active":"")}><Icon size={17}/><span>{item}</span></NavLink>)}</div>;
- return <div className="app-shell" data-theme={theme}>{open&&<button className="backdrop" aria-label="Close navigation" onClick={()=>setOpen(false)}/>}<aside className={"sidebar"+(open?" sidebar-open":"")}><div className="brand"><div className="brand-mark"><GraduationCap size={22}/></div><div className="brand-name">New<span>IAS</span><small>CIVIL SERVICES LEARNING</small></div><button className="close-menu" aria-label="Close menu" onClick={()=>setOpen(false)}><X size={17}/></button></div><div className="workspace"><span>N</span><div><b>NewIAS Academy</b><small>Learning workspace</small></div><ChevronDown size={14}/></div><nav>{renderNav(student,"LEARNING")}{renderNav(admin,"ADMINISTRATION")}</nav><div className="sidebar-bottom"><div className="help"><b>Learning support</b><p>Keep classes, resources and practice in one place.</p><NavLink to="/library" onClick={()=>setOpen(false)}>Explore resources <ArrowRight size={12}/></NavLink></div><div className="account"><span>N</span><div><b>Preview session</b><small>Authentication not connected</small></div></div></div></aside>
- <main className="main"><header className="topbar"><div className="crumb"><button className="mobile-menu" aria-label="Open navigation" onClick={()=>setOpen(true)}><Menu size={19}/></button><span>Workspace</span><i>/</i><b>{page.title}</b></div><div className="top-actions"><button className="search" onClick={()=>window.alert("Search will be enabled when the content index is connected.")}><Search size={15}/><span>Search resources...</span><kbd>⌘ K</kbd></button><button className="theme-toggle" onClick={()=>setTheme(current=>current==="light"?"dark":"light")} aria-label={theme==="light"?"Switch to Midnight Rose dark mode":"Switch to Rose Gold light mode"} title={theme==="light"?"Midnight Rose dark mode":"Rose Gold light mode"}>{theme==="light"?<Moon size={16}/>:<Sun size={16}/>}<span>{theme==="light"?"Dark":"Light"}</span></button><button className="bell" aria-label="Notifications"><Bell size={17}/></button><span className="avatar">N</span></div></header><div className="content"><div className="page-intro"><div><small>NEWIAS / {loc.pathname==="/"?"OVERVIEW":loc.pathname.slice(1).replaceAll("/"," / ").toUpperCase()}</small><h1>{page.title}</h1><p>{page.subtitle}</p></div><span className="study-chip"><CalendarDays size={14}/> Learning workspace</span></div><Routes><Route path="/" element={<Home/>}/><Route path="/classes" element={<ClassesPage/>}/><Route path="/tests" element={<TestsPage/>}/><Route path="/tests/attempt/:testId" element={<AssessmentEngine/>}/><Route path="/performance" element={<Performance360/>}/><Route path="/admin" element={<AdminOverview/>}/><Route path="/admin/content" element={<ContentStudio/>}/><Route path="/admin/cms" element={<Phase2Cms/>}/><Route path="/library/workspace" element={<Phase2Library/>}/><Route path="/admin/students" element={<StudentsPage/>}/><Route path="/admin/classes" element={<ClassManagement/>}/><Route path="/admin/settings" element={<SettingsPage/>}/><Route path="/library" element={<LibraryPage/>}/><Route path="*" element={<Placeholder title="Page not found" subtitle="Choose a route from the navigation." admin={false}/>}/></Routes><footer><span>© 2026 NewIAS</span><span><i/> Independent project · preview data only</span></footer></div><nav className="mobile-bottom-nav" aria-label="Primary navigation">{student.map(({to,label,icon:Icon})=><NavLink key={to} to={to} end={to==="/"} className={({isActive})=>"mobile-bottom-link"+(isActive?" active":"")}><Icon size={20} strokeWidth={1.8}/><span>{label}</span></NavLink>)}</nav></main></div>;
+ if(authLoading)return <main className="auth-screen"><section className="auth-card auth-loading"><span className="auth-brand-mark"><GraduationCap size={26}/></span><h1>Preparing your workspace…</h1><p>Checking your secure session.</p></section></main>;
+ if(!authUser)return <AuthScreen/>;
+ return <div className="app-shell" data-theme={theme}>{open&&<button className="backdrop" aria-label="Close navigation" onClick={()=>setOpen(false)}/>}<aside className={"sidebar"+(open?" sidebar-open":"")}><div className="brand"><div className="brand-mark"><GraduationCap size={22}/></div><div className="brand-name">New<span>IAS</span><small>CIVIL SERVICES LEARNING</small></div><button className="close-menu" aria-label="Close menu" onClick={()=>setOpen(false)}><X size={17}/></button></div><div className="workspace"><span>N</span><div><b>NewIAS Academy</b><small>Learning workspace</small></div><ChevronDown size={14}/></div><nav>{renderNav(student,"LEARNING")}{isAdmin&&renderNav(admin,"ADMINISTRATION")}</nav><div className="sidebar-bottom"><div className="help"><b>Learning support</b><p>Keep classes, resources and practice in one place.</p><NavLink to="/library" onClick={()=>setOpen(false)}>Explore resources <ArrowRight size={12}/></NavLink></div><div className="account"><span>{(authUser.email??"U").slice(0,1).toUpperCase()}</span><div><b>{isAdmin?"Administrator":"Student account"}</b><small>{authUser.email}</small></div><button className="signout-button" onClick={async()=>{await supabase?.auth.signOut();navigate("/",{replace:true});}} aria-label="Sign out" title="Sign out"><LogOut size={15}/></button></div></div></aside>
+ <main className="main"><header className="topbar"><div className="crumb"><button className="mobile-menu" aria-label="Open navigation" onClick={()=>setOpen(true)}><Menu size={19}/></button><span>Workspace</span><i>/</i><b>{page.title}</b></div><div className="top-actions"><button className="search" onClick={()=>window.alert("Search will be enabled when the content index is connected.")}><Search size={15}/><span>Search resources...</span><kbd>⌘ K</kbd></button><button className="theme-toggle" onClick={()=>setTheme(current=>current==="light"?"dark":"light")} aria-label={theme==="light"?"Switch to Midnight Rose dark mode":"Switch to Rose Gold light mode"} title={theme==="light"?"Midnight Rose dark mode":"Rose Gold light mode"}>{theme==="light"?<Moon size={16}/>:<Sun size={16}/>}<span>{theme==="light"?"Dark":"Light"}</span></button><button className="bell" aria-label="Notifications"><Bell size={17}/></button><span className="avatar">N</span></div></header><div className="content"><div className="page-intro"><div><small>NEWIAS / {loc.pathname==="/"?"OVERVIEW":loc.pathname.slice(1).replaceAll("/"," / ").toUpperCase()}</small><h1>{page.title}</h1><p>{page.subtitle}</p></div><span className="study-chip"><CalendarDays size={14}/> Learning workspace</span></div><Routes><Route path="/" element={<Home/>}/><Route path="/classes" element={<ClassesPage/>}/><Route path="/tests" element={<TestsPage/>}/><Route path="/tests/attempt/:testId" element={<AssessmentEngine/>}/><Route path="/performance" element={<Performance360/>}/><Route path="/admin" element={isAdmin?<AdminOverview/>:<Navigate to="/" replace/>}/><Route path="/admin/content" element={isAdmin?<ContentStudio/>:<Navigate to="/" replace/>}/><Route path="/admin/cms" element={isAdmin?<Phase2Cms/>:<Navigate to="/" replace/>}/><Route path="/library/workspace" element={<Phase2Library/>}/><Route path="/admin/students" element={isAdmin?<StudentsPage/>:<Navigate to="/" replace/>}/><Route path="/admin/classes" element={isAdmin?<ClassManagement/>:<Navigate to="/" replace/>}/><Route path="/admin/settings" element={isAdmin?<SettingsPage/>:<Navigate to="/" replace/>}/><Route path="/library" element={<LibraryPage/>}/><Route path="*" element={<Placeholder title="Page not found" subtitle="Choose a route from the navigation." admin={false}/>}/></Routes><footer><span>© 2026 NewIAS</span><span><i/> Independent project · preview data only</span></footer></div><nav className="mobile-bottom-nav" aria-label="Primary navigation">{student.map(({to,label,icon:Icon})=><NavLink key={to} to={to} end={to==="/"} className={({isActive})=>"mobile-bottom-link"+(isActive?" active":"")}><Icon size={20} strokeWidth={1.8}/><span>{label}</span></NavLink>)}</nav></main></div>;
 }
