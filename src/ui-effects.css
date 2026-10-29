@@ -703,3 +703,94 @@
   .app-shell .bento-hero h2 { animation: none; }
   .app-shell.reveal-ready [data-reveal] { opacity: 1; transform: none; transition: none; }
 }
+
+
+/* Cross-module visual language: bento grids, kinetic page headers, scroll reveals */
+.app-shell :is(.p1-heading,.p360-hero,.p2-hero,.page-intro) h1,
+.app-shell :is(.p1-heading,.p360-hero,.p2-hero) h2 {
+  letter-spacing: -.045em; text-wrap: balance;
+}
+.app-shell :is(.p1-banner,.p360-hero,.p2-hero) {
+  position: relative; isolation: isolate; overflow: hidden;
+  border-radius: 22px; border: 1px solid #ead0dc;
+  background: linear-gradient(120deg,#fffdfc 0%,#fff6f9 58%,#f3dce6 100%);
+  box-shadow: 0 12px 32px rgba(101,48,71,.055);
+}
+.app-shell :is(.p1-banner,.p360-hero,.p2-hero)::after {
+  content: ""; position: absolute; z-index: -1; width: 240px; height: 240px;
+  right: -72px; top: -105px; border-radius: 50%;
+  background: radial-gradient(circle,rgba(190,105,139,.18),transparent 68%);
+  pointer-events: none;
+}
+.app-shell :is(.p1-banner,.p360-hero,.p2-hero) :is(h2,h3) {
+  font-size: clamp(27px, 3.8vw, 44px); line-height: 1.04;
+  font-weight: 820; letter-spacing: -.055em;
+}
+.app-shell :is(.p1-banner,.p360-hero,.p2-hero) em {
+  font-style: normal; color: #a64f6e;
+}
+.app-shell[data-theme="dark"] :is(.p1-banner,.p360-hero,.p2-hero) {
+  background: linear-gradient(120deg,#211724 0%,#2b1b2b 58%,#48283e 100%);
+  border-color: #624057; box-shadow: 0 12px 32px rgba(0,0,0,.16);
+}
+.app-shell[data-theme="dark"] :is(.p1-banner,.p360-hero,.p2-hero) em { color: #f0a2c5; }
+.app-shell :is(.p1-cards,.p2-library-grid,.p360-metrics,.p2-metrics,.p1-metrics) {
+  gap: 12px;
+}
+.app-shell .p1-cards { grid-template-columns: repeat(2,minmax(0,1fr)); }
+.app-shell :is(.p1-card,.p1-panel,.p360-panel,.p2-panel,.p2-resource,.p2-library-card,.import-panel,.studio-panel,.studio-saved,.assessment-question-panel,.assessment-navigator) {
+  border-radius: 16px; border-color: var(--ui-border,#eadce2);
+  box-shadow: 0 2px 8px rgba(73,37,53,.025);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
+}
+.app-shell :is(.p1-card,.p1-panel,.p360-panel,.p2-panel,.p2-resource,.p2-library-card,.import-panel,.studio-panel,.studio-saved,.assessment-question-panel,.assessment-navigator) :is(h2,h3,h4) {
+  letter-spacing: -.025em; text-wrap: balance;
+}
+@media (hover:hover) {
+ .app-shell :is(.p1-card,.p1-panel,.p360-panel,.p2-panel,.p2-resource,.p2-library-card,.import-panel,.studio-panel,.studio-saved):hover {
+   border-color: #dfbdcb; box-shadow: 0 12px 28px rgba(87,42,61,.075); transform: translateY(-2px);
+ }
+}
+.app-shell[data-theme="dark"] :is(.p1-card,.p1-panel,.p360-panel,.p2-panel,.p2-resource,.p2-library-card,.import-panel,.studio-panel,.studio-saved,.assessment-question-panel,.assessment-navigator) {
+  border-color: #493449; box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+.app-shell[data-theme="dark"] :is(.p1-card,.p1-panel,.p360-panel,.p2-panel,.p2-resource,.p2-library-card,.import-panel,.studio-panel,.studio-saved):hover {
+  border-color: #84516f; box-shadow: 0 12px 28px rgba(0,0,0,.2);
+}
+
+/* The same observer-driven entrance now covers tests, classes, analytics, CMS and imports. */
+.app-shell.reveal-ready :is(.p1-banner,.p1-card,.p1-panel,.p360-hero,.p360-panel,.p360-attempt-list > *, .p2-hero,.p2-panel,.p2-resource,.p2-library-card,.import-panel,.pdf-drop,.assessment-result,.assessment-question-panel,.assessment-navigator,.studio-panel,.studio-saved,.panel,.metric) {
+  opacity: 0; transform: translateY(18px) scale(.992);
+  transition: opacity .55s ease, transform .65s cubic-bezier(.2,.7,.2,1), box-shadow .22s ease, border-color .22s ease;
+}
+.app-shell.reveal-ready :is(.p1-banner,.p1-card,.p1-panel,.p360-hero,.p360-panel,.p360-attempt-list > *, .p2-hero,.p2-panel,.p2-resource,.p2-library-card,.import-panel,.pdf-drop,.assessment-result,.assessment-question-panel,.assessment-navigator,.studio-panel,.studio-saved,.panel,.metric).is-visible {
+  opacity: 1; transform: translateY(0) scale(1);
+}
+.app-shell.reveal-ready .p1-cards > :nth-child(2),
+.app-shell.reveal-ready .p2-library-grid > :nth-child(2),
+.app-shell.reveal-ready .p360-metrics > :nth-child(2) { transition-delay: 65ms; }
+.app-shell.reveal-ready .p1-cards > :nth-child(3),
+.app-shell.reveal-ready .p2-library-grid > :nth-child(3),
+.app-shell.reveal-ready .p360-metrics > :nth-child(3) { transition-delay: 125ms; }
+.app-shell.reveal-ready .p1-cards > :nth-child(4),
+.app-shell.reveal-ready .p2-library-grid > :nth-child(4) { transition-delay: 185ms; }
+
+/* Admin content studio and library get editorial hierarchy without gradient overload. */
+.app-shell :is(.p2-library-card,.p2-resource,.studio-panel,.studio-saved,.import-panel) { background: var(--ui-card,#fff); }
+.app-shell :is(.p1-toolbar,.p2-filters,.p2-tabs,.import-toolbar) { border-radius: 14px; }
+.app-shell :is(.p1-tabs,.p2-tabs) button { border-radius: 10px; transition: background .18s ease,color .18s ease,transform .18s ease; }
+.app-shell :is(.p1-tabs,.p2-tabs) button.active { background: #f7e5eb; color: #934762; }
+.app-shell[data-theme="dark"] :is(.p1-tabs,.p2-tabs) button.active { background: #4a2b42; color: #ffd8e9; }
+.app-shell :is(.p1-search,input,select,textarea) { max-width: 100%; }
+.app-shell :is(.p1-empty,.p2-empty,.p360-empty,.pdf-empty) { border-radius: 16px; }
+@media (max-width: 760px) {
+ .app-shell .p1-cards { grid-template-columns: minmax(0,1fr); }
+ .app-shell :is(.p1-banner,.p360-hero,.p2-hero) { border-radius: 18px; }
+ .app-shell :is(.p1-banner,.p360-hero,.p2-hero) :is(h2,h3) { font-size: clamp(26px,7vw,36px); }
+ .app-shell :is(.p1-toolbar,.p2-filters,.import-toolbar) { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .app-shell.reveal-ready :is(.p1-banner,.p1-card,.p1-panel,.p360-hero,.p360-panel,.p360-attempt-list > *, .p2-hero,.p2-panel,.p2-resource,.p2-library-card,.import-panel,.pdf-drop,.assessment-result,.assessment-question-panel,.assessment-navigator,.studio-panel,.studio-saved,.panel,.metric) {
+  opacity: 1; transform: none; transition: none;
+ }
+}
