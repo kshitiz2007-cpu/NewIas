@@ -794,3 +794,51 @@
   opacity: 1; transform: none; transition: none;
  }
 }
+
+
+/* Final Home dashboard art direction: soft rose bento, editorial hero, plum learning room */
+.app-shell .bento-hero h2 { font-size: clamp(42px, 6.2vw, 76px); line-height: .96; letter-spacing: -.065em; max-width: 10ch; }
+.app-shell .bento-hero h2 em { font-weight: 760; }
+.app-shell .metrics.bento-grid { grid-template-columns: repeat(4,minmax(0,1fr)); grid-auto-flow: dense; gap: 12px; }
+.app-shell .metrics.bento-grid > .metric { min-width: 0; padding: 17px; border: 1px solid #eadce2; background: #fffdfb; color: #382d31; border-radius: 18px; box-shadow: 0 5px 18px rgba(77,43,57,.045), inset 0 1px rgba(255,255,255,.85); }
+.app-shell .metrics.bento-grid > .metric--feature { grid-column: span 2; grid-row: span 1; min-height: 174px; padding: 22px; background: linear-gradient(135deg,#fffdfa 0%,#fff5f8 65%,#f5e2e9 100%); }
+.app-shell .metrics.bento-grid > .metric--feature strong { font-size: clamp(32px,4vw,46px); letter-spacing: -.055em; }
+.app-shell .metrics.bento-grid > .metric--compact { grid-column: span 1; min-height: 174px; background: linear-gradient(150deg,#fff 0%,#fcf5f8 100%); }
+.app-shell .metrics.bento-grid > .metric--compact strong { font-size: clamp(25px,3vw,34px); letter-spacing: -.045em; }
+.app-shell .metrics.bento-grid > .metric--progress { grid-column: span 4; min-height: 105px; display: grid; grid-template-columns: auto minmax(0,1fr) auto; grid-template-rows: auto auto; align-items: center; column-gap: 14px; row-gap: 4px; background: linear-gradient(100deg,#fffdfb,#fff7f9); }
+.app-shell .metrics.bento-grid > .metric--progress .metric-icon { grid-row: 1 / span 2; }
+.app-shell .metrics.bento-grid > .metric--progress p { grid-column: 2; grid-row: 1; margin: 0; }
+.app-shell .metrics.bento-grid > .metric--progress strong { grid-column: 3; grid-row: 1; font-size: 26px; }
+.app-shell .metrics.bento-grid > .metric--progress small { grid-column: 2; grid-row: 2; }
+.app-shell .metric-progress { grid-column: 2 / 4; grid-row: 3; height: 7px; overflow: hidden; border-radius: 999px; background: #f0e5e9; }
+.app-shell .metric-progress__fill { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#c67c98,#a95172); transform-origin: left; }
+.app-shell.reveal-ready .metric.is-visible .metric-progress__fill { animation: progress-fill .95s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes progress-fill { from { width: 0 !important; } }
+.app-shell .metric-milestone { grid-column: 2 / 4; display: flex; justify-content: space-between; gap: 10px; color: #796873; font-size: 11px; }
+.app-shell .metric-milestone b { color: #9b4c67; }
+.app-shell .metric-value-kinetic { animation: number-arrive .65s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes number-arrive { from { opacity: .35; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+.app-shell .metric-icon { color: #a95172; background: #f9eaf0; border-color: #efd5df; }
+.app-shell .metrics.bento-grid > .metric:nth-child(3) .metric-icon { color: #287653; background: #e8f6ee; border-color: #d1eadb; }
+.app-shell .learning-room-card { background: linear-gradient(145deg,#2c1c2d,#3b2338 65%,#512d45) !important; border: 1px solid #644259; color: #fff4f8; box-shadow: 0 15px 35px rgba(48,24,42,.16); }
+.app-shell .learning-room-card :is(h3,h4,strong,.section-title p,.class-description) { color: #fff4f8; }
+.app-shell .learning-room-card .section-title .tag { background: #4c2d44; color: #f7cadb; border: 1px solid #704660; }
+.app-shell .learning-room-card .class-art { background: linear-gradient(135deg,#4a2a43,#281a2c); border-color: #69435e; color: #f5c4d8; }
+.app-shell .learning-room-card .class-art strong,
+.app-shell .learning-room-card .class-art span { color: #e9bfd1; }
+.app-shell .learning-room-card .primary { background: linear-gradient(100deg,#f1b6cd,#d88eac); color: #351e2e; }
+.app-shell[data-theme="dark"] .metrics.bento-grid > .metric { background: #211724; color: #f3eaf0; border-color: #493449; }
+.app-shell[data-theme="dark"] .metrics.bento-grid > .metric--feature { background: linear-gradient(135deg,#2a1d2b,#48273d); }
+.app-shell[data-theme="dark"] .metrics.bento-grid > .metric--compact { background: linear-gradient(150deg,#211724,#302035); }
+.app-shell[data-theme="dark"] .metrics.bento-grid > .metric--progress { background: linear-gradient(100deg,#211724,#302035); }
+.app-shell[data-theme="dark"] .metric-progress { background: #493449; }
+.app-shell[data-theme="dark"] .metric-milestone { color: #b6a1b4; }
+.app-shell[data-theme="dark"] .metric-milestone b { color: #f0a2c5; }
+@media (max-width: 760px) {
+ .app-shell .bento-hero h2 { font-size: clamp(40px,10vw,58px); }
+ .app-shell .metrics.bento-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+ .app-shell .metrics.bento-grid > .metric--feature { grid-column: span 2; min-height: 155px; }
+ .app-shell .metrics.bento-grid > .metric--compact { grid-column: span 1; min-height: 148px; padding: 13px; }
+ .app-shell .metrics.bento-grid > .metric--progress { grid-column: span 2; padding: 15px; }
+}
+@media (prefers-reduced-motion: reduce) { .app-shell .metric-value-kinetic { animation: none; } }
