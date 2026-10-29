@@ -1565,3 +1565,28 @@
   .app-shell .mobile-bottom-nav,
   .app-shell .mobile-bottom-nav.mobile-bottom-nav--hidden { transition:none; }
 }
+
+
+/* Student privacy state for performance analytics until user-scoped records are connected */
+.app-shell .p360-private-state {
+  max-width:760px;margin:clamp(28px,7vh,72px) auto;padding:clamp(24px,5vw,44px);
+  border:1px solid #e6cbd9;border-radius:28px;
+  background:radial-gradient(ellipse at 90% 0%,rgba(215,148,188,.18),transparent 38%),linear-gradient(145deg,#fffdfd,#fff4f9);
+  color:#382633;box-shadow:0 18px 48px rgba(86,42,66,.08);
+}
+.app-shell .p360-private-icon {
+  width:54px;height:54px;display:grid;place-items:center;border-radius:18px;
+  background:linear-gradient(145deg,#f1d8e6,#e0b4ce);color:#63384f;border:1px solid #e4c2d6;margin-bottom:22px;
+}
+.app-shell .p360-private-kicker {display:block;color:#985273;font-size:11px;font-weight:850;letter-spacing:.16em;margin-bottom:10px;}
+.app-shell .p360-private-state h2 {font-size:clamp(26px,5vw,38px);line-height:1.08;letter-spacing:-.055em;color:#382633;margin:0 0 14px;}
+.app-shell .p360-private-state>p {font-size:15px;line-height:1.75;color:#665262;max-width:58ch;margin:0;}
+.app-shell .p360-private-note {display:flex;align-items:flex-start;gap:10px;margin-top:24px;padding:15px;border:1px solid #e7d1de;border-radius:15px;background:#f8eaf2;color:#603d53;font-size:13px;line-height:1.55;}
+.app-shell .p360-private-note svg {flex-shrink:0;margin-top:1px;color:#9a5275;}
+.app-shell[data-theme="dark"] .p360-private-state {background:radial-gradient(ellipse at 90% 0%,rgba(215,148,188,.16),transparent 38%),linear-gradient(145deg,#211724,#19131f);border-color:#493449;color:#f7edf4;}
+.app-shell[data-theme="dark"] .p360-private-icon {background:linear-gradient(145deg,#4a2b42,#35263f);color:#ffd8e9;border-color:#68425b;}
+.app-shell[data-theme="dark"] .p360-private-kicker {color:#f0a2c5;}
+.app-shell[data-theme="dark"] .p360-private-state h2 {color:#fff1f8;}
+.app-shell[data-theme="dark"] .p360-private-state>p {color:#d0bdcf;}
+.app-shell[data-theme="dark"] .p360-private-note {background:#2a1b2b;border-color:#493449;color:#f0d9e8;}
+@media(max-width:620px) {.app-shell .p360-private-state{margin:20px 0;padding:24px 20px;border-radius:22px;}}
