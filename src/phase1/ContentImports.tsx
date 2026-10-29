@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from "react";
+import { supabase } from "../supabase";
 import { AlertCircle, CheckCircle2, Download, FileSpreadsheet, FileUp, FileText, Eye, Trash2, X } from "lucide-react";
 
 type CsvQuestion = {
@@ -13,7 +14,7 @@ type CsvQuestion = {
   topic: string;
   language: string;
 };
-type LocalPdf = { id: string; file: File; url: string };
+type LocalPdf = { id: string; name: string; size: number; path: string; status: "uploading" | "uploaded" | "error"; error?: string };
 
 function parseCsv(text: string): string[][] {
   const rows: string[][] = [];
@@ -127,27 +128,56 @@ export function PdfUploader() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<LocalPdf[]>([]);
   const [error, setError] = useState("");
-  function addFiles(list: FileList | null) {
-    if (!list) return;
+  const [busy, setBusy] = useState(false);
+
+  async function addFiles(list: FileList | null) {
+    if (!list?.length) return;
     setError("");
     const incoming = Array.from(list);
     const invalid = incoming.filter(f => f.type !== "application/pdf" && !f.name.toLowerCase().endsWith(".pdf"));
-    if (invalid.length) { setError("Only PDF files are accepted. Invalid files were skipped."); }
-    const accepted = incoming.filter(f => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf"));
-    const tooLarge = accepted.filter(f => f.size > 50 * 1024 * 1024);
-    if (tooLarge.length) setError("Each PDF must be 50 MB or smaller. Oversized files were skipped.");
-    setFiles(prev => [...prev, ...accepted.filter(f => f.size <= 50 * 1024 * 1024).map(file => ({ id: `${file.name}-${file.size}-${file.lastModified}`, file, url: URL.createObjectURL(file) }))]);
-    if (inputRef.current) inputRef.current.value = "";
+    const tooLarge = incoming.filter(f => f.size > 50 * 1024 * 1024);
+    if (invalid.length) setError("Only PDF files are accepted; unsupported files were skipped.");
+    if (tooLarge.length) setError("Each PDF must be 50 MB or smaller; oversized files were skipped.");
+    const accepted = incoming.filter(f => (f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf")) && f.size <= 50 * 1024 * 1024);
+    if (!accepted.length) { if (inputRef.current) inputRef.current.value = ""; return; }
+    if (!supabase) {
+      setError("Upload service is not configured. Please contact the administrator.");
+      if (inputRef.current) inputRef.current.value = "";
+      return;
+    }
+    setBusy(true);
+    try {
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError || !user) throw new Error("Your session expired. Sign in again and retry the upload.");
+      const { data: institute, error: instituteError } = await supabase.from("institutes").select("id").eq("slug", "newias").maybeSingle();
+      if (instituteError) throw instituteError;
+      if (!institute) throw new Error("NewIAS institute was not found in this Supabase project.");
+      for (const file of accepted) {
+        const safeName = file.name.normalize("NFKD").replace(/[^a-zA-Z0-9._-]+/g, "-").replace(/-+/g, "-").slice(-100) || "resource.pdf";
+        const path = `${institute.id}/uploads/${crypto.randomUUID()}-${safeName}`;
+        const id = `${file.name}-${file.size}-${file.lastModified}`;
+        setFiles(prev => [...prev, { id, name: file.name, size: file.size, path, status: "uploading" }]);
+        const { error: uploadError } = await supabase.storage.from("newias-content").upload(path, file, { contentType: "application/pdf", upsert: false });
+        if (uploadError) {
+          setFiles(prev => prev.map(item => item.id === id ? { ...item, status: "error", error: uploadError.message } : item));
+          throw new Error(`Could not upload ${file.name}: ${uploadError.message}`);
+        }
+        setFiles(prev => prev.map(item => item.id === id ? { ...item, status: "uploaded" } : item));
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Upload failed. Check your connection and try again.");
+    } finally {
+      setBusy(false);
+      if (inputRef.current) inputRef.current.value = "";
+    }
   }
-  function remove(id: string) {
-    setFiles(prev => { const item = prev.find(f => f.id === id); if (item) URL.revokeObjectURL(item.url); return prev.filter(f => f.id !== id); });
-  }
+
   return <section className="import-panel">
-    <div className="studio-panel-heading"><div><h3><FileText size={16}/> PDF resource upload</h3><p>Add study notes, book chapters, magazines and reference PDFs to this session.</p></div><span className="draft-pill">PDF LIBRARY</span></div>
-    <input ref={inputRef} hidden type="file" accept="application/pdf,.pdf" multiple onChange={e => addFiles(e.target.files)}/>
-    <button className="pdf-drop" onClick={() => inputRef.current?.click()}><FileUp size={24}/><strong>Choose PDF files</strong><span>PDF only · maximum 50 MB per file · multiple files supported</span></button>
-    {error && <div className="import-errors"><div><AlertCircle size={15}/><strong>{error}</strong></div></div>}
-    {files.length === 0 ? <div className="pdf-empty"><FileText size={22}/><strong>No PDFs added yet</strong><span>Choose a PDF to see its file details and open a local preview.</span></div> : <div className="pdf-file-list">{files.map(item => <article className="pdf-file-card" key={item.id}><span className="pdf-file-icon"><FileText size={20}/></span><div className="pdf-file-info"><strong>{item.file.name}</strong><small>{(item.file.size / (1024 * 1024)).toFixed(2)} MB · PDF · Local session only</small></div><div className="pdf-file-actions"><button title="Open PDF in new tab" aria-label={`Open ${item.file.name}`} onClick={() => window.open(item.url, "_blank", "noopener,noreferrer")}><Eye size={15}/></button><button title="Remove PDF" aria-label={`Remove ${item.file.name}`} onClick={() => remove(item.id)}><Trash2 size={15}/></button></div></article>)}</div>}
-    <p className="import-disclaimer">Files remain in this browser session and are not uploaded to a server. Supabase Storage, metadata persistence and learner-library publishing will be connected after the schema is finalized.</p>
+    <div className="studio-panel-heading"><div><h3><FileText size={16}/> PDF resource upload</h3><p>Upload study notes, book chapters, magazines and reference PDFs to secure NewIAS storage.</p></div><span className="draft-pill">PDF LIBRARY</span></div>
+    <input ref={inputRef} hidden type="file" accept="application/pdf,.pdf" multiple onChange={e => { void addFiles(e.currentTarget.files); }}/>
+    <button type="button" className="pdf-drop" disabled={busy} onClick={() => inputRef.current?.click()}><FileUp size={24}/><strong>{busy ? "Uploading selected PDFs…" : "Choose PDF files"}</strong><span>PDF only · maximum 50 MB per file · multiple files supported</span></button>
+    {error && <div className="import-errors" role="alert"><div><AlertCircle size={15}/><strong>{error}</strong></div></div>}
+    {files.length === 0 ? <div className="pdf-empty"><FileText size={22}/><strong>No PDFs uploaded yet</strong><span>Choose PDFs; uploads will be sent to private NewIAS storage.</span></div> : <div className="pdf-file-list">{files.map(item => <article className="pdf-file-card" key={item.id}><span className="pdf-file-icon"><FileText size={20}/></span><div className="pdf-file-info"><strong>{item.name}</strong><small>{(item.size / (1024 * 1024)).toFixed(2)} MB · {item.status === "uploaded" ? "Uploaded to private storage" : item.status === "uploading" ? "Uploading…" : item.error || "Upload failed"}</small></div>{item.status === "uploaded" ? <CheckCircle2 size={18} aria-label="Uploaded"/> : item.status === "error" ? <AlertCircle size={18} aria-label="Upload failed"/> : null}</article>)}</div>}
+    <p className="import-disclaimer">Files are uploaded to the private newias-content bucket. Adding them to a published library entry is a separate publishing step.</p>
   </section>;
 }
