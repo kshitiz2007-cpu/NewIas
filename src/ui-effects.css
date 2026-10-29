@@ -1867,3 +1867,56 @@
  .app-shell .library-controls .library-search,.app-shell .library-controls .filter-row>label,.app-shell .library-controls .library-reset-button{transition:none!important}
  .app-shell .library-controls .library-reset-button:hover,.app-shell .library-controls .library-search:focus-within{transform:none}
 }
+
+
+/* Mock-test listing: editorial kinetic bento cards + full-library route */
+.app-shell .p1-test-library-cta{
+ display:flex;align-items:center;justify-content:space-between;gap:20px;
+ position:relative;isolation:isolate;overflow:hidden;margin:4px 0 2px;padding:20px 22px;
+ border:1px solid #e6cbd9;border-radius:22px;
+ background:radial-gradient(ellipse at 100% 0%,rgba(212,143,188,.22),transparent 42%),linear-gradient(120deg,#fff8fc,#f7eaf3 65%,#f2eafa);
+ box-shadow:0 10px 26px rgba(77,39,65,.055),inset 0 1px #fff;
+}
+.app-shell .p1-test-library-cta>div{min-width:0}
+.app-shell .p1-test-library-kicker{display:block;margin-bottom:7px;color:#98466c;font-size:9px;font-weight:900;letter-spacing:.16em}
+.app-shell .p1-test-library-cta strong{display:block;color:#352033;font-size:clamp(19px,2.5vw,26px);font-weight:900;letter-spacing:-.045em;line-height:1.12}
+.app-shell .p1-test-library-cta p{max-width:48ch;margin:7px 0 0;color:#695466;font-size:12px;line-height:1.6}
+.app-shell .p1-test-library-cta button{display:inline-flex;align-items:center;justify-content:center;gap:9px;flex:0 0 auto;min-height:48px;padding:0 17px;border:1px solid #bd6b93;border-radius:14px;background:linear-gradient(110deg,#c9608e,#b45180 58%,#946ab7);color:#fff;font-size:12px;font-weight:850;box-shadow:0 7px 18px rgba(151,62,108,.19);transition:transform .18s,box-shadow .18s}
+.app-shell .p1-test-library-cta button:hover{transform:translateY(-2px);box-shadow:0 11px 23px rgba(151,62,108,.25)}
+.app-shell .p1-test-library-cta button:focus-visible{outline:3px solid #8c3e68;outline-offset:3px}
+.app-shell .p1-test-bento-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.app-shell .p1-test-bento-card{display:flex;flex-direction:column;position:relative;min-width:0;overflow:hidden;padding:19px;border:1px solid #e7d3df;border-radius:21px;background:linear-gradient(150deg,#fff 0%,#fff9fc 65%,#f8eff8);box-shadow:0 8px 22px rgba(69,34,57,.045),inset 0 1px #fff;transition:transform .2s,border-color .2s,box-shadow .2s}
+.app-shell .p1-test-bento-card:hover{transform:translateY(-3px);border-color:#d4a1bb;box-shadow:0 15px 30px rgba(91,43,72,.09)}
+.app-shell .p1-test-bento-card .p1-card-icon{width:43px;height:43px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(145deg,#f7e5ef,#eadcf3);color:#904268}
+.app-shell .p1-test-bento-card .p1-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:13px}
+.app-shell .p1-test-bento-card .p1-card-top small{color:#6e5a6b;font-size:10px}
+.app-shell .p1-test-bento-card h3{margin:13px 0 7px;color:#352334;font-size:clamp(16px,1.7vw,19px);font-weight:850;letter-spacing:-.035em;line-height:1.25;text-wrap:balance}
+.app-shell .p1-test-bento-card .p1-card-main>p{color:#6a5668;font-size:12px;line-height:1.55}
+.app-shell .p1-test-bento-card .p1-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:15px;color:#665469;font-size:11px}
+.app-shell .p1-test-bento-card .p1-meta span{display:inline-flex;align-items:center;gap:5px}
+.app-shell .p1-test-bento-card .p1-card-actions{margin-top:auto;padding-top:17px}
+.app-shell .p1-test-bento-card .p1-primary{min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:0 15px;border:1px solid #c47b9e;border-radius:13px;background:linear-gradient(110deg,#e8a9c7,#d58bb8 58%,#b398dc);color:#321c30;font-size:12px;font-weight:850;box-shadow:0 6px 16px rgba(151,62,108,.12)}
+.app-shell .p1-test-bento-card .p1-primary:disabled{opacity:.58;filter:saturate(.55);box-shadow:none;cursor:not-allowed}
+.app-shell[data-theme="dark"] .p1-test-library-cta{border-color:#50384e;background:radial-gradient(ellipse at 100% 0%,rgba(211,123,174,.18),transparent 42%),linear-gradient(125deg,#2c1d30,#241826 70%,#2b1d33);box-shadow:0 10px 26px rgba(0,0,0,.15),inset 0 1px rgba(255,255,255,.04)}
+.app-shell[data-theme="dark"] .p1-test-library-kicker{color:#f2b4d1}
+.app-shell[data-theme="dark"] .p1-test-library-cta strong{color:#fff2f9}
+.app-shell[data-theme="dark"] .p1-test-library-cta p{color:#e0cddd}
+.app-shell[data-theme="dark"] .p1-test-library-cta button{background:linear-gradient(110deg,#e9a6c6,#d27eaa 58%,#b29add);color:#291628;border-color:#e9a6c6}
+.app-shell[data-theme="dark"] .p1-test-bento-card{border-color:#493449;background:linear-gradient(150deg,#2b1d30,#211724 70%,#291c2e);box-shadow:0 9px 22px rgba(0,0,0,.14),inset 0 1px rgba(255,255,255,.035)}
+.app-shell[data-theme="dark"] .p1-test-bento-card:hover{border-color:#96617f;box-shadow:0 15px 30px rgba(0,0,0,.22)}
+.app-shell[data-theme="dark"] .p1-test-bento-card .p1-card-icon{background:linear-gradient(145deg,#493047,#38263f);color:#ffc3df}
+.app-shell[data-theme="dark"] .p1-test-bento-card .p1-card-top small{color:#cbb7ca}
+.app-shell[data-theme="dark"] .p1-test-bento-card h3{color:#fff2f9}
+.app-shell[data-theme="dark"] .p1-test-bento-card .p1-card-main>p{color:#d5c3d4}
+.app-shell[data-theme="dark"] .p1-test-bento-card .p1-meta{color:#d5c3d4}
+.app-shell[data-theme="dark"] .p1-test-bento-card .p1-primary{background:linear-gradient(110deg,#e9a6c6,#d27eaa 58%,#b29add);color:#291628;border-color:#e9a6c6}
+.app-shell :is(.p1-test-library-cta,.p1-test-bento-card) :is(a,button):focus-visible{outline:3px solid #a84e78;outline-offset:3px}
+@media(max-width:620px){
+ .app-shell .p1-test-library-cta{align-items:stretch;flex-direction:column;gap:14px;padding:17px;border-radius:19px}
+ .app-shell .p1-test-library-cta button{width:100%}
+ .app-shell .p1-test-bento-grid{grid-template-columns:minmax(0,1fr);gap:12px}
+ .app-shell .p1-test-bento-card{padding:17px;border-radius:19px}
+ .app-shell .p1-test-bento-card h3{font-size:18px}
+}
+@media(min-width:621px) and (max-width:900px){.app-shell .p1-test-bento-grid{gap:11px}.app-shell .p1-test-bento-card{padding:15px}}
+@media(prefers-reduced-motion:reduce){.app-shell .p1-test-bento-card,.app-shell .p1-test-library-cta button{transition:none!important}.app-shell .p1-test-bento-card:hover,.app-shell .p1-test-library-cta button:hover{transform:none}}
