@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, Route, Routes, useLocation } from "react-router-dom";
-import { Activity, ArrowRight, Bell, BookOpen, BookOpenText, CalendarClock, CalendarDays, CheckCircle2, ChevronDown, Clock3, FilePenLine, FileText, GraduationCap, LayoutGrid, Layers3, LibraryBig, Menu, Radio, Search, Settings2, ShieldCheck, Sparkles, BrainCircuit, Target, UsersRound, Workflow, SlidersHorizontal, X, Save, Send, Tags, AlertCircle, Sun, Moon } from "lucide-react";
+import { Activity, ArrowRight, Bell, BookOpen, CalendarClock, CalendarDays, CheckCircle2, ChevronDown, Clock3, FilePenLine, FileText, GraduationCap, LayoutGrid, Layers3, Menu, Radio, Search, Settings2, ShieldCheck, Sparkles, BrainCircuit, Target, UsersRound, Workflow, SlidersHorizontal, X, Save, Send, Tags, AlertCircle, Sun, Moon } from "lucide-react";
 import { AdminOverview, ClassesPage, ClassManagement, SettingsPage, StudentsPage, TestsPage } from "./phase1/Modules";
 import { CsvImporter, PdfUploader } from "./phase1/ContentImports";
 import { Performance360 } from "./phase1/Performance360";
