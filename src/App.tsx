@@ -38,7 +38,7 @@ const pages: Record<string,{title:string;subtitle:string}> = {
  "/admin/settings":{title:"Platform settings",subtitle:"Manage institute configuration and access policies."}
 };
 function Metric({label,value,detail,icon:Icon}:{label:string;value:string;detail:string;icon:typeof Activity}) {
- return <article className="metric"><span className="metric-icon"><Icon size={18}/></span><p>{label}</p><strong>{value}</strong><small>{detail}</small></article>;
+ return <article className="metric"><span className="metric-icon"><Icon size={18}/></span><p>{label}</p><strong className="metric-value-kinetic">{value}</strong><small>{detail}</small></article>;
 }
 function Home() {
  return <div className="stack">
