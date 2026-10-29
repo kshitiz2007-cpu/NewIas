@@ -622,3 +622,84 @@
 .app-shell[data-theme="dark"] .ui-feedback { background: #211724; border-color: #493449; color: #f3eaf0; }
 .app-shell[data-theme="dark"] .ui-feedback__copy p { color: #b6a1b4; }
 @media (prefers-reduced-motion: reduce) { .ui-feedback--loading .ui-feedback__mark { animation: none; } }
+
+
+/* Bento dashboard composition */
+.app-shell .metrics.bento-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px; align-items: stretch;
+}
+.app-shell .metrics.bento-grid > .metric { min-width: 0; min-height: 150px; padding: 18px; }
+.app-shell .metrics.bento-grid > .metric:nth-child(1) {
+  grid-column: span 2; min-height: 174px; padding: 22px;
+  background: linear-gradient(140deg, #fff 0%, #fff8fa 66%, #f7e5eb 100%);
+  border-color: #ecd4de;
+}
+.app-shell .metrics.bento-grid > .metric:nth-child(1) strong { font-size: clamp(26px, 3vw, 38px); letter-spacing: -.045em; }
+.app-shell .metrics.bento-grid > .metric:nth-child(2) { grid-column: span 2; }
+.app-shell .metrics.bento-grid > .metric:nth-child(3) { grid-column: span 1; }
+.app-shell .metrics.bento-grid > .metric:nth-child(4) { grid-column: span 3; }
+.app-shell[data-theme="dark"] .metrics.bento-grid > .metric:nth-child(1) {
+  background: linear-gradient(140deg, #2a1d2b, #382235 70%, #48273d);
+  border-color: #684259;
+}
+.app-shell .bento-feature-grid { align-items: stretch; }
+.app-shell .bento-feature-grid > .panel { min-width: 0; }
+.app-shell .bento-hero { position: relative; isolation: isolate; overflow: hidden; }
+.app-shell .bento-hero .hero-copy { position: relative; z-index: 2; }
+.app-shell .bento-hero h2 {
+  max-width: 12ch; font-size: clamp(38px, 5.3vw, 68px);
+  line-height: .99; letter-spacing: -.055em; text-wrap: balance;
+  font-weight: 820; animation: kinetic-enter .75s cubic-bezier(.2,.75,.25,1) both;
+}
+.app-shell .bento-hero h2 em {
+  display: inline-block; font-style: normal; letter-spacing: -.06em;
+  background: linear-gradient(100deg, #a34e6b 8%, #c77b91 46%, #a57a39 88%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.app-shell[data-theme="dark"] .bento-hero h2 em {
+  background-image: linear-gradient(100deg, #f5b5cf 5%, #e89abd 50%, #f2d79d 95%);
+}
+.app-shell .bento-hero .hero-art { opacity: .58; transform: scale(.94); }
+@keyframes kinetic-enter {
+  from { opacity: 0; transform: translateY(16px); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+/* Scroll-triggered reveals: progressively enabled only when the observer runs */
+.app-shell.reveal-ready [data-reveal] {
+  opacity: 0; transform: translateY(18px) scale(.992);
+  transition: opacity .55s ease, transform .65s cubic-bezier(.2,.7,.2,1);
+}
+.app-shell.reveal-ready [data-reveal].is-visible { opacity: 1; transform: translateY(0) scale(1); }
+.app-shell.reveal-ready [data-reveal="grid"] > * {
+  transition-delay: 0ms;
+}
+.app-shell.reveal-ready [data-reveal="grid"].is-visible > *:nth-child(2) { transition-delay: 70ms; }
+.app-shell.reveal-ready [data-reveal="grid"].is-visible > *:nth-child(3) { transition-delay: 130ms; }
+.app-shell.reveal-ready [data-reveal="grid"].is-visible > *:nth-child(4) { transition-delay: 190ms; }
+.app-shell .metrics.bento-grid > .metric,
+.app-shell .bento-feature-grid > .panel {
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+@media (hover:hover) {
+  .app-shell .metrics.bento-grid > .metric:hover,
+  .app-shell .bento-feature-grid > .panel:hover {
+    transform: translateY(-3px); box-shadow: 0 12px 28px rgba(87, 42, 61, .09);
+    border-color: #dcb8c7;
+  }
+}
+@media (max-width: 760px) {
+  .app-shell .metrics.bento-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .app-shell .metrics.bento-grid > .metric { min-height: 140px; padding: 15px; }
+  .app-shell .metrics.bento-grid > .metric:nth-child(1) { grid-column: span 2; min-height: 158px; }
+  .app-shell .metrics.bento-grid > .metric:nth-child(2),
+  .app-shell .metrics.bento-grid > .metric:nth-child(3) { grid-column: span 1; }
+  .app-shell .metrics.bento-grid > .metric:nth-child(4) { grid-column: span 2; }
+  .app-shell .bento-hero h2 { font-size: clamp(37px, 9vw, 54px); }
+  .app-shell .bento-hero .hero-art { opacity: .24; transform: scale(.78); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .bento-hero h2 { animation: none; }
+  .app-shell.reveal-ready [data-reveal] { opacity: 1; transform: none; transition: none; }
+}
