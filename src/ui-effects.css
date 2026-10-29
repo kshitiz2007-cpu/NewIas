@@ -1325,3 +1325,55 @@
 @media(prefers-reduced-motion:reduce) {
   .app-shell .metric-value-kinetic,.app-shell .metric-visual span,.app-shell .metric-accent-line span,.app-shell .pulse-grid>div:not(.insight)>strong,.app-shell .p1-metrics article strong,.app-shell .p2-metrics strong,.app-shell .p360-metrics article>strong,.app-shell .p360-detail-metrics strong,.app-shell .library-count strong,.app-shell .studio-banner-stat strong,.app-shell .p1-banner-number strong,.app-shell .p2-hero-count strong {animation:none!important;}
 }
+
+
+/* Mobile drawer accessibility fix: keep account actions above the floating dock */
+@media(max-width:850px) {
+  .app-shell .sidebar {
+    z-index:80;
+    height:100vh;
+    height:100dvh;
+    max-height:100dvh;
+    overflow-x:hidden;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:calc(18px + env(safe-area-inset-bottom,0px));
+  }
+  .app-shell .sidebar.sidebar-open { z-index:80; }
+  .app-shell .sidebar .sidebar-bottom {
+    flex-shrink:0;
+    margin-top:auto;
+    padding-bottom:8px;
+  }
+  .app-shell .sidebar .account {
+    min-height:58px;
+    padding:13px 4px 8px;
+    gap:9px;
+  }
+  .app-shell .sidebar .account>div { min-width:0; }
+  .app-shell .sidebar .account small {
+    overflow-wrap:anywhere;
+    line-height:1.35;
+  }
+  .app-shell .sidebar .signout-button {
+    flex:0 0 40px;
+    width:40px;
+    height:40px;
+    display:grid;
+    place-items:center;
+    border:1px solid rgba(213,139,171,.35);
+    border-radius:13px;
+    background:rgba(213,139,171,.12);
+    color:#b9688b;
+    cursor:pointer;
+    position:relative;
+    z-index:2;
+  }
+  .app-shell .sidebar .signout-button:focus-visible {
+    outline:2px solid #d58bab;
+    outline-offset:3px;
+  }
+  .app-shell .sidebar .signout-button svg { pointer-events:none; }
+  .app-shell .backdrop { z-index:25; }
+}
