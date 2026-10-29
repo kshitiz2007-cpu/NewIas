@@ -7,7 +7,7 @@ import { Performance360 } from "./phase1/Performance360";
 import { AssessmentEngine } from "./phase1/AssessmentEngine";
 import { Phase2Cms, Phase2Library } from "./phase2/Phase2";
 import type { User } from "@supabase/supabase-js";
-import { supabase, ADMIN_EMAIL } from "./supabase";
+import { supabase, ADMIN_EMAIL, isAdminEmail } from "./supabase";
 
 type NavItem = { to: string; label: string; icon: typeof Activity };
 const student: NavItem[] = [
@@ -304,7 +304,7 @@ export default function App() {
  const [membershipRole,setMembershipRole]=useState<string|null>(null);
  const navigate=useNavigate();
  const loc=useLocation();
- const isAdmin=membershipRole==="admin";
+ const isAdmin=membershipRole==="admin"||isAdminEmail(authUser?.email);
  useEffect(()=>{
   let lastY=window.scrollY;
   let ticking=false;
