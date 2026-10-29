@@ -47,7 +47,7 @@ export function Performance360() {
    const raw=window.localStorage.getItem("newias-assessment-attempts-v1");
    if(!raw) return [];
    const saved=JSON.parse(raw) as Array<Record<string,unknown>>;
-   return saved.map(item=>({...item,answers:Array.isArray(item.answers)?(item.answers as Array<Record<string,unknown>>).map(q=>({id:String(q.questionId||q.id),testId:String(item.testId),topic:String(q.topic||"General"),prompt:String(q.prompt||""),selectedAnswer:q.selectedAnswer==null?null:String(q.selectedAnswer),correctAnswer:String(q.correctAnswer||""),status:q.status as "correct"|"incorrect"|"skipped",explanation:String(q.explanation||""),revisionTip:String(q.revisionTip||"Review this topic.")})):[]} as Attempt);
+   return saved.map(item=>({...item,answers:Array.isArray(item.answers)?(item.answers as Array<Record<string,unknown>>).map(q=>({id:String(q.questionId||q.id),testId:String(item.testId),topic:String(q.topic||"General"),prompt:String(q.prompt||""),selectedAnswer:q.selectedAnswer==null?null:String(q.selectedAnswer),correctAnswer:String(q.correctAnswer||""),status:q.status as "correct"|"incorrect"|"skipped",explanation:String(q.explanation||""),revisionTip:String(q.revisionTip||"Review this topic.")})):[]} as Attempt));
   }catch{return [];}
  });
  const allAttempts=[...attempts,...browserAttempts];
