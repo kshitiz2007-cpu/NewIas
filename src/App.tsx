@@ -76,10 +76,6 @@ function contentBodyText(value: unknown): string {
  }
  return "";
 }
-const librarySubjectOptions = [
- "भारतीय राजव्यवस्था","इतिहास एवं संस्कृति","भूगोल","भारतीय अर्थव्यवस्था","पर्यावरण एवं पारिस्थितिकी","सामान्य विज्ञान एवं प्रौद्योगिकी","Current Affairs","कृषि","सामाजिक न्याय एवं समाज","अंतरराष्ट्रीय संबंध","आंतरिक सुरक्षा","आपदा प्रबंधन","नीतिशास्त्र एवं सत्यनिष्ठा","निबंध","CSAT / तार्किक क्षमता","सामान्य हिंदी","मध्य प्रदेश का इतिहास, संस्कृति एवं साहित्य","मध्य प्रदेश का भूगोल","मध्य प्रदेश की राजनीति एवं प्रशासन","मध्य प्रदेश की अर्थव्यवस्था","मध्य प्रदेश विशेष अध्ययन","राष्ट्रीय एवं अंतरराष्ट्रीय समसामयिकी","सूचना एवं संचार प्रौद्योगिकी","लोक प्रशासन","सामान्य हिंदी एवं निबंध",
- "Agriculture","Animal Husbandry & Veterinary Science","Anthropology","Botany","Chemistry","Civil Engineering","Commerce & Accountancy","Criminology & Forensic Science","Economics","Electrical Engineering","English Literature","Geography","Geology","Hindi Literature","History","Law","Management","Mathematics","Mechanical Engineering","Medical Science","Military Science","Philosophy","Physics","Political Science & International Relations","Psychology","Public Administration","Sanskrit Literature","Sociology","Statistics","Urdu Literature","Zoology","Bengali Literature","Bodo Literature","Dogri Literature","Gujarati Literature","Kannada Literature","Kashmiri Literature","Konkani Literature","Maithili Literature","Malayalam Literature","Manipuri Literature","Marathi Literature","Nepali Literature","Odia Literature","Punjabi Literature","Santhali Literature","Sindhi Literature","Tamil Literature","Telugu Literature"
-];
 function LibraryPage() {
  const [query,setQuery]=useState("");
  const [exam,setExam]=useState("All exams");
@@ -265,7 +261,7 @@ function AuthScreen() {
   if(!supabase){setError("Authentication is not configured yet. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in the Render environment settings.");return;}
   setBusy(true);
   try{
-   if(mode==="signup"&&isAdminEmail(email)){throw new Error("The administrator account must be created or invited from the Supabase Dashboard. Sign in here after it has been provisioned.");}
+   if(mode==="signup"&&email.trim().toLowerCase()===ADMIN_EMAIL.toLowerCase()){throw new Error("The administrator account must be created or invited from the Supabase Dashboard. Sign in here after it has been provisioned.");}
    if(mode==="signin"){
     const {error}=await supabase.auth.signInWithPassword({email:email.trim(),password});
     if(error)throw error;
