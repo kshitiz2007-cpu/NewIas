@@ -474,3 +474,15 @@ svg{stroke-width:1.75;vector-effect:non-scaling-stroke}
 .bell{transition:border-color .18s ease,background .18s ease,color .18s ease}
 .bell:hover{border-color:#766039;background:#1a2631;color:#f0dba4}
 @media(max-width:620px){.nav-link>svg{width:19px;height:19px}.metric-icon{width:34px;height:34px}}
+
+
+/* Native Android file picker: keep the real input in the tap target instead of
+   invoking a hidden input via JavaScript, which can lose the page on mobile. */
+.native-picker-label{position:relative;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.native-picker-label .native-file-input{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;opacity:0!important;z-index:5!important;display:block!important;margin:0!important;padding:0!important;cursor:pointer!important}
+.native-picker-label:focus-within{outline:3px solid #d98eb4;outline-offset:3px}
+.native-picker-label.is-disabled{opacity:.65;pointer-events:none}
+.import-toolbar .native-picker-label{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:48px;padding:10px 14px;border-radius:12px}
+.pdf-drop.native-picker-label{cursor:pointer;position:relative;min-height:122px;user-select:none}
+.pdf-drop.native-picker-label:active{border-color:#d58bb8}
+@media(max-width:620px){.import-toolbar .native-picker-label{flex:1;width:100%;min-height:48px}}
